@@ -22,9 +22,6 @@ def invoice(request):
 def contracts(request):
     if request.user.is_authenticated:
         contracts = ContractsModel.objects.all()
-        # for contract in contracts:
-        #     print(contract)
-        # print(contracts)
         return render(request, 'main/contracts.html', {'contracts': contracts})
     else:
         return redirect('/login')
@@ -145,14 +142,3 @@ def Add(request):
         else:
             return JsonResponse({"status": 'error', "message": "failed."})
     return redirect("/contracts")
-
-
-def switch1(selection):
-    return switcher1.get(selection)()
-
-
-switcher1 = {
-    1: '/contracts',
-    2: '/invoice',
-    3: '/appendix',
-}
