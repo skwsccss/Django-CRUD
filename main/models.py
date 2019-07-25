@@ -291,8 +291,8 @@ class FacturaProveedor(models.Model):
 
 class ContractsModel(models.Model):
     id = models.AutoField(max_length=11, primary_key=True, help_text="user Id")
-    username = models.CharField(max_length=150, blank=True, null=False, unique=True, help_text="username")
-    first_name = models.CharField(max_length=30, blank=True, null=False, help_text="first name")
+    username = models.CharField(max_length=150, blank=True, null=True,unique=True, help_text="username")
+    first_name = models.CharField(max_length=30, blank=True, null=True, help_text="first name")
     last_name = models.CharField(max_length=150, blank=True, null=True, help_text="last name")
     email = models.CharField(max_length=254, blank=True, null=True, help_text="email")
     is_superuser = models.SmallIntegerField(max_length=1, blank=True, null=True, help_text="check superuser")
