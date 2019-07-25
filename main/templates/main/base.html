@@ -1,0 +1,68 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="{%static '/vendors/iconfonts/font-awesome/css/all.min.css'%}">
+  <link rel="stylesheet" href="{%static '/vendors/css/vendor.bundle.base.css'%}">
+  <link rel="stylesheet" href="{%static '/vendors/css/vendor.bundle.addons.css'%}">
+  <!-- endinject -->
+  <!-- plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="{%static '/css/style/style.css'%}">
+  <link rel="stylesheet" href="{%static '/css/custom.css'%}">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="{%static '/images/favicon.png'%}" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+  {%if title%}
+  <title>{%block title%}{%endblock title%}</title>
+  {%else%}
+  <title>Sales Unificado</title>
+  {%endif%}
+
+  {%block styles%}
+  {%endblock styles%}
+
+
+</head>
+
+
+<body>
+
+  {%block content%}
+  {%endblock content%}
+
+  {%include 'main/footer.html'%}
+
+
+  <script src="{%static '/js/custom.js'%}"></script>
+  <script src="{%static '/vendors/js/vendor.bundle.base.js'%}"></script>
+  <script src="{%static '/vendors/js/vendor.bundle.addons.js'%}"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page-->
+  <!-- End plugin js for this page-->
+  <!-- inject:js -->
+  <script src="{%static '/js/off-canvas.js'%}"></script>
+  <script src="{%static '/js/hoverable-collapse.js'%}"></script>
+  <script src="{%static '/js/template.js'%}"></script>
+  <script src="{%static '/js/settings.js'%}"></script>
+  <script src="{%static '/js/todolist.js'%}"></script>
+
+  <script src="{%static '/js/data-table.js'%}"></script>
+  <script src="{%static '/js/modal-demo.js'%}"></script>
+  <script src="{%static '/js/toastDemo.js'%}"></script>
+  <script src="{%static '/js/alerts.js'%}"></script>
+<!--  <script src="{%static '/js/desktop-notification.js'%}"></script>-->
+    <!-- Page JS -->
+  {%block javascript%}
+  {%endblock javascript%}
+
+</body>
+
+</html>

@@ -1,0 +1,188 @@
+{%extends "main/base.html"%}
+{%load static%}
+
+{%block title%}
+<title>contracts</title>
+{%endblock title%}
+
+{%block content%}
+{%include 'main/nav.html'%}
+
+<div class="container-scroller">
+    <div class="container-fluid page-body-wrapper">
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row" style="margin-bottom: 5px;">
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-8">
+                                        <h2 class="text-center">Contracts</h2>
+                                    </div>
+                                    <div class="col-md-2 text-right">
+                                        <button class="btn btn-outline-primary btn-sm" data-toggle="modal"
+                                            data-target="#Add_Modal" id="showmodal"><i class="fa fa-plus-circle"></i>
+                                            Add New</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="table-responsive">
+                                            <table id="order-listing" class="table">
+                                                <thead>
+                                                    <tr class="">
+                                                        <th>Order</th>
+                                                        <th>Customer</th>
+                                                        <th>Ship to</th>
+                                                        <th>Base Price</th>
+                                                        <th>Purchased Price</th>
+                                                        <th>Status</th>
+                                                        <th>Actions</th>
+                                                        <th>Actsions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for contract in contracts %}
+                                                    <tr>
+                                                        <td>{{contract.id}}</td>
+                                                        <td>{{contract.username}}</td>
+                                                        <td>{{contract.first_name}}</td>
+                                                        <td>{{contract.last_name}}</td>
+                                                        <td>{{contract.email}}</td>
+                                                        <td>{{contract.email}}</td>
+                                                        <td>
+                                                            {%if contract.is_superuser%}
+                                                            <label class="badge badge-outline-success"><i
+                                                                    class="fa fa-user-tie"></i></label>
+                                                            {%else%}
+                                                            <label class="badge badge-outline-danger"><i
+                                                                    class="fa fa-user-tie"></i></label>
+                                                            {% endif %}
+
+                                                        </td>
+                                                        <td class="text-right">
+                                                            <button class="btn btn-light text-success" type="button"
+                                                                id="edit_btn" name="edit_btn"
+                                                                onclick="showedit({{ contract.id }})">
+                                                                <i class="fas fa-edit text"></i> Edit</a>
+                                                            </button>
+                                                            <button class="btn btn-light text-danger">
+                                                                <a href="/delete/{{ contract.id }}"
+                                                                    class="text-danger"><i class="fas fa-trash-alt"></i>
+                                                                    Remove</a>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+</div>
+
+<!-- Add New modal -->
+<div class="modal fade" id="Add_Modal" tabindex="1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title " id="ModalLabel">Add New Item</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="" class="pt-3">
+                    {%csrf_token%}
+                    <div class="row">
+                        <input type="text" class="form-control form-control-sm" id="username" placeholder="User Name"
+                            required>
+                    </div>
+                    <div class="row">
+                        <input type="text" class="form-control form-control-sm" id="first_name"
+                            placeholder="First Name">
+                    </div>
+                    <div class="row">
+                        <input type="text" class="form-control form-control-sm" id="last_name" placeholder="Last Name">
+                    </div>
+                    <div class="row">
+                        <input type="email" class="form-control form-control-sm" id="email" placeholder="Email"
+                            required>
+                    </div>
+                    <div class="row">
+                        <input type="text" class="form-control form-control-sm" id="is_superuser" placeholder="Status"
+                            required>
+                    </div>
+                    <div class="row" id="input_error">
+                        <p class="text-danger">Input is not valid</p>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="add_btn">Submit</button>
+                <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="Edit_Modal" tabindex="1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="" class="pt-3">
+                    {%csrf_token%}
+                    <input type="text" class="form-control form-control-sm" id="up_id" name="up_id" placeholder="" hidden>
+
+                    <div class="row">
+                        <input type="text" class="form-control form-control-sm" id="up_username" name="up_username" placeholder="User Name">
+                    </div>
+                    <div class="row">
+                        <input type="text" class="form-control form-control-sm" id="up_first_name" name="up_first_name" placeholder="First Name">
+                    </div>
+                    <div class="row">
+                        <input type="text" class="form-control form-control-sm" id="up_last_name" name="up_last_name"
+                            placeholder="Last Name">
+                    </div>
+                    <div class="row">
+                        <input type="email" class="form-control form-control-sm" id="up_email" name="up_email" placeholder="Email"
+                            required>
+                    </div>
+                    <div class="row">
+                        <input type="text" class="form-control form-control-sm" id="up_is_superuser"
+                            name="up_is_superuser" placeholder="Status" required>
+                    </div>
+                    <div class="row" id="input_error2">
+                        <p class="text-danger">Input is not valid</p>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="update_btn">Submit</button>
+                <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock content%}
+
+{%block javascript%}
+<script src="{%static '/js/custom/contracts.js'%}"></script>
+
+{%endblock javascript%}

@@ -1,0 +1,99 @@
+{%load static%}
+
+<div class="horizontal-menu">
+  <nav class="navbar top-navbar col-lg-12 col-12 p-0">
+    <div class="container">
+      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+        <a class="navbar-brand brand-logo" href="{%url 'login'%}"><img src="{%static 'images/logo.png'%}" alt="logo"
+            style="height: 60px;" /></a>
+        <a class="navbar-brand brand-logo-mini" href="{%url 'login'%}"><img src="{%static 'images/logo-mini.png'%}"
+            alt="logo" style="width: 34px;" /></a>
+      </div>
+      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+        <ul class="navbar-nav navbar-nav-right">
+
+        </ul>
+        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
+          data-toggle="horizontal-menu-toggle">
+          <span class="fa fa-bars"></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+  <div class="mynavbar">
+    <a href="/"><i class="fa fa-home"></i> Home</a>
+    <div class="dropdown">
+      <button class="dropbtn" onclick="myFunction()"><i class="fa fa-cogs"></i> Admin
+        <i class="fa fa-caret-down"></i>
+      </button>
+      <div class="dropdown-content" id="myDropdown">
+        <a href="#">Cliente</a>
+        <a href="#">Contacto</a>
+        <a href="#">Group Cliente</a>
+        <a href="#">Producto</a>
+        <a href="#">Link</a>
+      </div>
+    </div>
+    <a href="/contracts"><i class="far fa-id-card"></i> Contracts</a>
+    <a href="/appendix"><i class="fa fa-eye"></i> Appendix</a>
+    <a href="/"><i class="fa fa-book"></i> Invoice</a>
+    <div class="float_r">
+      <a href="#" onclick="showSwal()"><i class="fa fa-user-circle"></i> Administrator</a>
+      <a href="#" data-toggle="modal" data-target="#exampleModal-3"><i class="fa fa-key"></i></a>
+      <a href="logout/"><i class="fa fa-sign-out-alt"></i></a>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal-3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel-3"
+  aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-center text-primary" id="exampleModalLabel-3"><i class="fa fa-key"></i> Change your
+          Password</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/changepwd/" class="pt-3" method="POST">
+          {%csrf_token%}
+          <div class="form-group">
+            <input type="password" id="currentpwd" name="currentpwd" placeholder="Current Password"
+              class="form-control form-control-sm" required>
+          </div>
+          <div class="form-group">
+            <input type="password" id="newpwd" name="newpwd" placeholder="New Password"
+              class="form-control form-control-sm" required>
+          </div>
+          <div class="form-group">
+            <input type="password" id="confirmpwd" name="confirmpwd" placeholder="Confirm Password"
+              class="form-control form-control-sm" required>
+          </div>
+          <div class="form-group d-none" id="changepwd-error">
+            <p class="text-danger">Invalid Inputs</p>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <button type="button" class="btn btn-primary" id="btn-changePwd">Submit</button>
+            </div>
+            <div class="col-sm-6">
+              <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+
+</script>

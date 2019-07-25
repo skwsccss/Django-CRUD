@@ -1,0 +1,73 @@
+{%extends "main/base.html"%}
+{%load static%}
+
+{%block title%}
+Invoice
+{%endblock title%}
+
+{%block content%}
+{%include 'main/nav.html'%}
+
+<div class="container-scroller">
+   
+    <div class="container-fluid page-body-wrapper">
+      <div class="main-panel">
+        <div class="content-wrapper">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <h2 class="text-center">Ivoice Orders</h2>
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="table-responsive">
+                        <table id="order-listing" class="table">
+                          <thead style="color:navy">
+                            <tr class="bg">
+                                <th>Order </th>
+                                <th>Customer</th>
+                                <th>Ship to</th>
+                                <th>Base Price</th>
+                                <th>Purchased Price</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                                <td>WD-61</td>
+                                <td>Edinburgh</td>
+                                <td>New York</td>
+                                <td>$1500</td>
+                                <td>$3200</td>
+                                <td>
+                                  <label class="badge badge-info">On hold</label>
+                                </td>
+                                <td class="text-right">
+                                  <button class="btn btn-light text-success">
+                                    <i class="fas fa-edit text"></i> Edit
+                                  </button>
+                                  <button class="btn btn-light text-danger">
+                                    <i class="fas fa-trash-alt"></i> Remove
+                                  </button>
+                                </td>
+                            </tr>
+                            
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- content-wrapper ends -->
+        <!-- partial -->
+      </div>
+      <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+{%endblock content%}
