@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 # from datetime import date
 # from PIL import Image
 # from django.urls import reverse
@@ -124,7 +125,7 @@ class Cliente(models.Model):
 
 class Contacto(models.Model):
     ID_CONTACTO = models.AutoField(max_length=11, primary_key=True)
-    ID_CLIENTE = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    ID_CLIENTE = models.ForeignKey(Cliente, db_column="ID_CLIENTE", on_delete=models.CASCADE)
     NOMBRE_CONTACTO = models.CharField(max_length=40, blank=True, null=False)
     MAIL = models.CharField(max_length=50, blank=True, null=False)
     TELEFONO = models.CharField(max_length=20, blank=True, null=False)
@@ -155,15 +156,15 @@ class Proveedor(models.Model):
 
 
 class ContratoCabecera(models.Model):
-    ID_CONTRATO = models.CharField(max_length=15, primary_key=True, help_text="ID of Contrato")
-    ID_PROVEEDOR = models.ForeignKey(Proveedor, on_delete=models.CASCADE)
-    ID_UNIDAD_NEGOCIO = models.ForeignKey(UnidadNegocio, on_delete=models.CASCADE)
-    ID_SOCIEDAD = models.ForeignKey(Sociedad, on_delete=models.CASCADE)
-    ID_INDUSTRIA3 = models.ForeignKey(Industria, on_delete=models.CASCADE)
-    ID_CLIENTE = models.ForeignKey(Cliente, on_delete=models.CASCADE)
-    ID_CONTACTO = models.ForeignKey(Contacto, on_delete=models.CASCADE)
-    ID_TIPO_CONTRATO = models.ForeignKey(TipoContrato, on_delete=models.CASCADE)
-    ID_REGION = models.ForeignKey(Region, on_delete=models.CASCADE)
+    ID_CONTRATO = models.AutoField(max_length=15, primary_key=True, help_text="ID of Contrato")
+    ID_PROVEEDOR = models.ForeignKey(Proveedor, db_column="ID_PROVEEDOR", on_delete=models.CASCADE)
+    ID_UNIDAD_NEGOCIO = models.ForeignKey(UnidadNegocio, db_column="ID_UNIDAD_NEGOCIO", on_delete=models.CASCADE)
+    ID_SOCIEDAD = models.ForeignKey(Sociedad, db_column="ID_SOCIEDAD", on_delete=models.CASCADE)
+    ID_INDUSTRIA3 = models.ForeignKey(Industria, db_column="ID_INDUSTRIA3", on_delete=models.CASCADE)
+    ID_CLIENTE = models.ForeignKey(Cliente, db_column="ID_CLIENTE", on_delete=models.CASCADE)
+    ID_CONTACTO = models.ForeignKey(Contacto, db_column="ID_CONTACTO", on_delete=models.CASCADE)
+    ID_TIPO_CONTRATO = models.ForeignKey(TipoContrato, db_column="ID_TIPO_CONTRATO", on_delete=models.CASCADE)
+    ID_REGION = models.ForeignKey(Region, db_column="ID_REGION", on_delete=models.CASCADE)
     FECHA_FIRMA = models.DateTimeField(blank=True, null=True)
     FECHA_INICIO = models.DateTimeField(blank=True, null=True)
     FECHA_FIN = models.DateTimeField(blank=True, null=True)
@@ -175,7 +176,7 @@ class ContratoCabecera(models.Model):
 
 
 class ApendiceCabecera(models.Model):
-    ID_APENDICE = models.IntegerField(max_length=11, primary_key=True)
+    ID_APENDICE = models.AutoField(max_length=11, primary_key=True)
     DES_APENDICE = models.CharField(max_length=100, blank=True, null=True)
     ID_CONTRATO = models.ForeignKey(ContratoCabecera, db_column="ID_CONTRATO", on_delete=models.CASCADE)
     ID_CONTACTO = models.ForeignKey(Contacto, db_column="ID_CONTACTO", on_delete=models.CASCADE)
@@ -208,7 +209,7 @@ class DetalleApendice(models.Model):
     ID_APENDICE = models.ForeignKey(ApendiceCabecera, db_column="ID_APENDICE", on_delete=models.CASCADE)
     ID_POSICION = models.IntegerField(max_length=11, primary_key=False, null=False, blank=True, help_text="Id of Posicion")
     ID_PRODUCTO = models.ForeignKey(Producto, db_column="ID_PRODUCTO", on_delete=models.CASCADE)
-    ID_TIPO_POSICION = models.ForeignKey(TipoProducto, on_delete=models.CASCADE)
+    ID_TIPO_POSICION = models.ForeignKey(TipoProducto, db_column="ID_TIPO_POSICION", on_delete=models.CASCADE)
     CANTIDAD = models.IntegerField(max_length=11, blank=True, null=True, help_text="")
     VALOR_UNITARIO = models.DecimalField(max_digits=10, decimal_places=0, blank=True, null=True)
     TOTAL = models.DecimalField(max_digits=10, decimal_places=0, blank=True, null=True)
@@ -262,7 +263,7 @@ class PoDetalle(models.Model):
 
 class CuotaPo(models.Model):
     ID_PO = models.ForeignKey(Po, db_column="ID_PO", on_delete=models.CASCADE)
-    ID_CUOTA = models.IntegerField(max_length=11, primary_key=True, help_text="Id of Couta")
+    ID_CUOTA = models.IntegerField(max_length=11, validators=[MinValueValidator(1), MaxValueValidator(12)], primary_key=True, help_text="Id of Couta")
     ID_CLIENTE = models.ForeignKey(Cliente, db_column="ID_CLIENTE", on_delete=models.CASCADE)
     FECHA_VENCIMIENTO = models.DateTimeField(blank=True, null=True)
     NRO_FACTURA = models.IntegerField(max_length=11, blank=True, null=True)
@@ -277,7 +278,8 @@ class CuotaPo(models.Model):
 
 class FacturaProveedor(models.Model):
     ID_PO = models.ForeignKey(Po, db_column="ID_PO", on_delete=models.CASCADE)
-    ID_CUOTA = models.IntegerField(max_length=11, primary_key=True, help_text="Id of Couta")
+    # ID_CUOTA = models.IntegerField(max_length=11, primary_key=True, help_text="Id of Couta")
+    ID_CUOTA = models.ForeignKey(CuotaPo, db_column="ID_CUOTA", on_delete=models.CASCADE)
     ID_PROVEEDOR = models.ForeignKey(Proveedor, db_column="ID_PROVEEDOR", on_delete=models.CASCADE)
     FECHA_OBJETIVO = models.DateTimeField(blank=True, null=True)
     FECHA_FACTURA = models.DateTimeField(blank=True, null=True)

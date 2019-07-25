@@ -1,10 +1,7 @@
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, DetailView
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
-from django.http import HttpResponse
 from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.core import serializers
@@ -21,7 +18,7 @@ def invoice(request):
 
 def contracts(request):
     if request.user.is_authenticated:
-        contracts = ContractsModel.objects.all()
+        contracts = ContratoCabecera.objects.all()
         return render(request, 'main/contracts.html', {'contracts': contracts})
     else:
         return redirect('/login')
