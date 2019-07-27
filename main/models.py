@@ -17,7 +17,7 @@ class Estado(models.Model):
 
 
 class GrupoCliente(models.Model):
-    ID_INDUSTRIA2 = models.AutoField(max_length=11, primary_key=True, help_text="ID_INDUSTRIA2")
+    ID_GRUPO_CLIENTE = models.AutoField(max_length=11, primary_key=True, help_text="ID_INDUSTRIA2")
     COD_GRUPO_CLIENTE = models.CharField(max_length=100, blank=True, null=True, help_text="COD_GRUPO_CLIENTE")
     DES_GRUPO_CLIENTE = models.CharField(max_length=100, blank=True, null=True, help_text="DES_GRUPO_CLIENTE")
 
@@ -160,7 +160,7 @@ class ContratoCabecera(models.Model):
     ID_PROVEEDOR = models.ForeignKey(Proveedor, db_column="ID_PROVEEDOR", on_delete=models.CASCADE)
     ID_UNIDAD_NEGOCIO = models.ForeignKey(UnidadNegocio, db_column="ID_UNIDAD_NEGOCIO", on_delete=models.CASCADE)
     ID_SOCIEDAD = models.ForeignKey(Sociedad, db_column="ID_SOCIEDAD", on_delete=models.CASCADE)
-    ID_INDUSTRIA3 = models.ForeignKey(Industria, db_column="ID_INDUSTRIA3", on_delete=models.CASCADE)
+    ID_PAIS = models.ForeignKey(Pais, db_column="ID_PAIS", on_delete=models.CASCADE)
     ID_CLIENTE = models.ForeignKey(Cliente, db_column="ID_CLIENTE", on_delete=models.CASCADE)
     ID_CONTACTO = models.ForeignKey(Contacto, db_column="ID_CONTACTO", on_delete=models.CASCADE)
     ID_TIPO_CONTRATO = models.ForeignKey(TipoContrato, db_column="ID_TIPO_CONTRATO", on_delete=models.CASCADE)
@@ -300,5 +300,4 @@ class ContractsModel(models.Model):
     is_superuser = models.SmallIntegerField(max_length=1, blank=True, null=True, help_text="check superuser")
 
     class Meta:
-        managed = True
         db_table = "myauth"

@@ -22,8 +22,7 @@
                                         <h2 class="text-center">Contracts</h2>
                                     </div>
                                     <div class="col-md-2 text-right">
-                                        <button class="btn btn-outline-primary btn-sm" data-toggle="modal"
-                                            data-target="#Add_Modal" id="showmodal"><i class="fa fa-plus-circle"></i>
+                                        <button class="btn btn-outline-primary btn-sm" id="showmodal"><i class="fa fa-plus-circle"></i>
                                             Add New</button>
                                     </div>
                                 </div>
@@ -33,45 +32,50 @@
                                             <table id="order-listing" class="table">
                                                 <thead>
                                                     <tr class="">
-                                                        <th>Contacto</th>
-                                                        <th>Customer</th>
-                                                        <th>Ship to</th>
-                                                        <th>Base Price</th>
-                                                        <th>Purchased Price</th>
-                                                        <th>Status</th>
-                                                        <th>Actions</th>
-                                                        <th>Actsions</th>
+                                                        <th>No.</th>
+                                                        <th>PROVEEDOR</th>
+                                                        <th>UNIDAD NEGOCIO</th>
+                                                        <th>SOCIEDAD</th>
+                                                        <th>PAIS</th>
+                                                        <th>CLIENTE</th>
+                                                        <th>CONTACTO</th>
+                                                        <th>TIPO CONTRATO</th>
+                                                        <th>REGION</th>
+                                                        <th>FECHA FIRMA</th>
+                                                        <th>FECHA INICIO</th>
+                                                        <th>FECHA FIN</th>
+                                                        <th>FINALIZADO</th>
+                                                        <th>COMENTARIO</th>
+                                                        <th>FUNC</th>
+
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     {% for contract in contracts %}
                                                     <tr>
-                                                        <td>{{contract.id}}</td>
-                                                        <td>{{contract.username}}</td>
-                                                        <td>{{contract.first_name}}</td>
-                                                        <td>{{contract.last_name}}</td>
-                                                        <td>{{contract.email}}</td>
-                                                        <td>{{contract.email}}</td>
-                                                        <td>
-                                                            {%if contract.is_superuser%}
-                                                            <label class="badge badge-outline-success"><i
-                                                                    class="fa fa-user-tie"></i></label>
-                                                            {%else%}
-                                                            <label class="badge badge-outline-danger"><i
-                                                                    class="fa fa-user-tie"></i></label>
-                                                            {% endif %}
-
-                                                        </td>
+                                                        <td>{{contract.pk}}</td>
+                                                        <td>{{contract.ID_PROVEEDOR.DES_PROVEEDOR}}</td>
+                                                        <td>{{contract.ID_UNIDAD_NEGOCIO.DES_UNIDAD_NEGOCIO}}</td>
+                                                        <td>{{contract.ID_SOCIEDAD.RAZON_SOCIAL}}</td>
+                                                        <td>{{contract.ID_PAIS.DES_PAIS}}</td>
+                                                        <td>{{contract.ID_CLIENTE.RAZON_SOCIAL}}</td>
+                                                        <td>{{contract.ID_CONTACTO.MAIL}}</td>
+                                                        <td>{{contract.ID_TIPO_CONTRATO.DES_TIPO_CONTRATO}}</td>
+                                                        <td>{{contract.ID_REGION.DES_REGION}}</td>
+                                                        <td>{{contract.FECHA_FIRMA}}</td>
+                                                        <td>{{contract.FECHA_INICIO}}</td>
+                                                        <td>{{contract.FECHA_FIN}}</td>
+                                                        <td>{{contract.FINALIZADO}}</td>
+                                                        <td>{{contract.COMENTARIO}}</td>
                                                         <td class="text-right">
                                                             <button class="btn btn-light text-success" type="button"
                                                                 id="edit_btn" name="edit_btn"
-                                                                onclick="showedit({{ contract.id }})">
+                                                                onclick="showedit({{ contract.pk }})">
                                                                 <i class="fas fa-edit text"></i> Edit</a>
                                                             </button>
-                                                            <button class="btn btn-light text-danger">
-                                                                <a href="/delete/{{ contract.id }}"
-                                                                    class="text-danger"><i class="fas fa-trash-alt"></i>
-                                                                    Remove</a>
+                                                            <button class="btn btn-light text-danger" id="delete_btn" onclick="delete_item({{ contract.pk }})">
+                                                                    <i class="fas fa-trash-alt"></i>
+                                                                    Remove
                                                             </button>
                                                         </td>
                                                     </tr>
@@ -96,8 +100,8 @@
 <div class="modal fade" id="Add_Modal" tabindex="1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header text-center">
-                <h4 class="modal-title " id="">Add New Item</h4>
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalLabel">Add Item.</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -105,24 +109,55 @@
             <div class="modal-body">
                 <form action="" class="pt-3">
                     {%csrf_token%}
+                    <input type="text" class="form-control form-control-sm" id="id" name="id" placeholder=""
+                        hidden>
                     <div class="row">
-                        <input type="text" class="form-control form-control-sm" id="username" placeholder="User Name"
-                            required>
+                        <div class="col-md-6">
+                            <label for="proveedor">PROVEEDOR</label>
+                            <select class="form-control form-control-sm" id="new_proveedor"></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="unidad_negocio">UNIDAD NEGOCIO</label>
+                            <select class="form-control form-control-sm" id="new_unidad_negocio"></select>
+                        </div>
                     </div>
                     <div class="row">
-                        <input type="text" class="form-control form-control-sm" id="first_name"
-                            placeholder="First Name">
+                        <div class="col-md-6">
+                            <label for="sociedad">SOCIEDAD</label>
+                            <select class="form-control form-control-sm" id="new_sociedad"></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="pais">PAIS</label>
+                            <select class="form-control form-control-sm" id="new_pais"></select>
+                        </div>
                     </div>
                     <div class="row">
-                        <input type="text" class="form-control form-control-sm" id="last_name" placeholder="Last Name">
+                        <div class="col-md-6">
+                            <label for="cliente">CLIENTE</label>
+                            <select class="form-control form-control-sm" id="new_cliente"></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="contacto">CONTACTO</label>
+                            <select class="form-control form-control-sm" id="new_contacto"></select>
+                        </div>
                     </div>
                     <div class="row">
-                        <input type="email" class="form-control form-control-sm" id="email" placeholder="Email"
-                            required>
+                        <div class="col-md-6">
+                            <label for="tipo_contrato">TIPO CONTRATO</label>
+                            <select class="form-control form-control-sm" id="new_tipo_contrato"></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="region">REGION</label>
+                            <select class="form-control form-control-sm" id="new_region"></select>
+                        </div>
                     </div>
                     <div class="row">
-                        <input type="text" class="form-control form-control-sm" id="is_superuser" placeholder="Status"
-                            required>
+                        <label for="finalizado">FINALIZADO</label>
+                        <input type="text" class="form-control form-control-sm" id="new_finalizado"
+                            name="finalizado" placeholder="FINALIZADO" required>
+                            <label for="comentario">COMENTARIO</label>
+                        <input type="text" class="form-control form-control-sm" id="new_comentario"
+                            name="comentario" placeholder="COMENTARIO" required>
                     </div>
                     <div class="row" id="input_error">
                         <p class="text-danger">Input is not valid</p>
@@ -136,6 +171,7 @@
         </div>
     </div>
 </div>
+
 <div class="modal fade" id="Edit_Modal" tabindex="1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -148,25 +184,55 @@
             <div class="modal-body">
                 <form action="" class="pt-3">
                     {%csrf_token%}
-                    <input type="text" class="form-control form-control-sm" id="up_id" name="up_id" placeholder="" hidden>
-
+                    <input type="text" class="form-control form-control-sm" id="up_id" name="up_id" placeholder=""
+                        hidden>
                     <div class="row">
-                        <input type="text" class="form-control form-control-sm" id="up_username" name="up_username" placeholder="User Name">
+                        <div class="col-md-6">
+                            <label for="proveedor">PROVEEDOR</label>
+                            <select class="form-control form-control-sm" id="proveedor"></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="unidad_negocio">UNIDAD NEGOCIO</label>
+                            <select class="form-control form-control-sm" id="unidad_negocio"></select>
+                        </div>
                     </div>
                     <div class="row">
-                        <input type="text" class="form-control form-control-sm" id="up_first_name" name="up_first_name" placeholder="First Name">
+                        <div class="col-md-6">
+                            <label for="sociedad">SOCIEDAD</label>
+                            <select class="form-control form-control-sm" id="sociedad"></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="pais">PAIS</label>
+                            <select class="form-control form-control-sm" id="pais"></select>
+                        </div>
                     </div>
                     <div class="row">
-                        <input type="text" class="form-control form-control-sm" id="up_last_name" name="up_last_name"
-                            placeholder="Last Name">
+                        <div class="col-md-6">
+                            <label for="cliente">CLIENTE</label>
+                            <select class="form-control form-control-sm" id="cliente"></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="contacto">CONTACTO</label>
+                            <select class="form-control form-control-sm" id="contacto"></select>
+                        </div>
                     </div>
                     <div class="row">
-                        <input type="email" class="form-control form-control-sm" id="up_email" name="up_email" placeholder="Email"
-                            required>
+                        <div class="col-md-6">
+                            <label for="tipo_contrato">TIPO CONTRATO</label>
+                            <select class="form-control form-control-sm" id="tipo_contrato"></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="region">REGION</label>
+                            <select class="form-control form-control-sm" id="region"></select>
+                        </div>
                     </div>
                     <div class="row">
-                        <input type="text" class="form-control form-control-sm" id="up_is_superuser"
-                            name="up_is_superuser" placeholder="Status" required>
+                        <label for="finalizado">FINALIZADO</label>
+                        <input type="text" class="form-control form-control-sm" id="finalizado"
+                            name="finalizado" placeholder="FINALIZADO" required>
+                            <label for="comentario">COMENTARIO</label>
+                        <input type="text" class="form-control form-control-sm" id="comentario"
+                            name="comentario" placeholder="COMENTARIO" required>
                     </div>
                     <div class="row" id="input_error2">
                         <p class="text-danger">Input is not valid</p>

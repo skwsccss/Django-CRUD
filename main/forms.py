@@ -2,10 +2,10 @@ from django import forms
 from main.models import *
 
 
-class ContractsForm(forms.ModelForm):
+class ContratoCabeceraForm(forms.ModelForm):
     class Meta:
-        model = ContractsModel
-        fields = ['username', 'first_name', 'last_name', 'email', 'is_superuser']
+        model = ContratoCabecera
+        fields = ['ID_PROVEEDOR', 'ID_UNIDAD_NEGOCIO', 'ID_SOCIEDAD', 'ID_PAIS', 'ID_CLIENTE', 'ID_CONTACTO', 'ID_TIPO_CONTRATO', 'ID_REGION', 'COMENTARIO']
 
 
 class InvoiceForm(forms.ModelForm):

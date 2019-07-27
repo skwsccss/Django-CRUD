@@ -9205,8 +9205,8 @@ pre code {
   width: 100%;
   padding-right: 10.5px;
   padding-left: 10.5px;
-  margin-right: auto;
-  margin-left: auto;
+  /* margin-right: auto;
+  margin-left: auto; */
 }
 
 @media (min-width: 576px) {
@@ -27143,7 +27143,7 @@ div.tagsinput span.tag a {
 
 @media (min-width: 1200px) {
   .content-wrapper {
-    max-width: 1400px;
+    max-width: 95%;
   }
 }
 

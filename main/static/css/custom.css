@@ -82,3 +82,16 @@ thead {
   display: block;
 }
 
+.modal-body .row .col-md-6 label{
+color: rgb(52, 6, 98);
+font-style: italic;
+font-family: Cambria;
+font-size: 13px;
+}
+.modal-body .row label{
+  color: rgb(52, 6, 98);
+  font-style: italic;
+  font-family: Cambria;
+  font-size: 13px;
+  }
+  

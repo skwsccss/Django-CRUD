@@ -16,10 +16,15 @@ def invoice(request):
         return redirect('/login')
 
 
+def serializer(val):
+    return json.loads(serializers.serialize("json", val))
+
+
 def contracts(request):
     if request.user.is_authenticated:
         contracts = ContratoCabecera.objects.all()
-        return render(request, 'main/contracts.html', {'contracts': contracts})
+        proveedors = Proveedor.objects.all()
+        return render(request, 'main/contracts.html', {'contracts': contracts, 'proveedors':proveedors})
     else:
         return redirect('/login')
 
@@ -89,19 +94,35 @@ def GetUserName(request):
 def getdata(request, id):
 
     if request.method == 'GET':
-        contract = ContractsModel.objects.filter(id=id)
-        contract_json = serializers.serialize("json", contract)
-        contract = json.loads(contract_json)
-        return JsonResponse({"status": 'ok', "message": "success", "contract": contract[0]['fields']})
-
+        if id != 1000000:
+            contract = ContratoCabecera.objects.filter(ID_CONTRATO=id)
+            contract = serializer(contract)
+        else:
+            pass
+        proveedor = serializer(Proveedor.objects.all())
+        unidad_negocio = serializer(UnidadNegocio.objects.all())
+        sociedad = serializer(Sociedad.objects.all())
+        pais = serializer(Pais.objects.all())
+        cliente = serializer(Cliente.objects.all())
+        contacto = serializer(Contacto.objects.all())
+        tipo_contrato = serializer(TipoContrato.objects.all())
+        region = serializer(Region.objects.all())
+        # contract_json = serializers.serialize("json", contract)
+        # contract = json.loads(contract_json)
+        
+        # print(contract[0]['fields'])
+        if id != 1000000:
+            return JsonResponse({"status": 'ok', "message": "success", "contract": contract[0]['fields'], "proveedor":proveedor, "unidad_negocio":unidad_negocio, "sociedad":sociedad, "pais":pais, "cliente":cliente, "contacto":contacto, "tipo_contrato":tipo_contrato, "region":region})
+        else:
+            return JsonResponse({"status": 'ok', "message": "success", "proveedor":proveedor, "unidad_negocio":unidad_negocio, "sociedad":sociedad, "pais":pais, "cliente":cliente, "contacto":contacto, "tipo_contrato":tipo_contrato, "region":region})
 
 
 def update(request, id):
     if request.method == 'POST':
-        contract = ContractsModel.objects.get(id=id)
+        contract = ContratoCabecera.objects.get(ID_CONTRATO=id)
         selection = request.POST.get('selection', None)
         if selection == "1":
-            form = ContractsForm(request.POST, instance=contract)
+            form = ContratoCabeceraForm(request.POST, instance=contract)
         if selection == "2":
             form = InvoiceForm(request.POST)
         if selection == "3":
@@ -116,16 +137,19 @@ def update(request, id):
             return JsonResponse({"status": 'error', "message": "failed."})
 
 def delete(request, id):
-    contract = ContractsModel.objects.get(id=id)
-    contract.delete()
-    return redirect("/contracts")
+    if request.method == 'POST':
+        if request.POST.get('selection', None) == "1":
+            print(id)
+            contract = ContratoCabecera.objects.get(ID_CONTRATO=id)
+            contract.delete()
+            return JsonResponse({"status": 'ok', "message": 'success'})
 
 
 def Add(request):
     if request.method == 'POST':
         selection = request.POST.get('selection', None)
         if selection == "1":
-            form = ContractsForm(request.POST)
+            form = ContratoCabeceraForm(request.POST)
         if selection == "2":
             form = InvoiceForm(request.POST)
         if selection == "3":
