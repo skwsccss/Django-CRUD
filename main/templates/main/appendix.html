@@ -50,8 +50,9 @@
                                                 </thead>
                                                 <tbody>
                                                     {% for apendice in apendices %}
+
                                                     <tr>
-                                                        <td>{{apendice.pk}}</td>
+                                                        <td>{{forloop.counter}}</td>
                                                         <td>{{apendice.DES_APENDICE}}</td>
                                                         <td>{{apendice.ID_CONTRATO.ID_TIPO_CONTRATO.DES_TIPO_CONTRATO}}
                                                         </td>
@@ -106,54 +107,61 @@
             <div class="modal-body">
                 <form action="" class="pt-3">
                     {%csrf_token%}
-                    <input type="text" class="form-control form-control-sm" id="id" name="id" placeholder="" hidden>
                     <div class="row">
-                        <div class="col-md-6">
-                            <label for="des_apendice">DES_APENDICE</label>
-                            <select class="form-control form-control-sm" id="des_apendice"></select>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="contrato">CONTRATO</label>
-                            <select class="form-control form-control-sm" id="contrato"></select>
+                        <div class="col-md-12">
+                            <label for="des_apendice">DES APENDICE</label>
+                            <input class="form-control form-control-sm" id="new_des_apendice">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="contacto">CONTACTO</label>
-                            <select class="form-control form-control-sm" id="contacto"></select>
+                            <label for="new_contrato">CONTRATO</label>
+                            <select class="form-control form-control-sm" id="new_contrato"></select>
                         </div>
                         <div class="col-md-6">
-                            <label for="vendedor">VENDEDOR</label>
-                            <select class="form-control form-control-sm" id="vendedor"></select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label for="cliente">CLIENTE</label>
-                            <select class="form-control form-control-sm" id="new_cliente"></select>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="contacto">CONTACTO</label>
+                            <label for="new_contacto">CONTACTO</label>
                             <select class="form-control form-control-sm" id="new_contacto"></select>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="tipo_contrato">TIPO CONTRATO</label>
-                            <select class="form-control form-control-sm" id="new_tipo_contrato"></select>
+                            <label for="new_estado">ESTADO</label>
+                            <select class="form-control form-control-sm" id="new_estado"></select>
                         </div>
                         <div class="col-md-6">
-                            <label for="region">REGION</label>
-                            <select class="form-control form-control-sm" id="new_region"></select>
+                            <label for="new_vendedor">VENDEDOR</label>
+                            <select class="form-control form-control-sm" id="new_vendedor"></select>
                         </div>
                     </div>
                     <div class="row">
-                        <label for="finalizado">FINALIZADO</label>
-                        <input type="text" class="form-control form-control-sm" id="new_finalizado" name="finalizado"
-                            placeholder="FINALIZADO" required>
-                        <label for="comentario">COMENTARIO</label>
-                        <input type="text" class="form-control form-control-sm" id="new_comentario" name="comentario"
-                            placeholder="COMENTARIO" required>
+                        <div class="col-md-6">
+                            <label for="new_fecha_inicio">FECHA INICIO</label>
+                            <input class="form-control form-control-sm" data-inputmask="'alias': 'datetime'"
+                                id="new_fecha_inicio" />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="new_fecha_fin">FECHA FIN</label>
+                            <input class="form-control form-control-sm" data-inputmask="'alias': 'datetime'"
+                                id="new_fecha_fin" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="new_finalizado">FINALIZADO</label>
+                            <input class="form-control form-control-sm" id="new_finalizado">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="new_fecha_fin_oc_cliente">FECHA FIN OC CLIENTE</label>
+                            <input class="form-control form-control-sm" data-inputmask="'alias': 'datetime'"
+                                id="new_fecha_fin_oc_cliente" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <label for="new_comentario">COMENTARIO</label>
+                            <textarea name="new_comentario" id="new_comentario" class="form-control form-control-sm"
+                                rows="4" required></textarea>
+                        </div>
                     </div>
                     <div class="row text-center" id="input_error">
                         <p class="text-danger">Input is not valid</p>
@@ -180,57 +188,64 @@
             <div class="modal-body">
                 <form action="" class="pt-3">
                     {%csrf_token%}
-                    <input type="text" class="form-control form-control-sm" id="up_id" name="up_id" placeholder=""
-                        hidden>
+                    <input type="text" class="form-control form-control-sm" id="id" name="id" placeholder="" hidden>
+                    <div class="row">
+                            <div class="col-md-12">
+                                <label for="des_apendice">DES APENDICE</label>
+                                <input class="form-control form-control-sm" id="des_apendice">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="contrato">CONTRATO</label>
+                                <select class="form-control form-control-sm" id="contrato"></select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="contacto">CONTACTO</label>
+                                <select class="form-control form-control-sm" id="contacto"></select>
+                            </div>
+                        </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="proveedor">PROVEEDOR</label>
-                            <select class="form-control form-control-sm" id="proveedor"></select>
+                            <label for="estado">ESTADO</label>
+                            <select class="form-control form-control-sm" id="estado"></select>
                         </div>
                         <div class="col-md-6">
-                            <label for="unidad_negocio">UNIDAD NEGOCIO</label>
-                            <select class="form-control form-control-sm" id="unidad_negocio"></select>
+                            <label for="vendedor">VENDEDOR</label>
+                            <select class="form-control form-control-sm" id="vendedor"></select>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="sociedad">SOCIEDAD</label>
-                            <select class="form-control form-control-sm" id="sociedad"></select>
+                            <label for="fecha_inicio">FECHA INICIO</label>
+                            <input class="form-control form-control-sm" data-inputmask="'alias': 'datetime'"
+                                id="fecha_inicio" />
                         </div>
                         <div class="col-md-6">
-                            <label for="pais">PAIS</label>
-                            <select class="form-control form-control-sm" id="pais"></select>
+                            <label for="fecha_fin">FECHA FIN</label>
+                            <input class="form-control form-control-sm" data-inputmask="'alias': 'datetime'"
+                                id="fecha_fin" />
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="cliente">CLIENTE</label>
-                            <select class="form-control form-control-sm" id="cliente"></select>
+                            <label for="finalizado">FINALIZADO</label>
+                            <input class="form-control form-control-sm" id="finalizado">
                         </div>
                         <div class="col-md-6">
-                            <label for="contacto">CONTACTO</label>
-                            <select class="form-control form-control-sm" id="contacto"></select>
+                            <label for="fecha_fin_oc_cliente">FECHA FIN OC CLIENTE</label>
+                            <input class="form-control form-control-sm" data-inputmask="'alias': 'datetime'"
+                                id="fecha_fin_oc_cliente" />
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
-                            <label for="tipo_contrato">TIPO CONTRATO</label>
-                            <select class="form-control form-control-sm" id="tipo_contrato"></select>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="region">REGION</label>
-                            <select class="form-control form-control-sm" id="region"></select>
+                        <div class="col-md-12 form-group">
+                            <label for="comentario">COMENTARIO</label>
+                            <textarea name="comentario" id="comentario" class="form-control form-control-sm"
+                                rows="4"></textarea>
                         </div>
                     </div>
-                    <div class="row">
-                        <label for="finalizado">FINALIZADO</label>
-                        <input type="text" class="form-control form-control-sm" id="finalizado" name="finalizado"
-                            placeholder="FINALIZADO" required>
-                        <label for="comentario">COMENTARIO</label>
-                        <input type="text" class="form-control form-control-sm" id="comentario" name="comentario"
-                            placeholder="COMENTARIO" required>
-                    </div>
-                    <div class="row" id="input_error2">
+                    <div class="row text-center" id="input_error2">
                         <p class="text-danger">Input is not valid</p>
                     </div>
                 </form>

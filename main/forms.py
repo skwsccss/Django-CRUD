@@ -14,7 +14,7 @@ class InvoiceForm(forms.ModelForm):
         fields = "__all__"
 
 
-class AppendixForm(forms.ModelForm):
+class ApendiceCabecearForm(forms.ModelForm):
     class Meta:
-        model = Po
-        fields = "__all__"
+        model = ApendiceCabecera
+        fields = ['DES_APENDICE', 'ID_CONTRATO', 'ID_CONTACTO', 'ID_VENDEDOR', 'ID_ESTADO', 'FECHA_INICIO', 'FECHA_FIN', 'FECHA_FIN_OC_CLIENTE', 'COMENTARIO']

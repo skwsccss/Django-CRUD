@@ -53,7 +53,7 @@
                                                 <tbody>
                                                     {% for contract in contracts %}
                                                     <tr>
-                                                        <td>{{contract.pk}}</td>
+                                                        <td>{{forloop.counter}}</td>
                                                         <td>{{contract.ID_PROVEEDOR.DES_PROVEEDOR}}</td>
                                                         <td>{{contract.ID_UNIDAD_NEGOCIO.DES_UNIDAD_NEGOCIO}}</td>
                                                         <td>{{contract.ID_SOCIEDAD.RAZON_SOCIAL}}</td>

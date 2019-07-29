@@ -5,6 +5,8 @@ from django.contrib import messages
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.core import serializers
+from datetime import datetime
+
 from main.models import *
 from main.forms import *
 import json
@@ -83,6 +85,9 @@ def Changepassword(request):
 
 
 def GetUserName(request):
+    now = datetime.now()
+    now = now.strftime('%Y-%m-%d %H:%M:%S')
+    print(now)
     if request.method == 'GET':
         username = request.user.username
         users = User.objects.filter(username=username)
@@ -92,41 +97,57 @@ def GetUserName(request):
 
 
 def getdata(request, id):
+    if request.method == 'POST':
+        if request.POST.get('selection', None)=="contrato":
+            if id != 1000000:
+                contract = ContratoCabecera.objects.filter(ID_CONTRATO=id)
+                contract = serializer(contract)
+            else:
+                pass
+            proveedor = serializer(Proveedor.objects.all())
+            unidad_negocio = serializer(UnidadNegocio.objects.all())
+            sociedad = serializer(Sociedad.objects.all())
+            pais = serializer(Pais.objects.all())
+            cliente = serializer(Cliente.objects.all())
+            contacto = serializer(Contacto.objects.all())
+            tipo_contrato = serializer(TipoContrato.objects.all())
+            region = serializer(Region.objects.all())
+            if id != 1000000:
+                return JsonResponse({"status": 'ok', "message": "success", "contract": contract[0]['fields'], "proveedor":proveedor, "unidad_negocio":unidad_negocio, "sociedad":sociedad, "pais":pais, "cliente":cliente, "contacto":contacto, "tipo_contrato":tipo_contrato, "region":region})
+            else:
+                return JsonResponse({"status": 'ok', "message": "success", "proveedor":proveedor, "unidad_negocio":unidad_negocio, "sociedad":sociedad, "pais":pais, "cliente":cliente, "contacto":contacto, "tipo_contrato":tipo_contrato, "region":region})
+        if request.POST.get('selection', None)=="apendice":
+            if id != 1000000:
+                apendice = ApendiceCabecera.objects.filter(ID_APENDICE = id)
+                apendice = serializer(apendice)
+            else:
+                pass
+            contrato = serializer(ContratoCabecera.objects.all())
+            contacto = serializer(Contacto.objects.all())
+            vendedor = serializer(Vendedor.objects.all())
+            estado = serializer(Estado.objects.all())
+            if id != 1000000:
+                return JsonResponse(
+                    {"status": 'ok', "message": "success", "apendice": apendice[0]['fields'], "contrato": contrato, "contacto": contacto,
+                     "vendedor": vendedor, "estado": estado})
+            else:
+                return JsonResponse(
+                    {"status": 'ok', "message": "success", "contrato": contrato, "contacto": contacto,
+                     "vendedor": vendedor, "estado": estado})
 
-    if request.method == 'GET':
-        if id != 1000000:
-            contract = ContratoCabecera.objects.filter(ID_CONTRATO=id)
-            contract = serializer(contract)
-        else:
-            pass
-        proveedor = serializer(Proveedor.objects.all())
-        unidad_negocio = serializer(UnidadNegocio.objects.all())
-        sociedad = serializer(Sociedad.objects.all())
-        pais = serializer(Pais.objects.all())
-        cliente = serializer(Cliente.objects.all())
-        contacto = serializer(Contacto.objects.all())
-        tipo_contrato = serializer(TipoContrato.objects.all())
-        region = serializer(Region.objects.all())
-        # contract_json = serializers.serialize("json", contract)
-        # contract = json.loads(contract_json)
-        
-        # print(contract[0]['fields'])
-        if id != 1000000:
-            return JsonResponse({"status": 'ok', "message": "success", "contract": contract[0]['fields'], "proveedor":proveedor, "unidad_negocio":unidad_negocio, "sociedad":sociedad, "pais":pais, "cliente":cliente, "contacto":contacto, "tipo_contrato":tipo_contrato, "region":region})
-        else:
-            return JsonResponse({"status": 'ok', "message": "success", "proveedor":proveedor, "unidad_negocio":unidad_negocio, "sociedad":sociedad, "pais":pais, "cliente":cliente, "contacto":contacto, "tipo_contrato":tipo_contrato, "region":region})
 
 
 def update(request, id):
     if request.method == 'POST':
-        contract = ContratoCabecera.objects.get(ID_CONTRATO=id)
         selection = request.POST.get('selection', None)
-        if selection == "1":
+        if selection == "contrato":
+            contract = ContratoCabecera.objects.get(ID_CONTRATO=id)
             form = ContratoCabeceraForm(request.POST, instance=contract)
         if selection == "2":
             form = InvoiceForm(request.POST)
-        if selection == "3":
-            form = AppendixForm(request.POST)
+        if selection == "apendice":
+            apendice = ApendiceCabecera.objects.get(ID_APENDICE=id)
+            form = ApendiceCabecearForm(request.POST, instance=apendice)
         if form.is_valid():
             try:
                 form.save()
@@ -138,27 +159,34 @@ def update(request, id):
 
 def delete(request, id):
     if request.method == 'POST':
-        if request.POST.get('selection', None) == "1":
+        if request.POST.get('selection', None) == "contrato":
             contract = ContratoCabecera.objects.get(ID_CONTRATO=id)
             contract.delete()
+            return JsonResponse({"status": 'ok', "message": 'success'})
+        if request.POST.get('selection', None) == "apendice":
+            apendice = ApendiceCabecera.objects.get(ID_APENDICE=id)
+            apendice.delete()
             return JsonResponse({"status": 'ok', "message": 'success'})
 
 
 def Add(request):
     if request.method == 'POST':
         selection = request.POST.get('selection', None)
-        if selection == "1":
+        date = request.POST.get('FECHA_FIN',None)
+        print(date)
+        if selection == "contrato":
             form = ContratoCabeceraForm(request.POST)
-        if selection == "2":
-            form = InvoiceForm(request.POST)
+        if selection == "apendice":
+            form = ApendiceCabecearForm(request.POST)
         if selection == "3":
-            form = AppendixForm(request.POST)
+            form = InvoiceForm(request.POST)
         if form.is_valid():
             try:
                 form.save()
                 return JsonResponse({"status": 'ok', "message": "success"})
-            except:
-                pass
+            except Exception as e:
+                print(e)
         else:
+            print(form.errors)
             return JsonResponse({"status": 'error', "message": "failed."})
     return redirect("/contracts")

@@ -2,6 +2,7 @@ $(document).ready(function () {
 
   $('#input_error').addClass('d-none');
   $('#input_error2').addClass('d-none');
+
   $('#showmodal').click(function () {
     var sel_pro = [];
     var sel_uni = [];
@@ -13,7 +14,11 @@ $(document).ready(function () {
     var sel_region = [];
     $.ajax({
       url: '/getdata/' + 1000000,
-      method: 'GET',
+      method: 'POST',
+      data: {
+        selection: "contrato",
+        csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
+      },
 
       success: function (res) {
         if (res.status == "ok") {
@@ -27,28 +32,28 @@ $(document).ready(function () {
           var region = res.region;
 
           proveedor.forEach((item, index) => {
-            sel_pro[index + 1] = item['fields']['DES_PROVEEDOR']
+            sel_pro[proveedor[index]['pk']] = item['fields']['DES_PROVEEDOR']
           });
           unidad_negocio.forEach((item, index) => {
-            sel_uni[index + 1] = item['fields']['DES_UNIDAD_NEGOCIO']
+            sel_uni[unidad_negocio[index]['pk']] = item['fields']['DES_UNIDAD_NEGOCIO']
           });
           sociedad.forEach((item, index) => {
-            sel_soc[index + 1] = item['fields']['RAZON_SOCIAL']
+            sel_soc[sociedad[index]['pk']] = item['fields']['RAZON_SOCIAL']
           });
           pais.forEach((item, index) => {
-            sel_pais[index + 1] = item['fields']['DES_PAIS']
+            sel_pais[pais[index]['pk']] = item['fields']['DES_PAIS']
           });
           cliente.forEach((item, index) => {
-            sel_cliente[index + 1] = item['fields']['RAZON_SOCIAL']
+            sel_cliente[cliente[index]['pk']] = item['fields']['RAZON_SOCIAL']
           });
           contacto.forEach((item, index) => {
-            sel_contacto[index + 1] = item['fields']['MAIL']
+            sel_contacto[contacto[index]['pk']] = item['fields']['MAIL']
           });
           tipo_contrato.forEach((item, index) => {
-            sel_tipo[index + 1] = item['fields']['DES_TIPO_CONTRATO']
+            sel_tipo[tipo_contrato[index]['pk']] = item['fields']['DES_TIPO_CONTRATO']
           });
           region.forEach((item, index) => {
-            sel_region[index + 1] = item['fields']['DES_REGION']
+            sel_region[region[index]['pk']] = item['fields']['DES_REGION']
           });
 
           $('#proveedor').html('');
@@ -120,7 +125,7 @@ $(document).ready(function () {
         url: '/add/',
         method: 'POST',
         data: {
-          selection: "1",
+          selection: "contrato",
           ID_PROVEEDOR: $('#new_proveedor').val(),
           ID_UNIDAD_NEGOCIO: $('#new_unidad_negocio').val(),
           ID_SOCIEDAD: $('#new_sociedad').val(),
@@ -157,7 +162,7 @@ $(document).ready(function () {
         url: '/update/' + $('#up_id').val(),
         method: 'POST',
         data: {
-          selection: "1",
+          selection: "contrato",
           ID_PROVEEDOR: $('#proveedor').val(),
           ID_UNIDAD_NEGOCIO: $('#unidad_negocio').val(),
           ID_SOCIEDAD: $('#sociedad').val(),
@@ -200,8 +205,11 @@ function showedit(e) {
   var sel_region = [];
   $.ajax({
     url: '/getdata/' + id,
-    method: 'GET',
-
+    method: 'POST',
+    data: {
+      selection: "contrato",
+      csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
+    },
     success: function (res) {
       if (res.status == "ok") {
         var proveedor = res.proveedor;
@@ -214,28 +222,28 @@ function showedit(e) {
         var region = res.region;
 
         proveedor.forEach((item, index) => {
-          sel_pro[index + 1] = item['fields']['DES_PROVEEDOR']
+          sel_pro[proveedor[index]['pk']] = item['fields']['DES_PROVEEDOR']
         });
         unidad_negocio.forEach((item, index) => {
-          sel_uni[index + 1] = item['fields']['DES_UNIDAD_NEGOCIO']
+          sel_uni[unidad_negocio[index]['pk']] = item['fields']['DES_UNIDAD_NEGOCIO']
         });
         sociedad.forEach((item, index) => {
-          sel_soc[index + 1] = item['fields']['RAZON_SOCIAL']
+          sel_soc[sociedad[index]['pk']] = item['fields']['RAZON_SOCIAL']
         });
         pais.forEach((item, index) => {
-          sel_pais[index + 1] = item['fields']['DES_PAIS']
+          sel_pais[pais[index]['pk']] = item['fields']['DES_PAIS']
         });
         cliente.forEach((item, index) => {
-          sel_cliente[index + 1] = item['fields']['RAZON_SOCIAL']
+          sel_cliente[cliente[index]['pk']] = item['fields']['RAZON_SOCIAL']
         });
         contacto.forEach((item, index) => {
-          sel_contacto[index + 1] = item['fields']['MAIL']
+          sel_contacto[contacto[index]['pk']] = item['fields']['MAIL']
         });
         tipo_contrato.forEach((item, index) => {
-          sel_tipo[index + 1] = item['fields']['DES_TIPO_CONTRATO']
+          sel_tipo[tipo_contrato[index]['pk']] = item['fields']['DES_TIPO_CONTRATO']
         });
         region.forEach((item, index) => {
-          sel_region[index + 1] = item['fields']['DES_REGION']
+          sel_region[region[index]['pk']] = item['fields']['DES_REGION']
         });
 
         $('#proveedor').html('');
@@ -298,12 +306,12 @@ function showedit(e) {
   });
 };
 
-function delete_item(id){
+function delete_item(id) {
   $.ajax({
     url: '/delete/' + id,
     method: 'POST',
     data: {
-      selection: "1",
+      selection: "contrato",
       csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
     },
     success: function (res) {

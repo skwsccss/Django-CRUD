@@ -2,318 +2,250 @@ $(document).ready(function () {
 
     $('#input_error').addClass('d-none');
     $('#input_error2').addClass('d-none');
+
     $('#showmodal').click(function () {
-      var sel_pro = [];
-      var sel_uni = [];
-      var sel_soc = [];
-      var sel_pais = [];
-      var sel_cliente = [];
-      var sel_contacto = [];
-      var sel_tipo = [];
-      var sel_region = [];
-      $.ajax({
-        url: '/getdata/' + 1000000,
-        method: 'GET',
-  
-        success: function (res) {
-          if (res.status == "ok") {
-            var proveedor = res.proveedor;
-            var unidad_negocio = res.unidad_negocio;
-            var sociedad = res.sociedad;
-            var pais = res.pais;
-            var cliente = res.cliente;
-            var contacto = res.contacto;
-            var tipo_contrato = res.tipo_contrato;
-            var region = res.region;
-  
-            proveedor.forEach((item, index) => {
-              sel_pro[index + 1] = item['fields']['DES_PROVEEDOR']
-            });
-            unidad_negocio.forEach((item, index) => {
-              sel_uni[index + 1] = item['fields']['DES_UNIDAD_NEGOCIO']
-            });
-            sociedad.forEach((item, index) => {
-              sel_soc[index + 1] = item['fields']['RAZON_SOCIAL']
-            });
-            pais.forEach((item, index) => {
-              sel_pais[index + 1] = item['fields']['DES_PAIS']
-            });
-            cliente.forEach((item, index) => {
-              sel_cliente[index + 1] = item['fields']['RAZON_SOCIAL']
-            });
-            contacto.forEach((item, index) => {
-              sel_contacto[index + 1] = item['fields']['MAIL']
-            });
-            tipo_contrato.forEach((item, index) => {
-              sel_tipo[index + 1] = item['fields']['DES_TIPO_CONTRATO']
-            });
-            region.forEach((item, index) => {
-              sel_region[index + 1] = item['fields']['DES_REGION']
-            });
-  
-            $('#proveedor').html('');
-            $('#unidad_negocio').html('');
-            $('#sociedad').html('');
-            $('#pais').html('');
-            $('#cliente').html('');
-            $('#contacto').html('');
-            $('#tipo_contrato').html('');
-            $('#region').html('');
-  
-            let select_options_pro = '';
-            let select_options_uni = '';
-            let select_options_soc = '';
-            let select_options_cliente = '';
-            let select_options_pais = '';
-            let select_options_contacto = '';
-            let select_options_tipo = '';
-            let select_options_region = '';
-            for (index in sel_pro) {
-              select_options_pro += '<option value="' + index + '" ' + '>' + sel_pro[index] + '</option>'
+        var sel_contrato = [];
+        var sel_contacto = [];
+        var sel_vendedor = [];
+        var sel_estado = [];
+
+        $.ajax({
+            url: '/getdata/' + 1000000,
+            method: 'POST',
+            data: {
+                selection: "apendice",
+                csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
+            },
+            success: function (res) {
+                if (res.status == "ok") {
+                    var contrato = res.contrato;
+                    var vendedor = res.vendedor;
+                    var estado = res.estado;
+                    var contacto = res.contacto;
+                    contrato.forEach((item, index) => {
+                        sel_contrato[contrato[index]['pk']] = item['fields']['ID_TIPO_CONTRATO']
+                    });
+                    vendedor.forEach((item, index) => {
+                        sel_vendedor[vendedor[index]['pk']] = item['fields']['NOMBRE_VENDEDOR']
+                    });
+                    estado.forEach((item, index) => {
+                        sel_estado[estado[index]['pk']] = item['fields']['DES_ESTADO']
+                    });
+                    contacto.forEach((item, index) => {
+                        sel_contacto[contacto[index]['pk']] = item['fields']['MAIL']
+                    });
+
+                    $('#new_contrato').html('');
+                    $('#new_vendedor').html('');
+                    $('#new_estado').html('');
+                    $('#new_contatco').html('');
+
+
+                    let select_options_contrato = '';
+                    let select_options_contacto = '';
+                    let select_options_vendedor = '';
+                    let select_options_estado = '';
+                    console.log(sel_contrato)
+                    for (index in sel_contrato) {
+                        select_options_contrato += '<option value="' + index + '" ' + '>' + sel_contrato[index] + '</option>'
+                    }
+                    for (index in sel_vendedor) {
+                        select_options_vendedor += '<option value="' + index + '" ' + '>' + sel_vendedor[index] + '</option>'
+                    }
+                    for (index in sel_estado) {
+                        select_options_estado += '<option value="' + index + '" ' + '>' + sel_estado[index] + '</option>'
+                    }
+                    for (index in sel_contacto) {
+                        select_options_contacto += '<option value="' + index + '" ' + '>' + sel_contacto[index] + '</option>'
+                    }
+                    $('#new_contrato').html(select_options_contrato);
+                    $('#new_vendedor').html(select_options_vendedor);
+                    $('#new_estado').html(select_options_estado);
+                    $('#new_contacto').html(select_options_contacto);
+
+                    $('#Add_Modal').modal('show');
+                } else {
+                    console.log(res);
+                }
             }
-            for (index in sel_uni) {
-              select_options_uni += '<option value="' + index + '" ' + '>' + sel_uni[index] + '</option>'
-            }
-            for (index in sel_soc) {
-              select_options_soc += '<option value="' + index + '" ' + '>' + sel_soc[index] + '</option>'
-            }
-            for (index in sel_pais) {
-              select_options_pais += '<option value="' + index + '" ' + '>' + sel_pais[index] + '</option>'
-            }
-            for (index in sel_cliente) {
-              select_options_cliente += '<option value="' + index + '" ' + '>' + sel_cliente[index] + '</option>'
-            }
-            for (index in sel_contacto) {
-              select_options_contacto += '<option value="' + index + '" ' + '>' + sel_contacto[index] + '</option>'
-            }
-            for (index in sel_tipo) {
-              select_options_tipo += '<option value="' + index + '" ' + '>' + sel_tipo[index] + '</option>'
-            }
-            for (index in sel_region) {
-              select_options_region += '<option value="' + index + '" ' + '>' + sel_region[index] + '</option>'
-            }
-            $('#new_proveedor').html(select_options_pro);
-            $('#new_unidad_negocio').html(select_options_uni);
-            $('#new_sociedad').html(select_options_soc);
-            $('#new_pais').html(select_options_pais);
-            $('#new_cliente').html(select_options_cliente);
-            $('#new_contacto').html(select_options_contacto);
-            $('#new_tipo_contrato').html(select_options_tipo);
-            $('#new_region').html(select_options_region);
-  
-            $('#Add_Modal').modal('show');
-          } else {
-            console.log(res);
-          }
-        }
-      });
-  
+        });
+
     });
-  
+
     $('#add_btn').click(function () {
-      if ($('#new_finalizado').val() == '' || $('#new_comentario').val() == '') {
-        $('#input_error').removeClass('d-none');
-      }
-      else {
-        $('#input_error').addClass('d-none');
-        $.ajax({
-          url: '/add/',
-          method: 'POST',
-          data: {
-            selection: "1",
-            ID_PROVEEDOR: $('#new_proveedor').val(),
-            ID_UNIDAD_NEGOCIO: $('#new_unidad_negocio').val(),
-            ID_SOCIEDAD: $('#new_sociedad').val(),
-            ID_PAIS: $('#new_pais').val(),
-            ID_CLIENTE: $('#new_cliente').val(),
-            ID_CONTACTO: $('#new_contacto').val(),
-            ID_TIPO_CONTRATO: $('#new_tipo_contrato').val(),
-            ID_REGION: $('#new_region').val(),
-            // FINALIZADO: $('#finalizado').val(),
-            COMENTARIO: $('#new_comentario').val(),
-            csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
-          },
-          success: function (res) {
-            if (res.status == "ok") {
-              location.reload();
-  
-            } else {
-              $('#input_error').removeClass('d-none');
-            }
-          }
-        })
-      }
-  
+        if ($('#new_des_apendice').val() == '' || $('#new_comentario').val() == '') {
+            $('#input_error').removeClass('d-none');
+        }
+        else {
+            $('#input_error').addClass('d-none');
+            
+            
+            $.ajax({
+                url: '/add/',
+                method: 'POST',
+                data: {
+                    selection: "apendice",
+                    DES_APENDICE: $('#new_des_apendice').val(),
+                    ID_CONTRATO: $('#new_contrato').val(),
+                    ID_CONTACTO: $('#new_contacto').val(),
+                    ID_VENDEDOR: $('#new_vendedor').val(),
+                    ID_ESTADO: $('#new_estado').val(),
+                    // FECHA_INICIO: moment( $('#new_fecha_inicio').val(), 'DD/MM/YYYY HH:mm').format("YYYY-MM-DD HH:mm"),
+                    // FECHA_FIN: moment( $('#new_fecha_fin').val(), 'DD/MM/YYYY HH:mm').format("YYYY-MM-DD HH:mm"),
+                    // FECHA_FIN_OC_CLIENTE: moment( $('#new_fecha_fin_oc_cliente').val(), 'DD/MM/YYYY HH:mm').format("YYYY-MM-DD HH:mm"),
+                    FECHA_INICIO: $('#new_fecha_inicio').val(),
+                    FECHA_FIN: $('#new_fecha_fin').val(),
+                    FECHA_FIN_OC_CLIENTE:$('#new_fecha_fin_oc_cliente').val(), 
+                    // FINALIZADO: $('#finalizado').val(),
+                    COMENTARIO: $('#new_comentario').val(),
+                    csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
+                },
+                success: function (res) {
+                    if (res.status == "ok") {
+                        location.reload();
+
+                    } else {
+                        $('#input_error').removeClass('d-none');
+                        // console.log(res.message)
+                    }
+                }
+            })
+        }
+
     });
-  
+
     $('#update_btn').click(function () {
-  
-      if ($('#finalizado').val() == '' || $('#comentario').val() == '') {
-        $('#input_error2').removeClass('d-none');
-      }
-      else {
-        $('#input_error2').addClass('d-none');
-        $.ajax({
-          url: '/update/' + $('#up_id').val(),
-          method: 'POST',
-          data: {
-            selection: "1",
-            ID_PROVEEDOR: $('#proveedor').val(),
-            ID_UNIDAD_NEGOCIO: $('#unidad_negocio').val(),
-            ID_SOCIEDAD: $('#sociedad').val(),
-            ID_PAIS: $('#pais').val(),
-            ID_CLIENTE: $('#cliente').val(),
-            ID_CONTACTO: $('#contacto').val(),
-            ID_TIPO_CONTRATO: $('#tipo_contrato').val(),
-            ID_REGION: $('#region').val(),
-            FINALIZADO: $('#finalizado').val(),
-            COMENTARIO: $('#comentario').val(),
-            csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
-          },
-          success: function (res) {
-            if (res.status == "ok") {
-              location.reload();
-  
-            } else {
-              $('#input_error2').removeClass('d-none');
-            }
-          }
-        })
-      }
-      // $('#Edit_Modal').modal('hide');
-  
+
+        if ($('#finalizado').val() == '' || $('#comentario').val() == '') {
+            $('#input_error2').removeClass('d-none');
+        }
+        else {
+            $('#input_error2').addClass('d-none');
+            $.ajax({
+                url: '/update/' + $('#id').val(),
+                method: 'POST',
+                data: {
+                    selection: "apendice",
+                    DES_APENDICE: $('#des_apendice').val(),
+                    ID_CONTRATO: $('#contrato').val(),
+                    ID_CONTACTO: $('#contacto').val(),
+                    ID_VENDEDOR: $('#vendedor').val(),
+                    ID_ESTADO: $('#estado').val(),
+                    FECHA_INICIO: $('#fecha_inicio').val(),
+                    FECHA_FIN: $('#fecha_fin').val(),
+                    FECHA_FIN_OC_CLIENTE: $('#fecha_fin_oc_cliente').val(),
+                    // FINALIZADO: $('#finalizado').val(),
+                    COMENTARIO: $('#comentario').val(),
+                    csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
+                },
+                success: function (res) {
+                    if (res.status == "ok") {
+                        location.reload();
+
+                    } else {
+                        $('#input_error2').removeClass('d-none');
+                        console.log(res.message)
+                    }
+                }
+            })
+        }
+        // $('#Edit_Modal').modal('hide');
+
     });
-  
-  
-  });
-  
-  function showedit(e) {
-  
-    var id = e;
-    var sel_pro = [];
-    var sel_uni = [];
-    var sel_soc = [];
-    var sel_pais = [];
-    var sel_cliente = [];
+
+
+});
+
+function showedit(id) {
+
+    var sel_contrato = [];
     var sel_contacto = [];
-    var sel_tipo = [];
-    var sel_region = [];
+    var sel_vendedor = [];
+    var sel_estado = [];
     $.ajax({
-      url: '/getdata/' + id,
-      method: 'GET',
-  
-      success: function (res) {
-        if (res.status == "ok") {
-          var proveedor = res.proveedor;
-          var unidad_negocio = res.unidad_negocio;
-          var sociedad = res.sociedad;
-          var pais = res.pais;
-          var cliente = res.cliente;
-          var contacto = res.contacto;
-          var tipo_contrato = res.tipo_contrato;
-          var region = res.region;
-  
-          proveedor.forEach((item, index) => {
-            sel_pro[index + 1] = item['fields']['DES_PROVEEDOR']
-          });
-          unidad_negocio.forEach((item, index) => {
-            sel_uni[index + 1] = item['fields']['DES_UNIDAD_NEGOCIO']
-          });
-          sociedad.forEach((item, index) => {
-            sel_soc[index + 1] = item['fields']['RAZON_SOCIAL']
-          });
-          pais.forEach((item, index) => {
-            sel_pais[index + 1] = item['fields']['DES_PAIS']
-          });
-          cliente.forEach((item, index) => {
-            sel_cliente[index + 1] = item['fields']['RAZON_SOCIAL']
-          });
-          contacto.forEach((item, index) => {
-            sel_contacto[index + 1] = item['fields']['MAIL']
-          });
-          tipo_contrato.forEach((item, index) => {
-            sel_tipo[index + 1] = item['fields']['DES_TIPO_CONTRATO']
-          });
-          region.forEach((item, index) => {
-            sel_region[index + 1] = item['fields']['DES_REGION']
-          });
-  
-          $('#proveedor').html('');
-          $('#unidad_negocio').html('');
-          $('#sociedad').html('');
-          $('#pais').html('');
-          $('#cliente').html('');
-          $('#contacto').html('');
-          $('#tipo_contrato').html('');
-          $('#region').html('');
-  
-          let select_options_pro = '';
-          let select_options_uni = '';
-          let select_options_soc = '';
-          let select_options_cliente = '';
-          let select_options_pais = '';
-          let select_options_contacto = '';
-          let select_options_tipo = '';
-          let select_options_region = '';
-          for (index in sel_pro) {
-            select_options_pro += '<option value="' + index + '" ' + ((res.contract.ID_PROVEEDOR == index) ? 'selected' : '') + '>' + sel_pro[index] + '</option>'
-          }
-          for (index in sel_uni) {
-            select_options_uni += '<option value="' + index + '" ' + ((res.contract.ID_UNIDAD_NEGOCIO == index) ? 'selected' : '') + '>' + sel_uni[index] + '</option>'
-          }
-          for (index in sel_soc) {
-            select_options_soc += '<option value="' + index + '" ' + ((res.contract.ID_SOCIEDAD == index) ? 'selected' : '') + '>' + sel_soc[index] + '</option>'
-          }
-          for (index in sel_pais) {
-            select_options_pais += '<option value="' + index + '" ' + ((res.contract.ID_PAIS == index) ? 'selected' : '') + '>' + sel_pais[index] + '</option>'
-          }
-          for (index in sel_cliente) {
-            select_options_cliente += '<option value="' + index + '" ' + ((res.contract.ID_CLIENTE == index) ? 'selected' : '') + '>' + sel_cliente[index] + '</option>'
-          }
-          for (index in sel_contacto) {
-            select_options_contacto += '<option value="' + index + '" ' + ((res.contract.ID_CONTACTO == index) ? 'selected' : '') + '>' + sel_contacto[index] + '</option>'
-          }
-          for (index in sel_tipo) {
-            select_options_tipo += '<option value="' + index + '" ' + ((res.contract.ID_TIPO_CONTRATO == index) ? 'selected' : '') + '>' + sel_tipo[index] + '</option>'
-          }
-          for (index in sel_region) {
-            select_options_region += '<option value="' + index + '" ' + ((res.contract.ID_REGION == index) ? 'selected' : '') + '>' + sel_region[index] + '</option>'
-          }
-          $('#proveedor').html(select_options_pro);
-          $('#unidad_negocio').html(select_options_uni);
-          $('#sociedad').html(select_options_soc);
-          $('#pais').html(select_options_pais);
-          $('#cliente').html(select_options_cliente);
-          $('#contacto').html(select_options_contacto);
-          $('#tipo_contrato').html(select_options_tipo);
-          $('#region').html(select_options_region);
-          $('#finalizado').val(res.contract.FINALIZADO);
-          $('#comentario').val(res.contract.COMENTARIO);
-          $('#up_id').val(id)
-          $('#Edit_Modal').modal('show');
-        } else {
-          console.log(res);
+        url: '/getdata/' + id,
+        method: 'POST',
+        data: {
+            selection: "apendice",
+            csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
+        },
+
+        success: function (res) {
+            if (res.status == "ok") {
+                var contrato = res.contrato;
+                var vendedor = res.vendedor;
+                var estado = res.estado;
+                var contacto = res.contacto;
+
+                contrato.forEach((item, index) => {
+                    sel_contrato[contrato[index]['pk']] = item['fields']['ID_TIPO_CONTRATO']
+                });
+                vendedor.forEach((item, index) => {
+                    sel_vendedor[vendedor[index]['pk']] = item['fields']['NOMBRE_VENDEDOR']
+                });
+                estado.forEach((item, index) => {
+                    sel_estado[estado[index]['pk']] = item['fields']['DES_ESTADO']
+                });
+                contacto.forEach((item, index) => {
+                    sel_contacto[contacto[index]['pk']] = item['fields']['MAIL']
+                });
+
+                $('#contrato').html('');
+                $('#vendedor').html('');
+                $('#estado').html('');
+                $('#contatco').html('');
+
+
+                let select_options_contrato = '';
+                let select_options_contacto = '';
+                let select_options_vendedor = '';
+                let select_options_estado = '';
+
+                for (index in sel_contrato) {
+                    select_options_contrato += '<option value="' + index + '" ' + ((res.apendice.ID_CONTRATO == index) ? 'selected' : '') + '>' + sel_contrato[index] + '</option>'
+                }
+                for (index in sel_vendedor) {
+                    select_options_vendedor += '<option value="' + index + '" ' + ((res.apendice.ID_VENDEDOR == index) ? 'selected' : '') + '>' + sel_vendedor[index] + '</option>'
+                }
+                for (index in sel_estado) {
+                    select_options_estado += '<option value="' + index + '" ' + ((res.apendice.ID_ESTADO == index) ? 'selected' : '') + '>' + sel_estado[index] + '</option>'
+                }
+                for (index in sel_contacto) {
+                    select_options_contacto += '<option value="' + index + '" ' + ((res.apendice.ID_CONTACTO == index) ? 'selected' : '') + '>' + sel_contacto[index] + '</option>'
+                }
+                $('#contrato').html(select_options_contrato);
+                $('#vendedor').html(select_options_vendedor);
+                $('#estado').html(select_options_estado);
+                $('#contacto').html(select_options_contacto);
+                $('#id').val(id)
+                $('#des_apendice').val(res.apendice.DES_APENDICE);
+                $('#fecha_fin').val(res.apendice.FECHA_FIN);
+                $('#fecha_inicio').val(res.apendice.FECHA_INICIO);
+                $('#fecha_fin_oc_cliente').val(res.apendice.FECHA_FIN_OC_CLIENTE);
+                $('#comentario').val(res.apendice.COMENTARIO);
+                $('#Edit_Modal').modal('show');
+            } else {
+                console.log(res);
+            }
         }
-      }
     });
-  };
-  
-  function delete_item(id){
+};
+
+function delete_item(id) {
     $.ajax({
-      url: '/delete/' + id,
-      method: 'POST',
-      data: {
-        selection: "1",
-        csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
-      },
-      success: function (res) {
-        if (res.status == "ok") {
-          location.reload();
-        } else {
-          console.log(res)
+        url: '/delete/' + id,
+        method: 'POST',
+        data: {
+            selection: "apendice",
+            csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
+        },
+        success: function (res) {
+            if (res.status == "ok") {
+                location.reload();
+            } else {
+                console.log(res)
+            }
         }
-      }
     });
-  };
-  
-  
+};
+
