@@ -134,6 +134,9 @@ $(document).ready(function () {
           ID_CONTACTO: $('#new_contacto').val(),
           ID_TIPO_CONTRATO: $('#new_tipo_contrato').val(),
           ID_REGION: $('#new_region').val(),
+          FECHA_INICIO: moment($('#new_fecha_inicio').val(), 'DD/MM/YYYY HH:mm').format("YYYY-MM-DD HH:mm"),
+          FECHA_FIN: moment($('#new_fecha_fin').val(), 'DD/MM/YYYY HH:mm').format("YYYY-MM-DD HH:mm"),
+          FECHA_FIRMA: moment($('#new_fecha_firma').val(), 'DD/MM/YYYY HH:mm').format("YYYY-MM-DD HH:mm"),
           // FINALIZADO: $('#finalizado').val(),
           COMENTARIO: $('#new_comentario').val(),
           csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
@@ -172,6 +175,9 @@ $(document).ready(function () {
           ID_TIPO_CONTRATO: $('#tipo_contrato').val(),
           ID_REGION: $('#region').val(),
           FINALIZADO: $('#finalizado').val(),
+          FECHA_INICIO: moment($('#fecha_inicio').val(), 'DD/MM/YYYY HH:mm').format("YYYY-MM-DD HH:mm"),
+          FECHA_FIN: moment($('#fecha_fin').val(), 'DD/MM/YYYY HH:mm').format("YYYY-MM-DD HH:mm"),
+          FECHA_FIRMA: moment($('#fecha_firma').val(), 'DD/MM/YYYY HH:mm').format("YYYY-MM-DD HH:mm"),
           COMENTARIO: $('#comentario').val(),
           csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
         },
@@ -296,6 +302,9 @@ function showedit(e) {
         $('#tipo_contrato').html(select_options_tipo);
         $('#region').html(select_options_region);
         $('#finalizado').val(res.contract.FINALIZADO);
+        $('#fecha_fin').val(conv_date(res.contract.FECHA_FIN));
+        $('#fecha_inicio').val(conv_date(res.contract.FECHA_INICIO));
+        $('#fecha_firma').val(conv_date(res.contract.FECHA_FIRMA));
         $('#comentario').val(res.contract.COMENTARIO);
         $('#up_id').val(id)
         $('#Edit_Modal').modal('show');
@@ -324,3 +333,8 @@ function delete_item(id) {
   });
 };
 
+function conv_date(param) {
+  param = param.replace('T', ' ').replace('Z', '');
+  param = moment(param, 'YYYY-MM-DD HH:mm').format("DD/MM/YYYY HH:mm");
+  return param;
+}

@@ -10,23 +10,15 @@
       <change beforePath="$PROJECT_DIR$/../backend/djangocrud/api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/djangocrud/api/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../backend/djangocrud/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/djangocrud/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../backend/djangocrud/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/djangocrud/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/static/js/custom/apendice.js" beforeDir="false" afterPath="$PROJECT_DIR$/main/static/js/custom/apendice.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/static/js/custom/cliente.js" beforeDir="false" afterPath="$PROJECT_DIR$/main/static/js/custom/cliente.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/static/js/custom/contacto.js" beforeDir="false" afterPath="$PROJECT_DIR$/main/static/js/custom/contacto.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/static/js/custom/contracts.js" beforeDir="false" afterPath="$PROJECT_DIR$/main/static/js/custom/contracts.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/static/js/custom/group_cliente.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/static/js/custom/grupo_cliente.js" beforeDir="false" afterPath="$PROJECT_DIR$/main/static/js/custom/grupo_cliente.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/static/js/custom/producto.js" beforeDir="false" afterPath="$PROJECT_DIR$/main/static/js/custom/producto.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/templates/main/appendix.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/main/appendix.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/templates/main/cliente.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/main/cliente.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/templates/main/contacto.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/main/contacto.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/templates/main/contracts.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/main/contracts.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/templates/main/group_cliente.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/templates/main/invoice.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/main/invoice.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/templates/main/nav.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/main/nav.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/templates/main/grupo_cliente.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/main/grupo_cliente.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/templates/main/producto.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/main/producto.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend" afterDir="false" />
     </list>
@@ -55,8 +47,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="343">
-              <caret line="136" column="33" lean-forward="true" selection-start-line="136" selection-start-column="33" selection-end-line="136" selection-end-column="33" />
+            <state relative-caret-position="212">
+              <caret line="196" column="37" selection-start-line="196" selection-start-column="37" selection-end-line="196" selection-end-column="37" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
               </folding>
@@ -76,11 +68,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-44">
-              <caret line="272" column="55" selection-start-line="272" selection-start-column="44" selection-end-line="272" selection-end-column="55" />
+            <state relative-caret-position="331">
+              <caret line="237" column="62" selection-start-line="237" selection-start-column="62" selection-end-line="237" selection-end-column="62" />
               <folding>
                 <element signature="e#0#45#0" expanded="true" />
               </folding>
@@ -88,11 +80,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main/forms.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="432">
-              <caret line="40" column="36" lean-forward="true" selection-start-line="40" selection-start-column="36" selection-end-line="40" selection-end-column="36" />
+            <state relative-caret-position="154">
+              <caret line="7" column="198" selection-start-line="7" selection-start-column="198" selection-end-line="7" selection-end-column="198" />
               <folding>
                 <element signature="e#0#24#0" expanded="true" />
               </folding>
@@ -168,9 +160,9 @@
         <option value="$PROJECT_DIR$/main/templates/main/base.html" />
         <option value="$PROJECT_DIR$/manage.py" />
         <option value="$PROJECT_DIR$/main/urls.py" />
+        <option value="$PROJECT_DIR$/main/models.py" />
         <option value="$PROJECT_DIR$/main/views.py" />
         <option value="$PROJECT_DIR$/main/forms.py" />
-        <option value="$PROJECT_DIR$/main/models.py" />
       </list>
     </option>
   </component>
@@ -286,15 +278,16 @@
       <workItem from="1564101327581" duration="6243000" />
       <workItem from="1564135690643" duration="21000" />
       <workItem from="1564135963977" duration="5257000" />
-      <workItem from="1564324022950" duration="27684000" />
+      <workItem from="1564324022950" duration="31929000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="107813000" />
+    <option name="totallyTimeSpent" value="112058000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Favorites" order="0" side_tool="true" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -325,7 +318,7 @@
     <option name="version" value="1" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/djangoproject$manage.coverage" NAME="manage Coverage Results" MODIFIED="1564426100495" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/djangoproject$manage.coverage" NAME="manage Coverage Results" MODIFIED="1564427843551" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/crud/views.py" />
@@ -510,20 +503,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="40" column="36" lean-forward="true" selection-start-line="40" selection-start-column="36" selection-end-line="40" selection-end-column="36" />
-          <folding>
-            <element signature="e#0#24#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="343">
-          <caret line="136" column="33" lean-forward="true" selection-start-line="136" selection-start-column="33" selection-end-line="136" selection-end-column="33" />
+        <state relative-caret-position="212">
+          <caret line="196" column="37" selection-start-line="196" selection-start-column="37" selection-end-line="196" selection-end-column="37" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
           </folding>
@@ -532,10 +515,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-44">
-          <caret line="272" column="55" selection-start-line="272" selection-start-column="44" selection-end-line="272" selection-end-column="55" />
+        <state relative-caret-position="331">
+          <caret line="237" column="62" selection-start-line="237" selection-start-column="62" selection-end-line="237" selection-end-column="62" />
           <folding>
             <element signature="e#0#45#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="7" column="198" selection-start-line="7" selection-start-column="198" selection-end-line="7" selection-end-column="198" />
+          <folding>
+            <element signature="e#0#24#0" expanded="true" />
           </folding>
         </state>
       </provider>

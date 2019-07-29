@@ -5,7 +5,7 @@ from main.models import *
 class ContratoCabeceraForm(forms.ModelForm):
     class Meta:
         model = ContratoCabecera
-        fields = ['ID_PROVEEDOR', 'ID_UNIDAD_NEGOCIO', 'ID_SOCIEDAD', 'ID_PAIS', 'ID_CLIENTE', 'ID_CONTACTO', 'ID_TIPO_CONTRATO', 'ID_REGION', 'COMENTARIO']
+        fields = ['ID_PROVEEDOR', 'ID_UNIDAD_NEGOCIO', 'ID_SOCIEDAD', 'ID_PAIS', 'ID_CLIENTE', 'ID_CONTACTO', 'ID_TIPO_CONTRATO', 'ID_REGION', 'COMENTARIO', 'FECHA_FIN', 'FECHA_FIRMA', 'FECHA_INICIO']
 
 
 class InvoiceForm(forms.ModelForm):
@@ -34,11 +34,11 @@ class ContactoForm(forms.ModelForm):
 
 class GrupoClienteForm(forms.ModelForm):
     class Meta:
-        model = Cliente
-        fields = ['ID_PAIS', 'ID_GRUPO_CLIENTE', 'ID_INDUSTRIA', 'FECHA_ALTA', 'CLAVE_FISCAL', 'NUM_CLIENTE_PLNG', 'NUM_CLIENTE_PROV', 'RAZON_SOCIAL', 'COMENTARIO']
+        model = GrupoCliente
+        fields = ['COD_GRUPO_CLIENTE', 'DES_GRUPO_CLIENTE']
 
 
 class ProductoForm(forms.ModelForm):
     class Meta:
-        model = Cliente
-        fields = ['ID_PAIS', 'ID_GRUPO_CLIENTE', 'ID_INDUSTRIA', 'FECHA_ALTA', 'CLAVE_FISCAL', 'NUM_CLIENTE_PLNG', 'NUM_CLIENTE_PROV', 'RAZON_SOCIAL', 'COMENTARIO']
+        model = Producto
+        fields = ['ID_TIPO_PRODUCTO', 'COD_PRODUCTO', 'DES_PRODUCTO', 'METRICA', 'BLOQUES', 'MINIMO']

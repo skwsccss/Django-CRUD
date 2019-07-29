@@ -4,65 +4,16 @@ $(document).ready(function () {
     $('#input_error2').addClass('d-none');
 
     $('#showmodal').click(function () {
-        var sel_contrato = [];
-        var sel_contacto = [];
-        var sel_vendedor = [];
-        var sel_estado = [];
 
         $.ajax({
             url: '/readdata/' + 1000000,
             method: 'POST',
             data: {
-                selection: "apendice",
+                selection: "grupo_cliente",
                 csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
             },
             success: function (res) {
                 if (res.status == "ok") {
-                    var contrato = res.contrato;
-                    var vendedor = res.vendedor;
-                    var estado = res.estado;
-                    var contacto = res.contacto;
-                    contrato.forEach((item, index) => {
-                        sel_contrato[contrato[index]['pk']] = item['fields']['ID_TIPO_CONTRATO']
-                    });
-                    vendedor.forEach((item, index) => {
-                        sel_vendedor[vendedor[index]['pk']] = item['fields']['NOMBRE_VENDEDOR']
-                    });
-                    estado.forEach((item, index) => {
-                        sel_estado[estado[index]['pk']] = item['fields']['DES_ESTADO']
-                    });
-                    contacto.forEach((item, index) => {
-                        sel_contacto[contacto[index]['pk']] = item['fields']['MAIL']
-                    });
-
-                    $('#new_contrato').html('');
-                    $('#new_vendedor').html('');
-                    $('#new_estado').html('');
-                    $('#new_contatco').html('');
-
-
-                    let select_options_contrato = '';
-                    let select_options_contacto = '';
-                    let select_options_vendedor = '';
-                    let select_options_estado = '';
-                    console.log(sel_contrato)
-                    for (index in sel_contrato) {
-                        select_options_contrato += '<option value="' + index + '" ' + '>' + sel_contrato[index] + '</option>'
-                    }
-                    for (index in sel_vendedor) {
-                        select_options_vendedor += '<option value="' + index + '" ' + '>' + sel_vendedor[index] + '</option>'
-                    }
-                    for (index in sel_estado) {
-                        select_options_estado += '<option value="' + index + '" ' + '>' + sel_estado[index] + '</option>'
-                    }
-                    for (index in sel_contacto) {
-                        select_options_contacto += '<option value="' + index + '" ' + '>' + sel_contacto[index] + '</option>'
-                    }
-                    $('#new_contrato').html(select_options_contrato);
-                    $('#new_vendedor').html(select_options_vendedor);
-                    $('#new_estado').html(select_options_estado);
-                    $('#new_contacto').html(select_options_contacto);
-
                     $('#Add_Modal').modal('show');
                 } else {
                     console.log(res);
@@ -73,7 +24,7 @@ $(document).ready(function () {
     });
 
     $('#add_btn').click(function () {
-        if ($('#new_des_apendice').val() == '' || $('#new_comentario').val() == '') {
+        if ($('#new_cod_grupo_cliente').val() == '' || $('#new_des_grupo_cliente').val() == '') {
             $('#input_error').removeClass('d-none');
         }
         else {
@@ -84,20 +35,9 @@ $(document).ready(function () {
                 url: '/create/',
                 method: 'POST',
                 data: {
-                    selection: "apendice",
-                    DES_APENDICE: $('#new_des_apendice').val(),
-                    ID_CONTRATO: $('#new_contrato').val(),
-                    ID_CONTACTO: $('#new_contacto').val(),
-                    ID_VENDEDOR: $('#new_vendedor').val(),
-                    ID_ESTADO: $('#new_estado').val(),
-                    FECHA_INICIO: moment( $('#new_fecha_inicio').val(), 'DD/MM/YYYY HH:mm').format("YYYY-MM-DD HH:mm"),
-                    FECHA_FIN: moment( $('#new_fecha_fin').val(), 'DD/MM/YYYY HH:mm').format("YYYY-MM-DD HH:mm"),
-                    FECHA_FIN_OC_CLIENTE: moment( $('#new_fecha_fin_oc_cliente').val(), 'DD/MM/YYYY HH:mm').format("YYYY-MM-DD HH:mm"),
-                    // FECHA_INICIO: $('#new_fecha_inicio').val(),
-                    // FECHA_FIN: $('#new_fecha_fin').val(),
-                    // FECHA_FIN_OC_CLIENTE:$('#new_fecha_fin_oc_cliente').val(), 
-                    // FINALIZADO: $('#finalizado').val(),
-                    COMENTARIO: $('#new_comentario').val(),
+                    selection: "grupo_cliente",
+                    COD_GRUPO_CLIENTE: $('#new_cod_grupo_cliente').val(),
+                    DES_GRUPO_CLIENTE: $('#new_des_grupo_cliente').val(),
                     csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
                 },
                 success: function (res) {
@@ -125,17 +65,9 @@ $(document).ready(function () {
                 url: '/update/' + $('#id').val(),
                 method: 'POST',
                 data: {
-                    selection: "apendice",
-                    DES_APENDICE: $('#des_apendice').val(),
-                    ID_CONTRATO: $('#contrato').val(),
-                    ID_CONTACTO: $('#contacto').val(),
-                    ID_VENDEDOR: $('#vendedor').val(),
-                    ID_ESTADO: $('#estado').val(),
-                    FECHA_INICIO: moment( $('#fecha_inicio').val(), 'DD/MM/YYYY HH:mm').format("YYYY-MM-DD HH:mm"),
-                    FECHA_FIN: moment( $('#fecha_fin').val(), 'DD/MM/YYYY HH:mm').format("YYYY-MM-DD HH:mm"),
-                    FECHA_FIN_OC_CLIENTE: moment( $('#fecha_fin_oc_cliente').val(), 'DD/MM/YYYY HH:mm').format("YYYY-MM-DD HH:mm"),
-                    // FINALIZADO: $('#finalizado').val(),
-                    COMENTARIO: $('#comentario').val(),
+                    selection: "grupo_cliente",
+                    COD_GRUPO_CLIENTE: $('#cod_grupo_cliente').val(),
+                    DES_GRUPO_CLIENTE: $('#des_grupo_cliente').val(),
                     csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
                 },
                 success: function (res) {
@@ -158,71 +90,19 @@ $(document).ready(function () {
 
 function showedit(id) {
 
-    var sel_contrato = [];
-    var sel_contacto = [];
-    var sel_vendedor = [];
-    var sel_estado = [];
     $.ajax({
         url: '/readdata/' + id,
         method: 'POST',
         data: {
-            selection: "apendice",
+            selection: "grupo_cliente",
             csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
         },
 
         success: function (res) {
             if (res.status == "ok") {
-                var contrato = res.contrato;
-                var vendedor = res.vendedor;
-                var estado = res.estado;
-                var contacto = res.contacto;
-
-                contrato.forEach((item, index) => {
-                    sel_contrato[contrato[index]['pk']] = item['fields']['ID_TIPO_CONTRATO']
-                });
-                vendedor.forEach((item, index) => {
-                    sel_vendedor[vendedor[index]['pk']] = item['fields']['NOMBRE_VENDEDOR']
-                });
-                estado.forEach((item, index) => {
-                    sel_estado[estado[index]['pk']] = item['fields']['DES_ESTADO']
-                });
-                contacto.forEach((item, index) => {
-                    sel_contacto[contacto[index]['pk']] = item['fields']['MAIL']
-                });
-
-                $('#contrato').html('');
-                $('#vendedor').html('');
-                $('#estado').html('');
-                $('#contatco').html('');
-
-
-                let select_options_contrato = '';
-                let select_options_contacto = '';
-                let select_options_vendedor = '';
-                let select_options_estado = '';
-
-                for (index in sel_contrato) {
-                    select_options_contrato += '<option value="' + index + '" ' + ((res.apendice.ID_CONTRATO == index) ? 'selected' : '') + '>' + sel_contrato[index] + '</option>'
-                }
-                for (index in sel_vendedor) {
-                    select_options_vendedor += '<option value="' + index + '" ' + ((res.apendice.ID_VENDEDOR == index) ? 'selected' : '') + '>' + sel_vendedor[index] + '</option>'
-                }
-                for (index in sel_estado) {
-                    select_options_estado += '<option value="' + index + '" ' + ((res.apendice.ID_ESTADO == index) ? 'selected' : '') + '>' + sel_estado[index] + '</option>'
-                }
-                for (index in sel_contacto) {
-                    select_options_contacto += '<option value="' + index + '" ' + ((res.apendice.ID_CONTACTO == index) ? 'selected' : '') + '>' + sel_contacto[index] + '</option>'
-                }
-                $('#contrato').html(select_options_contrato);
-                $('#vendedor').html(select_options_vendedor);
-                $('#estado').html(select_options_estado);
-                $('#contacto').html(select_options_contacto);
-                $('#id').val(id)
-                $('#des_apendice').val(res.apendice.DES_APENDICE);
-                $('#fecha_fin').val(res.apendice.FECHA_FIN);
-                $('#fecha_inicio').val(res.apendice.FECHA_INICIO);
-                $('#fecha_fin_oc_cliente').val(res.apendice.FECHA_FIN_OC_CLIENTE);
-                $('#comentario').val(res.apendice.COMENTARIO);
+                $('#cod_grupo_cliente').val(res.grupo_cliente.COD_GRUPO_CLIENTE);
+                $('#des_grupo_cliente').val(res.grupo_cliente.DES_GRUPO_CLIENTE);
+                $('#id').val(id);
                 $('#Edit_Modal').modal('show');
             } else {
                 console.log(res);
@@ -236,7 +116,7 @@ function delete_item(id) {
         url: '/delete/' + id,
         method: 'POST',
         data: {
-            selection: "apendice",
+            selection: "grupo_cliente",
             csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
         },
         success: function (res) {

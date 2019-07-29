@@ -227,33 +227,25 @@ def readdata(request, id):
                 grupo_cliente = serializer(grupo_cliente)
             else:
                 pass
-            pais = serializer(Pais.objects.all())
-            industria = serializer(Industria.objects.all())
             if id != 1000000:
                 return JsonResponse(
-                    {"status": 'ok', "message": "success", "grupo_cliente": grupo_cliente[0]['fields'], "pais": pais, "industria": industria,
-                     "grupo_cliente": grupo_cliente})
+                    {"status": 'ok', "message": "success", "grupo_cliente": grupo_cliente[0]['fields']})
             else:
                 return JsonResponse(
-                    {"status": 'ok', "message": "success", "pais": pais, "industria": industria,
-                     "grupo_cliente": grupo_cliente})
+                    {"status": 'ok', "message": "success"})
         if request.POST.get('selection', None)=="producto":
             if id != 1000000:
-                producto = Producto.objects.filter(ID_CONTACTO=id)
+                producto = Producto.objects.filter(ID_PRODUCTO=id)
                 producto = serializer(producto)
             else:
                 pass
-            pais = serializer(Pais.objects.all())
-            industria = serializer(Industria.objects.all())
-            grupo_cliente = serializer(GrupoCliente.objects.all())
+            tipo_producto = serializer(TipoProducto.objects.all())
             if id != 1000000:
                 return JsonResponse(
-                    {"status": 'ok', "message": "success", "producto": producto[0]['fields'], "pais": pais, "industria": industria,
-                     "grupo_cliente": grupo_cliente})
+                    {"status": 'ok', "message": "success", "producto": producto[0]['fields'], "tipo_producto": tipo_producto})
             else:
                 return JsonResponse(
-                    {"status": 'ok', "message": "success", "pais": pais, "industria": industria,
-                     "grupo_cliente": grupo_cliente})
+                    {"status": 'ok', "message": "success", "tipo_producto": tipo_producto})
 
 
 def update(request, id):

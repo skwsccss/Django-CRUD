@@ -22,7 +22,8 @@
                                         <h2 class="text-center">Contrato</h2>
                                     </div>
                                     <div class="col-md-2 text-right">
-                                        <button class="btn btn-outline-primary btn-sm" id="showmodal"><i class="fa fa-plus-circle"></i>
+                                        <button class="btn btn-outline-primary btn-sm" id="showmodal"><i
+                                                class="fa fa-plus-circle"></i>
                                             Añadir nuevo</button>
                                     </div>
                                 </div>
@@ -73,9 +74,10 @@
                                                                 onclick="showedit({{ contract.pk }})">
                                                                 <i class="fas fa-edit text"></i> Edit</a>
                                                             </button>
-                                                            <button class="btn btn-light text-danger" id="delete_btn" onclick="delete_item({{ contract.pk }})">
-                                                                    <i class="fas fa-trash-alt"></i>
-                                                                    Remove
+                                                            <button class="btn btn-light text-danger" id="delete_btn"
+                                                                onclick="delete_item({{ contract.pk }})">
+                                                                <i class="fas fa-trash-alt"></i>
+                                                                Remove
                                                             </button>
                                                         </td>
                                                     </tr>
@@ -109,8 +111,7 @@
             <div class="modal-body">
                 <form action="" class="pt-3">
                     {%csrf_token%}
-                    <input type="text" class="form-control form-control-sm" id="id" name="id" placeholder=""
-                        hidden>
+                    <input type="text" class="form-control form-control-sm" id="id" name="id" placeholder="" hidden>
                     <div class="row">
                         <div class="col-md-6">
                             <label for="proveedor">PROVEEDOR</label>
@@ -152,12 +153,36 @@
                         </div>
                     </div>
                     <div class="row">
-                        <label for="finalizado">FINALIZADO</label>
-                        <input type="text" class="form-control form-control-sm" id="new_finalizado"
-                            name="finalizado" placeholder="FINALIZADO" required>
+                        <div class="col-md-6">
+                            <label for="finalizado">FINALIZADO</label>
+                            <input type="text" class="form-control form-control-sm" id="new_finalizado"
+                                name="finalizado" placeholder="FINALIZADO" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="new_fecha_firma">FECHA FIRMA</label>
+                            <input class="form-control form-control-sm" data-inputmask="'alias': 'datetime'"
+                                id="new_fecha_firma" />
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="new_fecha_inicio">FECHA INICIO</label>
+                            <input class="form-control form-control-sm" data-inputmask="'alias': 'datetime'"
+                                id="new_fecha_inicio" />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="new_fecha_fin">FECHA FIN</label>
+                            <input class="form-control form-control-sm" data-inputmask="'alias': 'datetime'"
+                                id="new_fecha_fin" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
                             <label for="comentario">COMENTARIO</label>
-                        <input type="text" class="form-control form-control-sm" id="new_comentario"
-                            name="comentario" placeholder="COMENTARIO" required>
+                            <input type="text" class="form-control form-control-sm" id="new_comentario"
+                                name="comentario" placeholder="COMENTARIO" required>
+                        </div>
                     </div>
                     <div class="row" id="input_error">
                         <p class="text-danger">Input is not valid</p>
@@ -227,12 +252,36 @@
                         </div>
                     </div>
                     <div class="row">
-                        <label for="finalizado">FINALIZADO</label>
-                        <input type="text" class="form-control form-control-sm" id="finalizado"
-                            name="finalizado" placeholder="FINALIZADO" required>
+                        <div class="col-md-6">
+                            <label for="finalizado">FINALIZADO</label>
+                            <input type="text" class="form-control form-control-sm" id="finalizado"
+                                name="finalizado" placeholder="FINALIZADO" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="fecha_firma">FECHA FIRMA</label>
+                            <input class="form-control form-control-sm" data-inputmask="'alias': 'datetime'"
+                                id="fecha_firma" />
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="fecha_inicio">FECHA INICIO</label>
+                            <input class="form-control form-control-sm" data-inputmask="'alias': 'datetime'"
+                                id="fecha_inicio" />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="fecha_fin">FECHA FIN</label>
+                            <input class="form-control form-control-sm" data-inputmask="'alias': 'datetime'"
+                                id="fecha_fin" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
                             <label for="comentario">COMENTARIO</label>
-                        <input type="text" class="form-control form-control-sm" id="comentario"
-                            name="comentario" placeholder="COMENTARIO" required>
+                            <input type="text" class="form-control form-control-sm" id="comentario"
+                                name="comentario" placeholder="COMENTARIO" required>
+                        </div>
                     </div>
                     <div class="row" id="input_error2">
                         <p class="text-danger">Input is not valid</p>

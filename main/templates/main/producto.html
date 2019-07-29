@@ -24,7 +24,7 @@
                                     <div class="col-md-2 text-right">
                                         <button class="btn btn-outline-primary btn-sm" id="showmodal"><i
                                                 class="fa fa-plus-circle"></i>
-                                                Añadir nuevo</button>
+                                            Añadir nuevo</button>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -34,44 +34,34 @@
                                                 <thead>
                                                     <tr class="">
                                                         <th>No.</th>
-                                                        <th>DES APENDICE</th>
-                                                        <th>CONTRATO</th>
-                                                        <th>CONTACTO</th>
-                                                        <th>VENDEDOR</th>
-                                                        <th>ESTADO</th>
-                                                        <th>FECHA INICIO</th>
-                                                        <th>FECHA FIN</th>
-                                                        <th>FINALIZADO</th>
-                                                        <th>FECHA FIN OC CLIENTE</th>
-                                                        <th>COMENTARIO</th>
-                                                        <th>Funcion</th>
-
+                                                        <th>TIPO PRODUCTO</th>
+                                                        <th>COD PRODUCTO</th>
+                                                        <th>DES PRODUCTO</th>
+                                                        <th>METRICA</th>
+                                                        <th>BLOQUES</th>
+                                                        <th>MINIMO</th>
+                                                        <th>FUNCION</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {% for apendice in apendices %}
+                                                    {% for producto in productos %}
 
                                                     <tr>
                                                         <td>{{forloop.counter}}</td>
-                                                        <td>{{apendice.DES_APENDICE}}</td>
-                                                        <td>{{apendice.ID_CONTRATO.ID_TIPO_CONTRATO.DES_TIPO_CONTRATO}}
-                                                        </td>
-                                                        <td>{{apendice.ID_CONTACTO.MAIL}}</td>
-                                                        <td>{{apendice.ID_VENDEDOR.NOMBRE_VENDEDOR}}</td>
-                                                        <td>{{apendice.ID_ESTADO.DES_ESTADO}}</td>
-                                                        <td>{{apendice.FECHA_INICIO}}</td>
-                                                        <td>{{apendice.FECHA_FIN}}</td>
-                                                        <td>{{apendice.FINALIZADO}}</td>
-                                                        <td>{{apendice.FECHA_FIN_OC_CLIENTE}}</td>
-                                                        <td>{{apendice.COMENTARIO}}</td>
+                                                        <td>{{producto.ID_TIPO_PRODUCTO.DES_TIPO_PRODUCTO}}</td>
+                                                        <td>{{producto.COD_PRODUCTO}}</td>
+                                                        <td>{{producto.DES_PRODUCTO}}</td>
+                                                        <td>{{producto.METRICA}}</td>
+                                                        <td>{{producto.BLOQUES}}</td>
+                                                        <td>{{producto.MINIMO}}</td>
                                                         <td class="text-right">
                                                             <button class="btn btn-light text-success" type="button"
                                                                 id="edit_btn" name="edit_btn"
-                                                                onclick="showedit({{ apendice.pk }})">
+                                                                onclick="showedit({{ producto.pk }})">
                                                                 <i class="fas fa-edit text"></i> Edit</a>
                                                             </button>
                                                             <button class="btn btn-light text-danger" id="delete_btn"
-                                                                onclick="delete_item({{ apendice.pk }})">
+                                                                onclick="delete_item({{ producto.pk }})">
                                                                 <i class="fas fa-trash-alt"></i>
                                                                 Remove
                                                             </button>
@@ -108,59 +98,33 @@
                 <form action="" class="pt-3">
                     {%csrf_token%}
                     <div class="row">
-                        <div class="col-md-12">
-                            <label for="des_apendice">DES APENDICE</label>
-                            <input class="form-control form-control-sm" id="new_des_apendice">
+                        <div class="col-md-6">
+                            <label for="new_tipo_producto">TIPO PRODUCTO</label>
+                            <select class="form-control form-control-sm" id="new_tipo_producto"></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="new_cod_producto">COD PRODUCTO</label>
+                            <input class="form-control form-control-sm" id="new_cod_producto">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="new_contrato">CONTRATO</label>
-                            <select class="form-control form-control-sm" id="new_contrato"></select>
+                            <label for="new_des_producto">DES PRODUCTO</label>
+                            <input class="form-control form-control-sm" id="new_des_producto">
                         </div>
                         <div class="col-md-6">
-                            <label for="new_contacto">CONTACTO</label>
-                            <select class="form-control form-control-sm" id="new_contacto"></select>
+                            <label for="new_metrica">METRICA</label>
+                            <input class="form-control form-control-sm" id="new_metrica">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="new_estado">ESTADO</label>
-                            <select class="form-control form-control-sm" id="new_estado"></select>
+                            <label for="new_bloques">BLOQUES</label>
+                            <input class="form-control form-control-sm" type="number" id="new_bloques" />
                         </div>
                         <div class="col-md-6">
-                            <label for="new_vendedor">VENDEDOR</label>
-                            <select class="form-control form-control-sm" id="new_vendedor"></select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label for="new_fecha_inicio">FECHA INICIO</label>
-                            <input class="form-control form-control-sm" data-inputmask="'alias': 'datetime'"
-                                id="new_fecha_inicio" />
-                        </div>
-                        <div class="col-md-6">
-                            <label for="new_fecha_fin">FECHA FIN</label>
-                            <input class="form-control form-control-sm" data-inputmask="'alias': 'datetime'"
-                                id="new_fecha_fin" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label for="new_finalizado">FINALIZADO</label>
-                            <input class="form-control form-control-sm" id="new_finalizado">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="new_fecha_fin_oc_cliente">FECHA FIN OC CLIENTE</label>
-                            <input class="form-control form-control-sm" data-inputmask="'alias': 'datetime'"
-                                id="new_fecha_fin_oc_cliente" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 form-group">
-                            <label for="new_comentario">COMENTARIO</label>
-                            <textarea name="new_comentario" id="new_comentario" class="form-control form-control-sm"
-                                rows="4" required></textarea>
+                            <label for="new_minimo">MINIMO</label>
+                            <input class="form-control form-control-sm" type="number" id="new_minimo" />
                         </div>
                     </div>
                     <div class="row text-center" id="input_error">
@@ -190,59 +154,33 @@
                     {%csrf_token%}
                     <input type="text" class="form-control form-control-sm" id="id" name="id" placeholder="" hidden>
                     <div class="row">
-                            <div class="col-md-12">
-                                <label for="des_apendice">DES APENDICE</label>
-                                <input class="form-control form-control-sm" id="des_apendice">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="contrato">CONTRATO</label>
-                                <select class="form-control form-control-sm" id="contrato"></select>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="contacto">CONTACTO</label>
-                                <select class="form-control form-control-sm" id="contacto"></select>
-                            </div>
-                        </div>
-                    <div class="row">
                         <div class="col-md-6">
-                            <label for="estado">ESTADO</label>
-                            <select class="form-control form-control-sm" id="estado"></select>
+                            <label for="tipo_producto">TIPO PRODUCTO</label>
+                            <select class="form-control form-control-sm" id="tipo_producto"></select>
                         </div>
                         <div class="col-md-6">
-                            <label for="vendedor">VENDEDOR</label>
-                            <select class="form-control form-control-sm" id="vendedor"></select>
+                            <label for="cod_producto">CONTACTO</label>
+                            <input class="form-control form-control-sm" id="cod_producto">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="fecha_inicio">FECHA INICIO</label>
-                            <input class="form-control form-control-sm" data-inputmask="'alias': 'datetime'"
-                                id="fecha_inicio" />
+                            <label for="des_producto">DES PRODUCTO</label>
+                            <input class="form-control form-control-sm" id="des_producto">
                         </div>
                         <div class="col-md-6">
-                            <label for="fecha_fin">FECHA FIN</label>
-                            <input class="form-control form-control-sm" data-inputmask="'alias': 'datetime'"
-                                id="fecha_fin" />
+                            <label for="metrica">METRICA</label>
+                            <input class="form-control form-control-sm" id="metrica">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="finalizado">FINALIZADO</label>
-                            <input class="form-control form-control-sm" id="finalizado">
+                            <label for="bloques">BLOQUES</label>
+                            <input class="form-control form-control-sm" type="number" id="bloques" />
                         </div>
                         <div class="col-md-6">
-                            <label for="fecha_fin_oc_cliente">FECHA FIN OC CLIENTE</label>
-                            <input class="form-control form-control-sm" data-inputmask="'alias': 'datetime'"
-                                id="fecha_fin_oc_cliente" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 form-group">
-                            <label for="comentario">COMENTARIO</label>
-                            <textarea name="comentario" id="comentario" class="form-control form-control-sm"
-                                rows="4"></textarea>
+                            <label for="minimo">MINIMO</label>
+                            <input class="form-control form-control-sm" type="number" id="minimo" />
                         </div>
                     </div>
                     <div class="row text-center" id="input_error2">
