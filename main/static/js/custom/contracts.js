@@ -13,7 +13,7 @@ $(document).ready(function () {
     var sel_tipo = [];
     var sel_region = [];
     $.ajax({
-      url: '/getdata/' + 1000000,
+      url: '/readdata/' + 1000000,
       method: 'POST',
       data: {
         selection: "contrato",
@@ -122,7 +122,7 @@ $(document).ready(function () {
     else {
       $('#input_error').addClass('d-none');
       $.ajax({
-        url: '/add/',
+        url: '/create/',
         method: 'POST',
         data: {
           selection: "contrato",
@@ -204,7 +204,7 @@ function showedit(e) {
   var sel_tipo = [];
   var sel_region = [];
   $.ajax({
-    url: '/getdata/' + id,
+    url: '/readdata/' + id,
     method: 'POST',
     data: {
       selection: "contrato",

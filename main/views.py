@@ -11,32 +11,6 @@ from main.models import *
 from main.forms import *
 import json
 
-def invoice(request):
-    if request.user.is_authenticated:
-        return render(request, 'main/invoice.html')
-    else:
-        return redirect('/login')
-
-
-def serializer(val):
-    return json.loads(serializers.serialize("json", val))
-
-
-def contracts(request):
-    if request.user.is_authenticated:
-        contracts = ContratoCabecera.objects.all()
-        return render(request, 'main/contracts.html', {'contracts': contracts})
-    else:
-        return redirect('/login')
-
-
-def Appendix(request):
-    if request.user.is_authenticated:
-        apendices = ApendiceCabecera.objects.all()
-        return render(request, 'main/appendix.html', {'apendices': apendices})
-    else:
-        return redirect('/login')
-
 
 def Login_request(request):
     if request.method == 'POST':
@@ -85,9 +59,6 @@ def Changepassword(request):
 
 
 def GetUserName(request):
-    now = datetime.now()
-    now = now.strftime('%Y-%m-%d %H:%M:%S')
-    print(now)
     if request.method == 'GET':
         username = request.user.username
         users = User.objects.filter(username=username)
@@ -96,7 +67,93 @@ def GetUserName(request):
         return JsonResponse({"username": username, "email": email})
 
 
-def getdata(request, id):
+def invoice(request):
+    if request.user.is_authenticated:
+        return render(request, 'main/invoice.html')
+    else:
+        return redirect('/login')
+
+
+def serializer(val):
+    return json.loads(serializers.serialize("json", val))
+
+
+def contracts(request):
+    if request.user.is_authenticated:
+        contracts = ContratoCabecera.objects.all()
+        return render(request, 'main/contracts.html', {'contracts': contracts})
+    else:
+        return redirect('/login')
+
+
+def Appendix(request):
+    if request.user.is_authenticated:
+        apendices = ApendiceCabecera.objects.all()
+        return render(request, 'main/appendix.html', {'apendices': apendices})
+    else:
+        return redirect('/login')
+
+
+def cliente(request):
+    if request.user.is_authenticated:
+        clientes = Cliente.objects.all()
+        return render(request, 'main/cliente.html', {'clientes': clientes})
+    else:
+        return redirect('/login')
+
+
+def contacto(request):
+    if request.user.is_authenticated:
+        contactos = Contacto.objects.all()
+        return render(request, 'main/contacto.html', {'contactos': contactos})
+    else:
+        return redirect('/login')
+
+
+def grupocliente(request):
+    if request.user.is_authenticated:
+        grupoclientes = GrupoCliente.objects.all()
+        return render(request, 'main/grupo_cliente.html', {'grupoclientes': grupoclientes})
+    else:
+        return redirect('/login')
+        
+
+def producto(request):
+    if request.user.is_authenticated:
+        productos = Producto.objects.all()
+        return render(request, 'main/producto.html', {'productos': productos})
+    else:
+        return redirect('/login')
+
+
+def create(request):
+    if request.method == 'POST':
+        selection = request.POST.get('selection', None)
+        if selection == "contrato":
+            form = ContratoCabeceraForm(request.POST)
+        if selection == "apendice":
+            form = ApendiceCabecearForm(request.POST)
+        if selection == "cliente":
+            form = ClienteForm(request.POST)
+        if selection == "contacto":
+            form = ContactoForm(request.POST)
+        if selection == "grupo_cliente":
+            form = GrupoClienteForm(request.POST)
+        if selection == "producto":
+            form = ProductoForm(request.POST)
+        if form.is_valid():
+            try:
+                form.save()
+                return JsonResponse({"status": 'ok', "message": "success"})
+            except Exception as e:
+                print(e)
+        else:
+            print(form.errors)
+            return JsonResponse({"status": 'error', "message": "failed."})
+    return redirect("/contracts")
+
+
+def readdata(request, id):
     if request.method == 'POST':
         if request.POST.get('selection', None)=="contrato":
             if id != 1000000:
@@ -134,7 +191,69 @@ def getdata(request, id):
                 return JsonResponse(
                     {"status": 'ok', "message": "success", "contrato": contrato, "contacto": contacto,
                      "vendedor": vendedor, "estado": estado})
-
+        if request.POST.get('selection', None)=="cliente":
+            if id != 1000000:
+                cliente = Cliente.objects.filter(ID_CLIENTE=id)
+                cliente = serializer(cliente)
+            else:
+                pass
+            pais = serializer(Pais.objects.all())
+            industria = serializer(Industria.objects.all())
+            grupo_cliente = serializer(GrupoCliente.objects.all())
+            if id != 1000000:
+                return JsonResponse(
+                    {"status": 'ok', "message": "success", "cliente": cliente[0]['fields'], "pais": pais, "industria": industria,
+                     "grupo_cliente": grupo_cliente})
+            else:
+                return JsonResponse(
+                    {"status": 'ok', "message": "success", "pais": pais, "industria": industria,
+                     "grupo_cliente": grupo_cliente})
+        if request.POST.get('selection', None)=="contacto":
+            if id != 1000000:
+                contacto = Contacto.objects.filter(ID_CONTACTO=id)
+                contacto = serializer(contacto)
+            else:
+                pass
+            cliente = serializer(Cliente.objects.all())
+            if id != 1000000:
+                return JsonResponse(
+                    {"status": 'ok', "message": "success", "contacto": contacto[0]['fields'], "cliente": cliente})
+            else:
+                return JsonResponse(
+                    {"status": 'ok', "message": "success", "cliente": cliente})
+        if request.POST.get('selection', None)=="grupo_cliente":
+            if id != 1000000:
+                grupo_cliente = GrupoCliente.objects.filter(ID_GRUPO_CLIENTE=id)
+                grupo_cliente = serializer(grupo_cliente)
+            else:
+                pass
+            pais = serializer(Pais.objects.all())
+            industria = serializer(Industria.objects.all())
+            if id != 1000000:
+                return JsonResponse(
+                    {"status": 'ok', "message": "success", "grupo_cliente": grupo_cliente[0]['fields'], "pais": pais, "industria": industria,
+                     "grupo_cliente": grupo_cliente})
+            else:
+                return JsonResponse(
+                    {"status": 'ok', "message": "success", "pais": pais, "industria": industria,
+                     "grupo_cliente": grupo_cliente})
+        if request.POST.get('selection', None)=="producto":
+            if id != 1000000:
+                producto = Producto.objects.filter(ID_CONTACTO=id)
+                producto = serializer(producto)
+            else:
+                pass
+            pais = serializer(Pais.objects.all())
+            industria = serializer(Industria.objects.all())
+            grupo_cliente = serializer(GrupoCliente.objects.all())
+            if id != 1000000:
+                return JsonResponse(
+                    {"status": 'ok', "message": "success", "producto": producto[0]['fields'], "pais": pais, "industria": industria,
+                     "grupo_cliente": grupo_cliente})
+            else:
+                return JsonResponse(
+                    {"status": 'ok', "message": "success", "pais": pais, "industria": industria,
+                     "grupo_cliente": grupo_cliente})
 
 
 def update(request, id):
@@ -143,11 +262,23 @@ def update(request, id):
         if selection == "contrato":
             contract = ContratoCabecera.objects.get(ID_CONTRATO=id)
             form = ContratoCabeceraForm(request.POST, instance=contract)
-        if selection == "2":
-            form = InvoiceForm(request.POST)
+        if selection == "cliente":
+            print("ok")
+            cliente = Cliente.objects.get(ID_CLIENTE=id)
+            form = ClienteForm(request.POST, instance=cliente)
         if selection == "apendice":
             apendice = ApendiceCabecera.objects.get(ID_APENDICE=id)
             form = ApendiceCabecearForm(request.POST, instance=apendice)
+        if selection == "contacto":
+            contacto = Contacto.objects.get(ID_CONTACTO=id)
+            form = ContactoForm(request.POST, instance=contacto)
+        if selection == "grupo_cliente":
+            grupo_cliente = GrupoCliente.objects.get(ID_GRUPO_CLIENTE=id)
+            form = GrupoClienteForm(request.POST, instance=grupo_cliente)
+        if selection == "producto":
+            producto = Producto.objects.get(ID_PRODUCTO=id)
+            form = ProductoForm(request.POST, instance=producto)
+
         if form.is_valid():
             try:
                 form.save()
@@ -155,7 +286,9 @@ def update(request, id):
             except:
                 pass
         else:
+            print(form.errors)
             return JsonResponse({"status": 'error', "message": "failed."})
+
 
 def delete(request, id):
     if request.method == 'POST':
@@ -167,26 +300,19 @@ def delete(request, id):
             apendice = ApendiceCabecera.objects.get(ID_APENDICE=id)
             apendice.delete()
             return JsonResponse({"status": 'ok', "message": 'success'})
-
-
-def Add(request):
-    if request.method == 'POST':
-        selection = request.POST.get('selection', None)
-        date = request.POST.get('FECHA_FIN',None)
-        print(date)
-        if selection == "contrato":
-            form = ContratoCabeceraForm(request.POST)
-        if selection == "apendice":
-            form = ApendiceCabecearForm(request.POST)
-        if selection == "3":
-            form = InvoiceForm(request.POST)
-        if form.is_valid():
-            try:
-                form.save()
-                return JsonResponse({"status": 'ok', "message": "success"})
-            except Exception as e:
-                print(e)
-        else:
-            print(form.errors)
-            return JsonResponse({"status": 'error', "message": "failed."})
-    return redirect("/contracts")
+        if request.POST.get('selection', None) == "cliente":
+            cliente = Cliente.objects.get(ID_CLIENTE=id)
+            cliente.delete()
+            return JsonResponse({"status": 'ok', "message": 'success'})
+        if request.POST.get('selection', None) == "contacto":
+            contacto = Contacto.objects.get(ID_CONTACTO=id)
+            contacto.delete()
+            return JsonResponse({"status": 'ok', "message": 'success'})
+        if request.POST.get('selection', None) == "grupo_cliente":
+            grupo_cliente = GrupoCliente.objects.get(ID_GRUPO_CLIENTE=id)
+            grupo_cliente.delete()
+            return JsonResponse({"status": 'ok', "message": 'success'})
+        if request.POST.get('selection', None) == "producto":
+            producto = Producto.objects.get(ID_PRODUCTO=id)
+            producto.delete()
+            return JsonResponse({"status": 'ok', "message": 'success'})

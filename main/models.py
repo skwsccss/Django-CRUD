@@ -115,7 +115,7 @@ class Cliente(models.Model):
     FECHA_ALTA = models.DateTimeField(blank=True, null=True)
     NUM_CLIENTE_PROV = models.CharField(max_length=20, blank=True, null=True)
     NUM_CLIENTE_PLNG = models.CharField(max_length=20, blank=True, null=True)
-    COMENTARIOS = models.CharField(max_length=200, blank=True, null=True)
+    COMENTARIO = models.CharField(max_length=200, blank=True, null=True)
     RAZON_SOCIAL = models.CharField(max_length=50, blank=True, null=True)
     CLAVE_FISCAL = models.CharField(max_length=50, blank=True, null=True)
 

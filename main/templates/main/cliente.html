@@ -1,0 +1,246 @@
+{%extends "main/base.html"%}
+{%load static%}
+
+{%block title%}
+<title>Cliente</title>
+{%endblock title%}
+
+{%block content%}
+{%include 'main/nav.html'%}
+
+<div class="container-scroller">
+    <div class="container-fluid page-body-wrapper">
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row" style="margin-bottom: 5px;">
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-8">
+                                        <h2 class="text-center">Cliente</h2>
+                                    </div>
+                                    <div class="col-md-2 text-right">
+                                        <button class="btn btn-outline-primary btn-sm" id="showmodal"><i
+                                                class="fa fa-plus-circle"></i>
+                                            Añadir nuevo</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="table-responsive">
+                                            <table id="order-listing" class="table">
+                                                <thead>
+                                                    <tr class="">
+                                                        <th>No.</th>
+                                                        <th>PAIS</th>
+                                                        <th>INDUSTRIA</th>
+                                                        <th>GRUPO CLIENTE</th>
+                                                        <th>FECHA ALTA</th>
+                                                        <th>NUM CLIENTE PROV</th>
+                                                        <th>NUM CLIENTE PLNG</th>
+                                                        <th>COMENTARIO</th>
+                                                        <th>RAZON SOCIAL</th>
+                                                        <th>CLAVE FISCAL</th>
+                                                        <th>Funcion</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for cliente in clientes %}
+
+                                                    <tr>
+                                                        <td>{{forloop.counter}}</td>
+                                                        <td>{{cliente.ID_PAIS.DES_PAIS}}</td>
+                                                        <td>{{cliente.ID_INDUSTRIA.DES_INDUSTRIA}}</td>
+                                                        <td>{{cliente.ID_GRUPO_CLIENTE.DES_GRUPO_CLIENTE}}</td>
+                                                        <td>{{cliente.FECHA_ALTA}}</td>
+                                                        <td>{{cliente.NUM_CLIENTE_PROV}}</td>
+                                                        <td>{{cliente.NUM_CLIENTE_PLNG}}</td>
+                                                        <td>{{cliente.COMENTARIO}}</td>
+                                                        <td>{{cliente.RAZON_SOCIAL}}</td>
+                                                        <td>{{cliente.CLAVE_FISCAL}}</td>
+                                                        <td class="text-right">
+                                                            <button class="btn btn-light text-success" type="button"
+                                                                id="edit_btn" name="edit_btn"
+                                                                onclick="showedit({{ cliente.pk }})">
+                                                                <i class="fas fa-edit text"></i> Edit</a>
+                                                            </button>
+                                                            <button class="btn btn-light text-danger" id="delete_btn"
+                                                                onclick="delete_item({{ cliente.pk }})">
+                                                                <i class="fas fa-trash-alt"></i>
+                                                                Remove
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+</div>
+
+<!-- Add New modal -->
+<div class="modal fade" id="Add_Modal" tabindex="1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalLabel">Add Item.</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="" class="pt-3">
+                    {%csrf_token%}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="new_pais">PAIS</label>
+                            <select class="form-control form-control-sm" id="new_pais"></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="new_industria">INDUSTRIA</label>
+                            <select class="form-control form-control-sm" id="new_industria"></select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="new_grupo_cliente">GRUPO CLIENTE</label>
+                            <select class="form-control form-control-sm" id="new_grupo_cliente"></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="new_fecha_alta">FECHA ALTA</label>
+                            <input class="form-control form-control-sm" data-inputmask="'alias': 'datetime'"
+                                id="new_fecha_alta" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="new_num_cliente_prov">NUM CLIENTE PROV</label>
+                            <input class="form-control form-control-sm" id="new_num_cliente_prov" />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="new_num_cliente_plng">NUM CLIENTE PLNG</label>
+                            <input class="form-control form-control-sm" id="new_num_cliente_plng" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="new_razon_social">RAZON SOCIAL</label>
+                            <input class="form-control form-control-sm" id="new_razon_social">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="new_clave_fiscal">CLAVE FISCAL</label>
+                            <input class="form-control form-control-sm" id="new_clave_fiscal" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <label for="new_comentario">COMENTARIO</label>
+                            <textarea name="new_comentario" id="new_comentario" class="form-control form-control-sm"
+                                rows="4" required></textarea>
+                        </div>
+                    </div>
+                    <div class="row text-center" id="input_error">
+                        <p class="text-danger">Input is not valid</p>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="add_btn">Submit</button>
+                <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="Edit_Modal" tabindex="1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalLabel">Edit Item.</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="" class="pt-3">
+                    {%csrf_token%}
+                    <input type="text" class="form-control form-control-sm" id="id" name="id" placeholder="" hidden>
+                    <div class="row">
+                            <div class="col-md-6">
+                                <label for="pais">PAIS</label>
+                                <select class="form-control form-control-sm" id="pais"></select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="industria">INDUSTRIA</label>
+                                <select class="form-control form-control-sm" id="industria"></select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="grupo_cliente">GRUPO CLIENTE</label>
+                                <select class="form-control form-control-sm" id="grupo_cliente"></select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="fecha_alta">FECHA ALTA</label>
+                                <input class="form-control form-control-sm" data-inputmask="'alias': 'datetime'"
+                                    id="fecha_alta" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="num_cliente_prov">NUM CLIENTE PROV</label>
+                                <input class="form-control form-control-sm" id="num_cliente_prov" />
+                            </div>
+                            <div class="col-md-6">
+                                <label for="num_cliente_plng">NUM CLIENTE PLNG</label>
+                                <input class="form-control form-control-sm" id="num_cliente_plng" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="razon_social">RAZON SOCIAL</label>
+                                <input class="form-control form-control-sm" id="razon_social">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="clave_fiscal">CLAVE FISCAL</label>
+                                <input class="form-control form-control-sm" id="clave_fiscal" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 form-group">
+                                <label for="comentario">COMENTARIO</label>
+                                <textarea name="comentario" id="comentario" class="form-control form-control-sm"
+                                    rows="4" required></textarea>
+                            </div>
+                        </div>
+                    <div class="row text-center" id="input_error2">
+                        <p class="text-danger">Input is not valid</p>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="update_btn">Submit</button>
+                <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock content%}
+
+{%block javascript%}
+<script src="{%static '/js/custom/cliente.js'%}"></script>
+
+{%endblock javascript%}

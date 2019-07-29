@@ -1,0 +1,265 @@
+{%extends "main/base.html"%}
+{%load static%}
+
+{%block title%}
+<title>Producto</title>
+{%endblock title%}
+
+{%block content%}
+{%include 'main/nav.html'%}
+
+<div class="container-scroller">
+    <div class="container-fluid page-body-wrapper">
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row" style="margin-bottom: 5px;">
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-8">
+                                        <h2 class="text-center">Producto</h2>
+                                    </div>
+                                    <div class="col-md-2 text-right">
+                                        <button class="btn btn-outline-primary btn-sm" id="showmodal"><i
+                                                class="fa fa-plus-circle"></i>
+                                                Añadir nuevo</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="table-responsive">
+                                            <table id="order-listing" class="table">
+                                                <thead>
+                                                    <tr class="">
+                                                        <th>No.</th>
+                                                        <th>DES APENDICE</th>
+                                                        <th>CONTRATO</th>
+                                                        <th>CONTACTO</th>
+                                                        <th>VENDEDOR</th>
+                                                        <th>ESTADO</th>
+                                                        <th>FECHA INICIO</th>
+                                                        <th>FECHA FIN</th>
+                                                        <th>FINALIZADO</th>
+                                                        <th>FECHA FIN OC CLIENTE</th>
+                                                        <th>COMENTARIO</th>
+                                                        <th>Funcion</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for apendice in apendices %}
+
+                                                    <tr>
+                                                        <td>{{forloop.counter}}</td>
+                                                        <td>{{apendice.DES_APENDICE}}</td>
+                                                        <td>{{apendice.ID_CONTRATO.ID_TIPO_CONTRATO.DES_TIPO_CONTRATO}}
+                                                        </td>
+                                                        <td>{{apendice.ID_CONTACTO.MAIL}}</td>
+                                                        <td>{{apendice.ID_VENDEDOR.NOMBRE_VENDEDOR}}</td>
+                                                        <td>{{apendice.ID_ESTADO.DES_ESTADO}}</td>
+                                                        <td>{{apendice.FECHA_INICIO}}</td>
+                                                        <td>{{apendice.FECHA_FIN}}</td>
+                                                        <td>{{apendice.FINALIZADO}}</td>
+                                                        <td>{{apendice.FECHA_FIN_OC_CLIENTE}}</td>
+                                                        <td>{{apendice.COMENTARIO}}</td>
+                                                        <td class="text-right">
+                                                            <button class="btn btn-light text-success" type="button"
+                                                                id="edit_btn" name="edit_btn"
+                                                                onclick="showedit({{ apendice.pk }})">
+                                                                <i class="fas fa-edit text"></i> Edit</a>
+                                                            </button>
+                                                            <button class="btn btn-light text-danger" id="delete_btn"
+                                                                onclick="delete_item({{ apendice.pk }})">
+                                                                <i class="fas fa-trash-alt"></i>
+                                                                Remove
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+</div>
+
+<!-- Add New modal -->
+<div class="modal fade" id="Add_Modal" tabindex="1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalLabel">Add Item.</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="" class="pt-3">
+                    {%csrf_token%}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="des_apendice">DES APENDICE</label>
+                            <input class="form-control form-control-sm" id="new_des_apendice">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="new_contrato">CONTRATO</label>
+                            <select class="form-control form-control-sm" id="new_contrato"></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="new_contacto">CONTACTO</label>
+                            <select class="form-control form-control-sm" id="new_contacto"></select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="new_estado">ESTADO</label>
+                            <select class="form-control form-control-sm" id="new_estado"></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="new_vendedor">VENDEDOR</label>
+                            <select class="form-control form-control-sm" id="new_vendedor"></select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="new_fecha_inicio">FECHA INICIO</label>
+                            <input class="form-control form-control-sm" data-inputmask="'alias': 'datetime'"
+                                id="new_fecha_inicio" />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="new_fecha_fin">FECHA FIN</label>
+                            <input class="form-control form-control-sm" data-inputmask="'alias': 'datetime'"
+                                id="new_fecha_fin" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="new_finalizado">FINALIZADO</label>
+                            <input class="form-control form-control-sm" id="new_finalizado">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="new_fecha_fin_oc_cliente">FECHA FIN OC CLIENTE</label>
+                            <input class="form-control form-control-sm" data-inputmask="'alias': 'datetime'"
+                                id="new_fecha_fin_oc_cliente" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <label for="new_comentario">COMENTARIO</label>
+                            <textarea name="new_comentario" id="new_comentario" class="form-control form-control-sm"
+                                rows="4" required></textarea>
+                        </div>
+                    </div>
+                    <div class="row text-center" id="input_error">
+                        <p class="text-danger">Input is not valid</p>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="add_btn">Submit</button>
+                <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="Edit_Modal" tabindex="1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalLabel">Edit Item.</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="" class="pt-3">
+                    {%csrf_token%}
+                    <input type="text" class="form-control form-control-sm" id="id" name="id" placeholder="" hidden>
+                    <div class="row">
+                            <div class="col-md-12">
+                                <label for="des_apendice">DES APENDICE</label>
+                                <input class="form-control form-control-sm" id="des_apendice">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="contrato">CONTRATO</label>
+                                <select class="form-control form-control-sm" id="contrato"></select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="contacto">CONTACTO</label>
+                                <select class="form-control form-control-sm" id="contacto"></select>
+                            </div>
+                        </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="estado">ESTADO</label>
+                            <select class="form-control form-control-sm" id="estado"></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="vendedor">VENDEDOR</label>
+                            <select class="form-control form-control-sm" id="vendedor"></select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="fecha_inicio">FECHA INICIO</label>
+                            <input class="form-control form-control-sm" data-inputmask="'alias': 'datetime'"
+                                id="fecha_inicio" />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="fecha_fin">FECHA FIN</label>
+                            <input class="form-control form-control-sm" data-inputmask="'alias': 'datetime'"
+                                id="fecha_fin" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="finalizado">FINALIZADO</label>
+                            <input class="form-control form-control-sm" id="finalizado">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="fecha_fin_oc_cliente">FECHA FIN OC CLIENTE</label>
+                            <input class="form-control form-control-sm" data-inputmask="'alias': 'datetime'"
+                                id="fecha_fin_oc_cliente" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <label for="comentario">COMENTARIO</label>
+                            <textarea name="comentario" id="comentario" class="form-control form-control-sm"
+                                rows="4"></textarea>
+                        </div>
+                    </div>
+                    <div class="row text-center" id="input_error2">
+                        <p class="text-danger">Input is not valid</p>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="update_btn">Submit</button>
+                <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock content%}
+
+{%block javascript%}
+<script src="{%static '/js/custom/producto.js'%}"></script>
+
+{%endblock javascript%}

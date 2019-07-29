@@ -1,0 +1,254 @@
+{%extends "main/base.html"%}
+{%load static%}
+
+{%block title%}
+<title>Contacto</title>
+{%endblock title%}
+
+{%block content%}
+{%include 'main/nav.html'%}
+
+<div class="container-scroller">
+    <div class="container-fluid page-body-wrapper">
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row" style="margin-bottom: 5px;">
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-8">
+                                        <h2 class="text-center">Contacto</h2>
+                                    </div>
+                                    <div class="col-md-2 text-right">
+                                        <button class="btn btn-outline-primary btn-sm" id="showmodal"><i
+                                                class="fa fa-plus-circle"></i>
+                                            Añadir nuevo</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="table-responsive">
+                                            <table id="order-listing" class="table">
+                                                <thead>
+                                                    <tr class="">
+                                                        <th>No.</th>
+                                                        <th>CLIENTE</th>
+                                                        <th>NOMBRE CONTACTO</th>
+                                                        <th>MAIL</th>
+                                                        <th>TELEFONO</th>
+                                                        <th>DOMICILIO</th>
+                                                        <th>CP</th>
+                                                        <th>CIUDAD</th>
+                                                        <th>PROVINCIA</th>
+                                                        <th>PAIS</th>
+                                                        <th>PRIORIDAD</th>
+                                                        <th>Funcion</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for contacto in contactos %}
+
+                                                    <tr>
+                                                        <td>{{forloop.counter}}</td>
+                                                        <td>{{contacto.ID_CLIENTE.COMENTARIO}}</td>
+                                                        <td>{{contacto.NOMBRE_CONTACTO}}</td>
+                                                        <td>{{contacto.MAIL}}</td>
+                                                        <td>{{contacto.TELEFONO}}</td>
+                                                        <td>{{contacto.DOMICILIO}}</td>
+                                                        <td>{{contacto.CP}}</td>
+                                                        <td>{{contacto.CIUDAD}}</td>
+                                                        <td>{{contacto.PROVINCIA}}</td>
+                                                        <td>{{contacto.PAIS}}</td>
+                                                        <td>{{contacto.PRIORIDAD}}</td>
+                                                        <td class="text-right">
+                                                            <button class="btn btn-light text-success" type="button"
+                                                                id="edit_btn" name="edit_btn"
+                                                                onclick="showedit({{ contacto.pk }})">
+                                                                <i class="fas fa-edit text"></i> Edit</a>
+                                                            </button>
+                                                            <button class="btn btn-light text-danger" id="delete_btn"
+                                                                onclick="delete_item({{ contacto.pk }})">
+                                                                <i class="fas fa-trash-alt"></i>
+                                                                Remove
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+</div>
+
+<!-- Add New modal -->
+<div class="modal fade" id="Add_Modal" tabindex="1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalLabel">Add Item.</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="" class="pt-3">
+                    {%csrf_token%}
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="new_cliente">CLIENTE</label>
+                            <select class="form-control form-control-sm" id="new_cliente"></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="new_nombre_contacto">NOMBRE CONTACTO</label>
+                            <input class="form-control form-control-sm" id="new_nombre_contacto">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="new_mail">MAIL</label>
+                            <input class="form-control form-control-sm" type="email" id="new_mail">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="new_telefono">TELEFONO</label>
+                            <input type="" class="form-control form-control-sm" id="new_telefono">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="new_domicilio">DOMICILIO</label>
+                            <input class="form-control form-control-sm" id="new_domicilio" />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="new_cp">CP</label>
+                            <input class="form-control form-control-sm" id="new_cp" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="new_ciudad">CIUDAD</label>
+                            <input class="form-control form-control-sm" id="new_ciudad">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="new_provincia">PROVINCIA</label>
+                            <input class="form-control form-control-sm" id="new_provincia" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            <label for="new_pais">PAIS</label>
+                            <input name="new_pais" id="new_pais" class="form-control form-control-sm" required>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label for="new_prioridad">PRIORIDAD</label>
+                            <input type="number" id="new_prioridad" class="form-control form-control-sm" min="1"
+                                required>
+                        </div>
+                    </div>
+                    <div class="row text-center" id="input_error">
+                        <p class="text-danger">Input is not valid</p>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="add_btn">Submit</button>
+                <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="Edit_Modal" tabindex="1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalLabel">Edit Item.</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="" class="pt-3">
+                    {%csrf_token%}
+                    <input type="text" class="form-control form-control-sm" id="id" name="id" placeholder="" hidden>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="cliente">CLIENTE</label>
+                            <select class="form-control form-control-sm" id="cliente"></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="nombre_contacto">NOMBRE CONTACTO</label>
+                            <input class="form-control form-control-sm" id="nombre_contacto">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="mail">MAIL</label>
+                            <input class="form-control form-control-sm" type="email" id="mail">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="telefono">TELEFONO</label>
+                            <input class="form-control form-control-sm" id="telefono">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="domicilio">DOMICILIO</label>
+                            <input class="form-control form-control-sm" id="domicilio" />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="cp">CP</label>
+                            <input class="form-control form-control-sm" id="cp" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="ciudad">CIUDAD</label>
+                            <input class="form-control form-control-sm" id="ciudad">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="provincia">PROVINCIA</label>
+                            <input class="form-control form-control-sm" id="provincia" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            <label for="pais">PAIS</label>
+                            <input name="pais" id="pais" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label for="prioridad">PRIORIDAD</label>
+                            <input type="number" id="prioridad" class="form-control form-control-sm" min="1" required>
+                        </div>
+                    </div>
+                    <div class="row text-center" id="input_error2">
+                        <p class="text-danger">Input is not valid</p>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="update_btn">Submit</button>
+                <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock content%}
+
+{%block javascript%}
+<script src="{%static '/js/custom/contacto.js'%}"></script>
+
+{%endblock javascript%}

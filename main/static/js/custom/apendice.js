@@ -10,7 +10,7 @@ $(document).ready(function () {
         var sel_estado = [];
 
         $.ajax({
-            url: '/getdata/' + 1000000,
+            url: '/readdata/' + 1000000,
             method: 'POST',
             data: {
                 selection: "apendice",
@@ -79,9 +79,9 @@ $(document).ready(function () {
         else {
             $('#input_error').addClass('d-none');
             
-            
+            console.log($('#new_fecha_fin_oc_cliente').val())
             $.ajax({
-                url: '/add/',
+                url: '/create/',
                 method: 'POST',
                 data: {
                     selection: "apendice",
@@ -90,12 +90,12 @@ $(document).ready(function () {
                     ID_CONTACTO: $('#new_contacto').val(),
                     ID_VENDEDOR: $('#new_vendedor').val(),
                     ID_ESTADO: $('#new_estado').val(),
-                    // FECHA_INICIO: moment( $('#new_fecha_inicio').val(), 'DD/MM/YYYY HH:mm').format("YYYY-MM-DD HH:mm"),
-                    // FECHA_FIN: moment( $('#new_fecha_fin').val(), 'DD/MM/YYYY HH:mm').format("YYYY-MM-DD HH:mm"),
-                    // FECHA_FIN_OC_CLIENTE: moment( $('#new_fecha_fin_oc_cliente').val(), 'DD/MM/YYYY HH:mm').format("YYYY-MM-DD HH:mm"),
-                    FECHA_INICIO: $('#new_fecha_inicio').val(),
-                    FECHA_FIN: $('#new_fecha_fin').val(),
-                    FECHA_FIN_OC_CLIENTE:$('#new_fecha_fin_oc_cliente').val(), 
+                    FECHA_INICIO: moment( $('#new_fecha_inicio').val(), 'DD/MM/YYYY HH:mm').format("YYYY-MM-DD HH:mm"),
+                    FECHA_FIN: moment( $('#new_fecha_fin').val(), 'DD/MM/YYYY HH:mm').format("YYYY-MM-DD HH:mm"),
+                    FECHA_FIN_OC_CLIENTE: moment( $('#new_fecha_fin_oc_cliente').val(), 'DD/MM/YYYY HH:mm').format("YYYY-MM-DD HH:mm"),
+                    // FECHA_INICIO: $('#new_fecha_inicio').val(),
+                    // FECHA_FIN: $('#new_fecha_fin').val(),
+                    // FECHA_FIN_OC_CLIENTE:$('#new_fecha_fin_oc_cliente').val(), 
                     // FINALIZADO: $('#finalizado').val(),
                     COMENTARIO: $('#new_comentario').val(),
                     csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
@@ -131,9 +131,9 @@ $(document).ready(function () {
                     ID_CONTACTO: $('#contacto').val(),
                     ID_VENDEDOR: $('#vendedor').val(),
                     ID_ESTADO: $('#estado').val(),
-                    FECHA_INICIO: $('#fecha_inicio').val(),
-                    FECHA_FIN: $('#fecha_fin').val(),
-                    FECHA_FIN_OC_CLIENTE: $('#fecha_fin_oc_cliente').val(),
+                    FECHA_INICIO: moment( $('#fecha_inicio').val(), 'DD/MM/YYYY HH:mm').format("YYYY-MM-DD HH:mm"),
+                    FECHA_FIN: moment( $('#fecha_fin').val(), 'DD/MM/YYYY HH:mm').format("YYYY-MM-DD HH:mm"),
+                    FECHA_FIN_OC_CLIENTE: moment( $('#fecha_fin_oc_cliente').val(), 'DD/MM/YYYY HH:mm').format("YYYY-MM-DD HH:mm"),
                     // FINALIZADO: $('#finalizado').val(),
                     COMENTARIO: $('#comentario').val(),
                     csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
@@ -163,7 +163,7 @@ function showedit(id) {
     var sel_vendedor = [];
     var sel_estado = [];
     $.ajax({
-        url: '/getdata/' + id,
+        url: '/readdata/' + id,
         method: 'POST',
         data: {
             selection: "apendice",
@@ -213,15 +213,16 @@ function showedit(id) {
                 for (index in sel_contacto) {
                     select_options_contacto += '<option value="' + index + '" ' + ((res.apendice.ID_CONTACTO == index) ? 'selected' : '') + '>' + sel_contacto[index] + '</option>'
                 }
+                
                 $('#contrato').html(select_options_contrato);
                 $('#vendedor').html(select_options_vendedor);
                 $('#estado').html(select_options_estado);
                 $('#contacto').html(select_options_contacto);
                 $('#id').val(id)
                 $('#des_apendice').val(res.apendice.DES_APENDICE);
-                $('#fecha_fin').val(res.apendice.FECHA_FIN);
-                $('#fecha_inicio').val(res.apendice.FECHA_INICIO);
-                $('#fecha_fin_oc_cliente').val(res.apendice.FECHA_FIN_OC_CLIENTE);
+                $('#fecha_fin').val(conv_date(res.apendice.FECHA_FIN));
+                $('#fecha_inicio').val(conv_date(res.apendice.FECHA_INICIO));
+                $('#fecha_fin_oc_cliente').val(conv_date(res.apendice.FECHA_FIN_OC_CLIENTE));
                 $('#comentario').val(res.apendice.COMENTARIO);
                 $('#Edit_Modal').modal('show');
             } else {
@@ -230,6 +231,12 @@ function showedit(id) {
         }
     });
 };
+
+function conv_date(param){
+    param = param.replace('T', ' ').replace('Z','');
+    param = moment(param, 'YYYY-MM-DD HH:mm').format("DD/MM/YYYY HH:mm");
+    return param;
+}
 
 function delete_item(id) {
     $.ajax({

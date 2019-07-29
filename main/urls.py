@@ -14,14 +14,20 @@ urlpatterns = [
     path('', views.invoice),
     path('invoice/', views.invoice),
     path('appendix', views.Appendix),
+    path('cliente', views.cliente),
+    path('contacto', views.contacto),
+    path('grupo_cliente', views.grupocliente),
+    path('producto', views.producto),
     path('logout/', views.Logout_request, name="logout"),
     path('changepwd/', views.Changepassword, name="changepwd"),
     path('getusername/', views.GetUserName, name="getusername"),
     
-    path('add/', views.Add, name="addnew"),
-    path('getdata/<int:id>', views.getdata),
+    path('create/', views.create, name="addnew"),
+    path('readdata/<int:id>', views.readdata),
     path('update/<int:id>', views.update),
     path('delete/<int:id>', views.delete),
+
+    
 
     # path('change/', views.change, name="change"),
 
