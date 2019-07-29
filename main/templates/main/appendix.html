@@ -2,13 +2,13 @@
 {%load static%}
 
 {%block title%}
-<title>constracts</title>
+<title>Apendice</title>
 {%endblock title%}
 
 {%block content%}
 {%include 'main/nav.html'%}
-<div class="container-scroller">
 
+<div class="container-scroller">
     <div class="container-fluid page-body-wrapper">
         <div class="main-panel">
             <div class="content-wrapper">
@@ -16,42 +16,67 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h2 class="text-center">Ivoice Orders</h2>
+                                <div class="row" style="margin-bottom: 5px;">
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-8">
+                                        <h2 class="text-center">Apendice</h2>
+                                    </div>
+                                    <div class="col-md-2 text-right">
+                                        <button class="btn btn-outline-primary btn-sm" id="showmodal"><i
+                                                class="fa fa-plus-circle"></i>
+                                            Add New</button>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="table-responsive">
                                             <table id="order-listing" class="table">
-                                                <thead style="color:navy">
-                                                    <tr class="bg">
-                                                        <th>Order </th>
-                                                        <th>Customer</th>
-                                                        <th>Ship to</th>
-                                                        <th>Base Price</th>
-                                                        <th>Purchased Price</th>
-                                                        <th>Status</th>
-                                                        <th>Actions</th>
+                                                <thead>
+                                                    <tr class="">
+                                                        <th>No.</th>
+                                                        <th>DES APENDICE</th>
+                                                        <th>CONTRATO</th>
+                                                        <th>CONTACTO</th>
+                                                        <th>VENDEDOR</th>
+                                                        <th>ESTADO</th>
+                                                        <th>FECHA INICIO</th>
+                                                        <th>FECHA FIN</th>
+                                                        <th>FINALIZADO</th>
+                                                        <th>FECHA FIN OC CLIENTE</th>
+                                                        <th>COMENTARIO</th>
+                                                        <th>Funcion</th>
+
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    {% for apendice in apendices %}
                                                     <tr>
-                                                        <td>WD-61</td>
-                                                        <td>Edinburgh</td>
-                                                        <td>New York</td>
-                                                        <td>$1500</td>
-                                                        <td>$3200</td>
-                                                        <td>
-                                                            <label class="badge badge-info">On hold</label>
+                                                        <td>{{apendice.pk}}</td>
+                                                        <td>{{apendice.DES_APENDICE}}</td>
+                                                        <td>{{apendice.ID_CONTRATO.ID_TIPO_CONTRATO.DES_TIPO_CONTRATO}}
                                                         </td>
+                                                        <td>{{apendice.ID_CONTACTO.MAIL}}</td>
+                                                        <td>{{apendice.ID_VENDEDOR.NOMBRE_VENDEDOR}}</td>
+                                                        <td>{{apendice.ID_ESTADO.DES_ESTADO}}</td>
+                                                        <td>{{apendice.FECHA_INICIO}}</td>
+                                                        <td>{{apendice.FECHA_FIN}}</td>
+                                                        <td>{{apendice.FINALIZADO}}</td>
+                                                        <td>{{apendice.FECHA_FIN_OC_CLIENTE}}</td>
+                                                        <td>{{apendice.COMENTARIO}}</td>
                                                         <td class="text-right">
-                                                            <button class="btn btn-light text-success">
-                                                                <i class="fas fa-edit text"></i> Edit
+                                                            <button class="btn btn-light text-success" type="button"
+                                                                id="edit_btn" name="edit_btn"
+                                                                onclick="showedit({{ apendice.pk }})">
+                                                                <i class="fas fa-edit text"></i> Edit</a>
                                                             </button>
-                                                            <button class="btn btn-light text-danger">
-                                                                <i class="fas fa-trash-alt"></i> Remove
+                                                            <button class="btn btn-light text-danger" id="delete_btn"
+                                                                onclick="delete_item({{ apendice.pk }})">
+                                                                <i class="fas fa-trash-alt"></i>
+                                                                Remove
                                                             </button>
                                                         </td>
                                                     </tr>
-
+                                                    {% endfor %}
                                                 </tbody>
                                             </table>
                                         </div>
@@ -62,11 +87,164 @@
                     </div>
                 </div>
             </div>
-            <!-- content-wrapper ends -->
-            <!-- partial -->
         </div>
         <!-- main-panel ends -->
     </div>
     <!-- page-body-wrapper ends -->
 </div>
+
+<!-- Add New modal -->
+<div class="modal fade" id="Add_Modal" tabindex="1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalLabel">Add Item.</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="" class="pt-3">
+                    {%csrf_token%}
+                    <input type="text" class="form-control form-control-sm" id="id" name="id" placeholder="" hidden>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="des_apendice">DES_APENDICE</label>
+                            <select class="form-control form-control-sm" id="des_apendice"></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="contrato">CONTRATO</label>
+                            <select class="form-control form-control-sm" id="contrato"></select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="contacto">CONTACTO</label>
+                            <select class="form-control form-control-sm" id="contacto"></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="vendedor">VENDEDOR</label>
+                            <select class="form-control form-control-sm" id="vendedor"></select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="cliente">CLIENTE</label>
+                            <select class="form-control form-control-sm" id="new_cliente"></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="contacto">CONTACTO</label>
+                            <select class="form-control form-control-sm" id="new_contacto"></select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="tipo_contrato">TIPO CONTRATO</label>
+                            <select class="form-control form-control-sm" id="new_tipo_contrato"></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="region">REGION</label>
+                            <select class="form-control form-control-sm" id="new_region"></select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label for="finalizado">FINALIZADO</label>
+                        <input type="text" class="form-control form-control-sm" id="new_finalizado" name="finalizado"
+                            placeholder="FINALIZADO" required>
+                        <label for="comentario">COMENTARIO</label>
+                        <input type="text" class="form-control form-control-sm" id="new_comentario" name="comentario"
+                            placeholder="COMENTARIO" required>
+                    </div>
+                    <div class="row text-center" id="input_error">
+                        <p class="text-danger">Input is not valid</p>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="add_btn">Submit</button>
+                <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="Edit_Modal" tabindex="1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalLabel">Edit Item.</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="" class="pt-3">
+                    {%csrf_token%}
+                    <input type="text" class="form-control form-control-sm" id="up_id" name="up_id" placeholder=""
+                        hidden>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="proveedor">PROVEEDOR</label>
+                            <select class="form-control form-control-sm" id="proveedor"></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="unidad_negocio">UNIDAD NEGOCIO</label>
+                            <select class="form-control form-control-sm" id="unidad_negocio"></select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="sociedad">SOCIEDAD</label>
+                            <select class="form-control form-control-sm" id="sociedad"></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="pais">PAIS</label>
+                            <select class="form-control form-control-sm" id="pais"></select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="cliente">CLIENTE</label>
+                            <select class="form-control form-control-sm" id="cliente"></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="contacto">CONTACTO</label>
+                            <select class="form-control form-control-sm" id="contacto"></select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="tipo_contrato">TIPO CONTRATO</label>
+                            <select class="form-control form-control-sm" id="tipo_contrato"></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="region">REGION</label>
+                            <select class="form-control form-control-sm" id="region"></select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label for="finalizado">FINALIZADO</label>
+                        <input type="text" class="form-control form-control-sm" id="finalizado" name="finalizado"
+                            placeholder="FINALIZADO" required>
+                        <label for="comentario">COMENTARIO</label>
+                        <input type="text" class="form-control form-control-sm" id="comentario" name="comentario"
+                            placeholder="COMENTARIO" required>
+                    </div>
+                    <div class="row" id="input_error2">
+                        <p class="text-danger">Input is not valid</p>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="update_btn">Submit</button>
+                <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
 {%endblock content%}
+
+{%block javascript%}
+<script src="{%static '/js/custom/apendice.js'%}"></script>
+
+{%endblock javascript%}

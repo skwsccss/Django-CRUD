@@ -94,4 +94,7 @@ font-size: 13px;
   font-family: Cambria;
   font-size: 13px;
   }
+.row .col-12 .table-responsive .table th{
+  width: 50px;
+}
   

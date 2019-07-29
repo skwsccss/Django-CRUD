@@ -24884,7 +24884,7 @@ body.avgrund-active {
 .dataTables_wrapper .dataTable thead th {
   border-bottom-width: 0;
   background: #e5e3ee;
-  padding: 1.8rem 0.9375rem;
+  padding: 1.5rem 0.9375rem;
 }
 
 .dataTables_wrapper .dataTable thead th:first-child {
@@ -24900,7 +24900,7 @@ body.avgrund-active {
 .dataTables_wrapper .dataTable thead .sorting_desc,
 .dataTables_wrapper .dataTable thead .sorting_asc_disabled,
 .dataTables_wrapper .dataTable thead .sorting_desc_disabled {
-  padding-right: 40px;
+  padding-right: 30px;
 }
 
 .dataTables_wrapper .dataTable thead .sorting:before, .dataTables_wrapper .dataTable thead .sorting:after,

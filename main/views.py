@@ -23,15 +23,15 @@ def serializer(val):
 def contracts(request):
     if request.user.is_authenticated:
         contracts = ContratoCabecera.objects.all()
-        proveedors = Proveedor.objects.all()
-        return render(request, 'main/contracts.html', {'contracts': contracts, 'proveedors':proveedors})
+        return render(request, 'main/contracts.html', {'contracts': contracts})
     else:
         return redirect('/login')
 
 
 def Appendix(request):
     if request.user.is_authenticated:
-        return render(request, 'main/appendix.html')
+        apendices = ApendiceCabecera.objects.all()
+        return render(request, 'main/appendix.html', {'apendices': apendices})
     else:
         return redirect('/login')
 
@@ -139,7 +139,6 @@ def update(request, id):
 def delete(request, id):
     if request.method == 'POST':
         if request.POST.get('selection', None) == "1":
-            print(id)
             contract = ContratoCabecera.objects.get(ID_CONTRATO=id)
             contract.delete()
             return JsonResponse({"status": 'ok', "message": 'success'})
