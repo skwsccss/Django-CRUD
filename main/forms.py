@@ -5,7 +5,7 @@ from main.models import *
 class ContratoCabeceraForm(forms.ModelForm):
     class Meta:
         model = ContratoCabecera
-        fields = ['ID_PROVEEDOR', 'ID_UNIDAD_NEGOCIO', 'ID_SOCIEDAD', 'ID_PAIS', 'ID_CLIENTE', 'ID_CONTACTO', 'ID_TIPO_CONTRATO', 'ID_REGION', 'COMENTARIO', 'FECHA_FIN', 'FECHA_FIRMA', 'FECHA_INICIO']
+        fields = ['ID_PROVEEDOR', 'ID_UNIDAD_NEGOCIO', 'ID_SOCIEDAD', 'ID_PAIS', 'ID_CLIENTE', 'ID_CONTACTO', 'ID_TIPO_CONTRATO', 'ID_REGION', 'COMENTARIO', 'FECHA_FIN', 'FECHA_FIRMA', 'FECHA_INICIO', 'FINALIZADO']
 
 
 class InvoiceForm(forms.ModelForm):
@@ -17,7 +17,7 @@ class InvoiceForm(forms.ModelForm):
 class ApendiceCabecearForm(forms.ModelForm):
     class Meta:
         model = ApendiceCabecera
-        fields = ['DES_APENDICE', 'ID_CONTRATO', 'ID_CONTACTO', 'ID_VENDEDOR', 'ID_ESTADO', 'FECHA_INICIO', 'FECHA_FIN', 'FECHA_FIN_OC_CLIENTE', 'COMENTARIO']
+        fields = ['DES_APENDICE', 'FINALIZADO', 'ID_CONTRATO', 'ID_CONTACTO', 'ID_VENDEDOR', 'ID_ESTADO', 'FECHA_INICIO', 'FECHA_FIN', 'FECHA_FIN_OC_CLIENTE', 'COMENTARIO']
 
 
 class ClienteForm(forms.ModelForm):

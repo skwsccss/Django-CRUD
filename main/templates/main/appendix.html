@@ -24,7 +24,7 @@
                                     <div class="col-md-2 text-right">
                                         <button class="btn btn-outline-primary btn-sm" id="showmodal"><i
                                                 class="fa fa-plus-circle"></i>
-                                                Añadir nuevo</button>
+                                            Añadir nuevo</button>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -61,10 +61,20 @@
                                                         <td>{{apendice.ID_ESTADO.DES_ESTADO}}</td>
                                                         <td>{{apendice.FECHA_INICIO}}</td>
                                                         <td>{{apendice.FECHA_FIN}}</td>
-                                                        <td>{{apendice.FINALIZADO}}</td>
+                                                        <!-- <td>{{apendice.FINALIZADO}}</td> -->
+                                                        {%if apendice.FINALIZADO is 0 %}
+                                                        <td><input type="checkbox" disabled></td>
+                                                        {% else %}
+                                                        <td><input type="checkbox" checked disabled></td>
+                                                        {% endif %}
                                                         <td>{{apendice.FECHA_FIN_OC_CLIENTE}}</td>
-                                                        <td>{{apendice.COMENTARIO}}</td>
+                                                        <td><textarea name="" id="" cols="20" rows="3" disabled style="background: white; border: none">{{apendice.COMENTARIO}}</textarea></td>
                                                         <td class="text-right">
+                                                            <button class="btn btn-light text-primary" type="button"
+                                                                id="copy_btn" name="copy_btn"
+                                                                onclick="copydata({{ apendice.pk }})">
+                                                                <i class="fas fa-copy text"></i> Copy</a>
+                                                            </button>
                                                             <button class="btn btn-light text-success" type="button"
                                                                 id="edit_btn" name="edit_btn"
                                                                 onclick="showedit({{ apendice.pk }})">
@@ -146,9 +156,11 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
-                            <label for="new_finalizado">FINALIZADO</label>
-                            <input class="form-control form-control-sm" id="new_finalizado">
+                        <div class="col-md-6 form-check">
+                            <label class="form-check-label" style="font-size: 1rem">
+                                FINALIZADO <input type="checkbox" style="margin-left: 20px" class="form-check-input"
+                                    id="new_filnalizado" value="1">
+                            </label>
                         </div>
                         <div class="col-md-6">
                             <label for="new_fecha_fin_oc_cliente">FECHA FIN OC CLIENTE</label>
@@ -169,7 +181,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" id="add_btn">Submit</button>
+                <button type="button" class="btn btn-success" id="add_btn">Guardar</button>
                 <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
             </div>
         </div>
@@ -190,21 +202,21 @@
                     {%csrf_token%}
                     <input type="text" class="form-control form-control-sm" id="id" name="id" placeholder="" hidden>
                     <div class="row">
-                            <div class="col-md-12">
-                                <label for="des_apendice">DES APENDICE</label>
-                                <input class="form-control form-control-sm" id="des_apendice">
-                            </div>
+                        <div class="col-md-12">
+                            <label for="des_apendice">DES APENDICE</label>
+                            <input class="form-control form-control-sm" id="des_apendice">
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="contrato">CONTRATO</label>
-                                <select class="form-control form-control-sm" id="contrato"></select>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="contacto">CONTACTO</label>
-                                <select class="form-control form-control-sm" id="contacto"></select>
-                            </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="contrato">CONTRATO</label>
+                            <select class="form-control form-control-sm" id="contrato"></select>
                         </div>
+                        <div class="col-md-6">
+                            <label for="contacto">CONTACTO</label>
+                            <select class="form-control form-control-sm" id="contacto"></select>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-6">
                             <label for="estado">ESTADO</label>
@@ -228,9 +240,11 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
-                            <label for="finalizado">FINALIZADO</label>
-                            <input class="form-control form-control-sm" id="finalizado">
+                        <div class="col-md-6 form-check">
+                            <label class="form-check-label" style="font-size: 1rem">
+                                FINALIZADO <input type="checkbox" style="margin-left: 20px" class="form-check-input"
+                                    id="filnalizado" value="1">
+                            </label>
                         </div>
                         <div class="col-md-6">
                             <label for="fecha_fin_oc_cliente">FECHA FIN OC CLIENTE</label>
@@ -251,7 +265,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" id="update_btn">Submit</button>
+                <button type="button" class="btn btn-success" id="update_btn">Guardar</button>
                 <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
             </div>
         </div>

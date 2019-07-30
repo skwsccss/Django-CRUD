@@ -5,7 +5,7 @@ $(document).ready(function () {
 
     $('#showmodal').click(function () {
         var sel_tipo_producto = [];
-       
+
         $.ajax({
             url: '/readdata/' + 1000000,
             method: 'POST',
@@ -28,9 +28,9 @@ $(document).ready(function () {
                     for (index in sel_tipo_producto) {
                         select_options_tipo_producto += '<option value="' + index + '" ' + '>' + sel_tipo_producto[index] + '</option>'
                     }
-                   
+
                     $('#new_tipo_producto').html(select_options_tipo_producto);
-                    
+
                     $('#Add_Modal').modal('show');
                 } else {
                     console.log(res);
@@ -110,10 +110,9 @@ $(document).ready(function () {
 
 });
 
-function showedit(id) {
-
+function copydata(id) {
     var sel_tipo_producto = [];
-    
+
     $.ajax({
         url: '/readdata/' + id,
         method: 'POST',
@@ -129,7 +128,7 @@ function showedit(id) {
                 tipo_producto.forEach((item, index) => {
                     sel_tipo_producto[tipo_producto[index]['pk']] = item['fields']['DES_TIPO_PRODUCTO']
                 });
-                
+
                 $('#tipo_producto').html('');
 
                 let select_options_tipo_producto = '';
@@ -137,7 +136,51 @@ function showedit(id) {
                 for (index in sel_tipo_producto) {
                     select_options_tipo_producto += '<option value="' + index + '" ' + ((res.producto.ID_TIPO_PRODUCTO == index) ? 'selected' : '') + '>' + sel_tipo_producto[index] + '</option>'
                 }
-                
+
+                $('#new_tipo_producto').html(select_options_tipo_producto);
+                $('#new_cod_producto').val(res.producto.COD_PRODUCTO);
+                $('#new_des_producto').val(res.producto.DES_PRODUCTO);
+                $('#new_metrica').val(res.producto.METRICA);
+                $('#new_bloques').val(res.producto.BLOQUES);
+                $('#new_minimo').val(res.producto.MINIMO);
+                $('#new_id').val(id);
+                $('#Add_Modal').modal('show');
+
+            } else {
+                console.log(res);
+            }
+        }
+    });
+}
+
+function showedit(id) {
+
+    var sel_tipo_producto = [];
+
+    $.ajax({
+        url: '/readdata/' + id,
+        method: 'POST',
+        data: {
+            selection: "producto",
+            csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
+        },
+
+        success: function (res) {
+            if (res.status == "ok") {
+                var tipo_producto = res.tipo_producto;
+
+                tipo_producto.forEach((item, index) => {
+                    sel_tipo_producto[tipo_producto[index]['pk']] = item['fields']['DES_TIPO_PRODUCTO']
+                });
+
+                $('#tipo_producto').html('');
+
+                let select_options_tipo_producto = '';
+
+                for (index in sel_tipo_producto) {
+                    select_options_tipo_producto += '<option value="' + index + '" ' + ((res.producto.ID_TIPO_PRODUCTO == index) ? 'selected' : '') + '>' + sel_tipo_producto[index] + '</option>'
+                }
+
                 $('#tipo_producto').html(select_options_tipo_producto);
                 $('#cod_producto').val(res.producto.COD_PRODUCTO);
                 $('#des_producto').val(res.producto.DES_PRODUCTO);
@@ -146,7 +189,7 @@ function showedit(id) {
                 $('#minimo').val(res.producto.MINIMO);
                 $('#id').val(id);
                 $('#Edit_Modal').modal('show');
-                
+
             } else {
                 console.log(res);
             }

@@ -88,6 +88,28 @@ $(document).ready(function () {
 
 });
 
+function copydata(id){
+
+    $.ajax({
+        url: '/readdata/' + id,
+        method: 'POST',
+        data: {
+            selection: "grupo_cliente",
+            csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
+        },
+
+        success: function (res) {
+            if (res.status == "ok") {
+                $('#new_cod_grupo_cliente').val(res.grupo_cliente.COD_GRUPO_CLIENTE);
+                $('#new_des_grupo_cliente').val(res.grupo_cliente.DES_GRUPO_CLIENTE);
+               $('#Add_Modal').modal('show');
+            } else {
+                console.log(res);
+            }
+        }
+    }); 
+}
+
 function showedit(id) {
 
     $.ajax({

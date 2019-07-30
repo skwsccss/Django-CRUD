@@ -53,7 +53,7 @@
 
                                                     <tr>
                                                         <td>{{forloop.counter}}</td>
-                                                        <td>{{contacto.ID_CLIENTE.COMENTARIO}}</td>
+                                                        <td>{{contacto.ID_CLIENTE.RAZON_SOCIAL}}</td>
                                                         <td>{{contacto.NOMBRE_CONTACTO}}</td>
                                                         <td>{{contacto.MAIL}}</td>
                                                         <td>{{contacto.TELEFONO}}</td>
@@ -64,6 +64,11 @@
                                                         <td>{{contacto.PAIS}}</td>
                                                         <td>{{contacto.PRIORIDAD}}</td>
                                                         <td class="text-right">
+                                                            <button class="btn btn-light text-primary" type="button"
+                                                                id="copy_btn" name="copy_btn"
+                                                                onclick="copydata({{ contacto.pk }})">
+                                                                <i class="fas fa-copy text"></i> Copy</a>
+                                                            </button>
                                                             <button class="btn btn-light text-success" type="button"
                                                                 id="edit_btn" name="edit_btn"
                                                                 onclick="showedit({{ contacto.pk }})">
@@ -164,7 +169,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" id="add_btn">Submit</button>
+                <button type="button" class="btn btn-success" id="add_btn">Guardar</button>
                 <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
             </div>
         </div>
@@ -240,7 +245,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" id="update_btn">Submit</button>
+                <button type="button" class="btn btn-success" id="update_btn">Guardar</button>
                 <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
             </div>
         </div>

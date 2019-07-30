@@ -139,6 +139,72 @@ $(document).ready(function () {
 
 });
 
+function copydata(id){
+    var sel_pais = [];
+    var sel_industria = [];
+    var sel_grupo_cliente = [];
+    $.ajax({
+        url: '/readdata/' + id,
+        method: 'POST',
+        data: {
+            selection: "cliente",
+            csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
+        },
+
+        success: function (res) {
+            if (res.status == "ok") {
+                var industria = res.industria;
+                var pais = res.pais;
+                var grupo_cliente = res.grupo_cliente;
+
+                pais.forEach((item, index) => {
+                    sel_pais[pais[index]['pk']] = item['fields']['DES_PAIS']
+                });
+                industria.forEach((item, index) => {
+                    sel_industria[industria[index]['pk']] = item['fields']['DES_INDUSTRIA']
+                });
+                grupo_cliente.forEach((item, index) => {
+                    sel_grupo_cliente[grupo_cliente[index]['pk']] = item['fields']['DES_GRUPO_CLIENTE']
+                });
+
+                $('#industria').html('');
+                $('#pais').html('');
+                $('#grupo_cliente').html('');
+
+                let select_options_pais = '';
+                let select_options_industria = '';
+                let select_options_grupo_cliente = '';
+
+                for (index in sel_pais) {
+                    select_options_pais += '<option value="' + index + '" ' + ((res.cliente.ID_PAIS == index) ? 'selected' : '') + '>' + sel_pais[index] + '</option>'
+                }
+                for (index in sel_grupo_cliente) {
+                    select_options_grupo_cliente += '<option value="' + index + '" ' + ((res.cliente.ID_GRUPO_CLIENTE == index) ? 'selected' : '') + '>' + sel_grupo_cliente[index] + '</option>'
+                }
+                for (index in sel_industria) {
+                    select_options_industria += '<option value="' + index + '" ' + ((res.cliente.ID_INDISTRIA == index) ? 'selected' : '') + '>' + sel_industria[index] + '</option>'
+                }
+
+                var fecha_alta = res.cliente.FECHA_ALTA;
+                fecha_alta = fecha_alta.replace('T', ' ').replace('Z','');
+                fecha_alta = moment(fecha_alta, 'YYYY-MM-DD HH:mm').format("DD/MM/YYYY HH:mm");
+                console.log(fecha_alta)
+                $('#new_pais').html(select_options_pais);
+                $('#new_grupo_cliente').html(select_options_grupo_cliente);
+                $('#new_industria').html(select_options_industria);
+                $('#new_fecha_alta').val(fecha_alta);
+                $('#new_num_cliente_prov').val(res.cliente.NUM_CLIENTE_PROV);
+                $('#new_num_cliente_plng').val(res.cliente.NUM_CLIENTE_PLNG);
+                $('#new_razon_social').val(res.cliente.RAZON_SOCIAL);
+                $('#new_clave_fiscal').val(res.cliente.CLAVE_FISCAL);
+                $('#new_comentario').val(res.cliente.COMENTARIO);
+                $('#Add_Modal').modal('show');
+            } else {
+                console.log(res);
+            }
+        }
+    });
+}
 function showedit(id) {
 
     var sel_pais = [];

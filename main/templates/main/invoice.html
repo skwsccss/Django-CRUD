@@ -22,7 +22,8 @@
                                         <h2 class="text-center">Invoice</h2>
                                     </div>
                                     <div class="col-md-2 text-right">
-                                        <button class="btn btn-outline-primary btn-sm" id="showmodal"><i class="fa fa-plus-circle"></i>
+                                        <button class="btn btn-outline-primary btn-sm" id="showmodal"><i
+                                                class="fa fa-plus-circle"></i>
                                             Añadir nuevo</button>
                                     </div>
                                 </div>
@@ -65,26 +66,62 @@
                                                         <td>{{contract.FECHA_FIRMA}}</td>
                                                         <td>{{contract.FECHA_INICIO}}</td>
                                                         <td>{{contract.FECHA_FIN}}</td>
-                                                        <td>{{contract.FINALIZADO}}</td>
+                                                        {%if contract.FINALIZADO == 1 %}
+                                                        <td><input type="checkbox" aria-selected="true" disabled></td>
+                                                        {% else %}
+                                                        <td><input type="checkbox" aria-selected="false" disabled></td>
+                                                        {% endif %}
                                                         <td>{{contract.COMENTARIO}}</td>
                                                         <td class="text-right">
+                                                            <button class="btn btn-light text-primary" type="button"
+                                                                id="copy_btn" name="copy_btn"
+                                                                onclick="copydata({{ contract.pk }})">
+                                                                <i class="fas fa-copy text"></i> Copy</a>
+                                                            </button>
                                                             <button class="btn btn-light text-success" type="button"
                                                                 id="edit_btn" name="edit_btn"
                                                                 onclick="showedit({{ contract.pk }})">
                                                                 <i class="fas fa-edit text"></i> Edit</a>
                                                             </button>
-                                                            <button class="btn btn-light text-danger" id="delete_btn" onclick="delete_item({{ contract.pk }})">
-                                                                    <i class="fas fa-trash-alt"></i>
-                                                                    Remove
+                                                            <button class="btn btn-light text-danger" id="delete_btn"
+                                                                onclick="delete_item({{ contract.pk }})">
+                                                                <i class="fas fa-trash-alt"></i>
+                                                                Remove
                                                             </button>
                                                         </td>
                                                     </tr>
                                                     {% endfor %}
                                                 </tbody>
                                             </table>
+
                                         </div>
                                     </div>
                                 </div>
+                                <table id="exampleTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Race</th>
+                                            <th>Year</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+
+                                <div style="display:none">
+                                    <table id="detailsTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Photo</th>
+                                                <th>Name</th>
+                                                <th>Team</th>
+                                                <th>Server</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -109,8 +146,7 @@
             <div class="modal-body">
                 <form action="" class="pt-3">
                     {%csrf_token%}
-                    <input type="text" class="form-control form-control-sm" id="id" name="id" placeholder=""
-                        hidden>
+                    <input type="text" class="form-control form-control-sm" id="id" name="id" placeholder="" hidden>
                     <div class="row">
                         <div class="col-md-6">
                             <label for="proveedor">PROVEEDOR</label>
@@ -153,11 +189,11 @@
                     </div>
                     <div class="row">
                         <label for="finalizado">FINALIZADO</label>
-                        <input type="text" class="form-control form-control-sm" id="new_finalizado"
-                            name="finalizado" placeholder="FINALIZADO" required>
-                            <label for="comentario">COMENTARIO</label>
-                        <input type="text" class="form-control form-control-sm" id="new_comentario"
-                            name="comentario" placeholder="COMENTARIO" required>
+                        <input type="text" class="form-control form-control-sm" id="new_finalizado" name="finalizado"
+                            placeholder="FINALIZADO" required>
+                        <label for="comentario">COMENTARIO</label>
+                        <input type="text" class="form-control form-control-sm" id="new_comentario" name="comentario"
+                            placeholder="COMENTARIO" required>
                     </div>
                     <div class="row" id="input_error">
                         <p class="text-danger">Input is not valid</p>
@@ -165,7 +201,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" id="add_btn">Submit</button>
+                <button type="button" class="btn btn-success" id="add_btn">Guardar</button>
                 <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
             </div>
         </div>
@@ -228,11 +264,11 @@
                     </div>
                     <div class="row">
                         <label for="finalizado">FINALIZADO</label>
-                        <input type="text" class="form-control form-control-sm" id="finalizado"
-                            name="finalizado" placeholder="FINALIZADO" required>
-                            <label for="comentario">COMENTARIO</label>
-                        <input type="text" class="form-control form-control-sm" id="comentario"
-                            name="comentario" placeholder="COMENTARIO" required>
+                        <input type="text" class="form-control form-control-sm" id="finalizado" name="finalizado"
+                            placeholder="FINALIZADO" required>
+                        <label for="comentario">COMENTARIO</label>
+                        <input type="text" class="form-control form-control-sm" id="comentario" name="comentario"
+                            placeholder="COMENTARIO" required>
                     </div>
                     <div class="row" id="input_error2">
                         <p class="text-danger">Input is not valid</p>
@@ -240,7 +276,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" id="update_btn">Submit</button>
+                <button type="button" class="btn btn-success" id="update_btn">Guardar</button>
                 <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
             </div>
         </div>
@@ -250,5 +286,5 @@
 
 {%block javascript%}
 <script src="{%static '/js/custom/contracts.js'%}"></script>
-
+<script src="https://cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>
 {%endblock javascript%}

@@ -119,6 +119,52 @@ $(document).ready(function () {
 
 });
 
+function copydata(id){
+    var sel_cliente = [];
+    
+    $.ajax({
+        url: '/readdata/' + id,
+        method: 'POST',
+        data: {
+            selection: "contacto",
+            csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
+        },
+
+        success: function (res) {
+            if (res.status == "ok") {
+                var cliente = res.cliente;
+
+                cliente.forEach((item, index) => {
+                    sel_cliente[cliente[index]['pk']] = item['fields']['COMENTARIO']
+                });
+                
+                $('#cliente').html('');
+
+                let select_options_cliente = '';
+
+                for (index in sel_cliente) {
+                    select_options_cliente += '<option value="' + index + '" ' + ((res.contacto.ID_CLIENTE == index) ? 'selected' : '') + '>' + sel_cliente[index] + '</option>'
+                }
+                
+                $('#new_cliente').html(select_options_cliente);
+                $('#new_nombre_contacto').val(res.contacto.NOMBRE_CONTACTO);
+                $('#new_mail').val(res.contacto.MAIL);
+                $('#new_telefono').val(res.contacto.TELEFONO);
+                $('#new_domicilio').val(res.contacto.DOMICILIO);
+                $('#new_cp').val(res.contacto.CP);
+                $('#new_ciudad').val(res.contacto.CIUDAD);
+                $('#new_provincia').val(res.contacto.PROVINCIA);
+                $('#new_pais').val(res.contacto.PAIS);
+                $('#new_prioridad').val(res.contacto.PRIORIDAD);
+                $('#Add_Modal').modal('show');
+                $('#id').val(id);
+            } else {
+                console.log(res);
+            }
+        }
+    });
+}
+
 function showedit(id) {
 
     var sel_cliente = [];

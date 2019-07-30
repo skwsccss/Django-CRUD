@@ -78,8 +78,8 @@ $(document).ready(function () {
         }
         else {
             $('#input_error').addClass('d-none');
-            
-            console.log($('#new_fecha_fin_oc_cliente').val())
+            if (document.getElementById("new_filnalizado").checked) { var ch = 1 }
+            else { ch = 0 }
             $.ajax({
                 url: '/create/',
                 method: 'POST',
@@ -90,9 +90,10 @@ $(document).ready(function () {
                     ID_CONTACTO: $('#new_contacto').val(),
                     ID_VENDEDOR: $('#new_vendedor').val(),
                     ID_ESTADO: $('#new_estado').val(),
-                    FECHA_INICIO: moment( $('#new_fecha_inicio').val(), 'DD/MM/YYYY HH:mm').format("YYYY-MM-DD HH:mm"),
-                    FECHA_FIN: moment( $('#new_fecha_fin').val(), 'DD/MM/YYYY HH:mm').format("YYYY-MM-DD HH:mm"),
-                    FECHA_FIN_OC_CLIENTE: moment( $('#new_fecha_fin_oc_cliente').val(), 'DD/MM/YYYY HH:mm').format("YYYY-MM-DD HH:mm"),
+                    FECHA_INICIO: moment($('#new_fecha_inicio').val(), 'DD/MM/YYYY HH:mm').format("YYYY-MM-DD HH:mm"),
+                    FECHA_FIN: moment($('#new_fecha_fin').val(), 'DD/MM/YYYY HH:mm').format("YYYY-MM-DD HH:mm"),
+                    FECHA_FIN_OC_CLIENTE: moment($('#new_fecha_fin_oc_cliente').val(), 'DD/MM/YYYY HH:mm').format("YYYY-MM-DD HH:mm"),
+                    FINALIZADO: ch,
                     COMENTARIO: $('#new_comentario').val(),
                     csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
                 },
@@ -127,9 +128,9 @@ $(document).ready(function () {
                     ID_CONTACTO: $('#contacto').val(),
                     ID_VENDEDOR: $('#vendedor').val(),
                     ID_ESTADO: $('#estado').val(),
-                    FECHA_INICIO: moment( $('#fecha_inicio').val(), 'DD/MM/YYYY HH:mm').format("YYYY-MM-DD HH:mm"),
-                    FECHA_FIN: moment( $('#fecha_fin').val(), 'DD/MM/YYYY HH:mm').format("YYYY-MM-DD HH:mm"),
-                    FECHA_FIN_OC_CLIENTE: moment( $('#fecha_fin_oc_cliente').val(), 'DD/MM/YYYY HH:mm').format("YYYY-MM-DD HH:mm"),
+                    FECHA_INICIO: moment($('#fecha_inicio').val(), 'DD/MM/YYYY HH:mm').format("YYYY-MM-DD HH:mm"),
+                    FECHA_FIN: moment($('#fecha_fin').val(), 'DD/MM/YYYY HH:mm').format("YYYY-MM-DD HH:mm"),
+                    FECHA_FIN_OC_CLIENTE: moment($('#fecha_fin_oc_cliente').val(), 'DD/MM/YYYY HH:mm').format("YYYY-MM-DD HH:mm"),
                     // FINALIZADO: $('#finalizado').val(),
                     COMENTARIO: $('#comentario').val(),
                     csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
@@ -151,6 +152,85 @@ $(document).ready(function () {
 
 
 });
+
+function copydata(id){
+    var sel_contrato = [];
+    var sel_contacto = [];
+    var sel_vendedor = [];
+    var sel_estado = [];
+    $.ajax({
+        url: '/readdata/' + id,
+        method: 'POST',
+        data: {
+            selection: "apendice",
+            csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
+        },
+
+        success: function (res) {
+            if (res.status == "ok") {
+                var contrato = res.contrato;
+                var vendedor = res.vendedor;
+                var estado = res.estado;
+                var contacto = res.contacto;
+
+                contrato.forEach((item, index) => {
+                    sel_contrato[contrato[index]['pk']] = item['fields']['ID_TIPO_CONTRATO']
+                });
+                vendedor.forEach((item, index) => {
+                    sel_vendedor[vendedor[index]['pk']] = item['fields']['NOMBRE_VENDEDOR']
+                });
+                estado.forEach((item, index) => {
+                    sel_estado[estado[index]['pk']] = item['fields']['DES_ESTADO']
+                });
+                contacto.forEach((item, index) => {
+                    sel_contacto[contacto[index]['pk']] = item['fields']['MAIL']
+                });
+
+                $('#new_contrato').html('');
+                $('#new_vendedor').html('');
+                $('#new_estado').html('');
+                $('#new_contatco').html('');
+
+
+                let select_options_contrato = '';
+                let select_options_contacto = '';
+                let select_options_vendedor = '';
+                let select_options_estado = '';
+
+                for (index in sel_contrato) {
+                    select_options_contrato += '<option value="' + index + '" ' + ((res.apendice.ID_CONTRATO == index) ? 'selected' : '') + '>' + sel_contrato[index] + '</option>'
+                }
+                for (index in sel_vendedor) {
+                    select_options_vendedor += '<option value="' + index + '" ' + ((res.apendice.ID_VENDEDOR == index) ? 'selected' : '') + '>' + sel_vendedor[index] + '</option>'
+                }
+                for (index in sel_estado) {
+                    select_options_estado += '<option value="' + index + '" ' + ((res.apendice.ID_ESTADO == index) ? 'selected' : '') + '>' + sel_estado[index] + '</option>'
+                }
+                for (index in sel_contacto) {
+                    select_options_contacto += '<option value="' + index + '" ' + ((res.apendice.ID_CONTACTO == index) ? 'selected' : '') + '>' + sel_contacto[index] + '</option>'
+                }
+                if (res.apendice.FINALIZADO) {
+                    document.getElementById("new_filnalizado").checked = true;
+                } else {
+                    document.getElementById("new_filnalizado").checked = false;
+                }
+                $('#new_contrato').html(select_options_contrato);
+                $('#new_vendedor').html(select_options_vendedor);
+                $('#new_estado').html(select_options_estado);
+                $('#new_contacto').html(select_options_contacto);
+                $('#new_id').val(id)
+                $('#new_des_apendice').val(res.apendice.DES_APENDICE);
+                $('#new_fecha_fin').val(conv_date(res.apendice.FECHA_FIN));
+                $('#new_fecha_inicio').val(conv_date(res.apendice.FECHA_INICIO));
+                $('#new_fecha_fin_oc_cliente').val(conv_date(res.apendice.FECHA_FIN_OC_CLIENTE));
+                $('#new_comentario').val(res.apendice.COMENTARIO);
+                $('#Add_Modal').modal('show');
+            } else {
+                console.log(res);
+            }
+        }
+    });
+}
 
 function showedit(id) {
 
@@ -209,7 +289,11 @@ function showedit(id) {
                 for (index in sel_contacto) {
                     select_options_contacto += '<option value="' + index + '" ' + ((res.apendice.ID_CONTACTO == index) ? 'selected' : '') + '>' + sel_contacto[index] + '</option>'
                 }
-                
+                if (res.apendice.FINALIZADO) {
+                    document.getElementById("filnalizado").checked = true;
+                } else {
+                    document.getElementById("filnalizado").checked = false;
+                }
                 $('#contrato').html(select_options_contrato);
                 $('#vendedor').html(select_options_vendedor);
                 $('#estado').html(select_options_estado);
@@ -228,8 +312,8 @@ function showedit(id) {
     });
 };
 
-function conv_date(param){
-    param = param.replace('T', ' ').replace('Z','');
+function conv_date(param) {
+    param = param.replace('T', ' ').replace('Z', '');
     param = moment(param, 'YYYY-MM-DD HH:mm').format("DD/MM/YYYY HH:mm");
     return param;
 }

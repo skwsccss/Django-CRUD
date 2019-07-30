@@ -47,7 +47,7 @@
                                                         <th>FECHA FIN</th>
                                                         <th>FINALIZADO</th>
                                                         <th>COMENTARIO</th>
-                                                        <th>FUNC</th>
+                                                        <th>FUNCION</th>
 
                                                     </tr>
                                                 </thead>
@@ -66,9 +66,18 @@
                                                         <td>{{contract.FECHA_FIRMA}}</td>
                                                         <td>{{contract.FECHA_INICIO}}</td>
                                                         <td>{{contract.FECHA_FIN}}</td>
-                                                        <td>{{contract.FINALIZADO}}</td>
+                                                        {%if contract.FINALIZADO is 1 %}
+                                                        <td><input type="checkbox" checked disabled></td>
+                                                        {% else %}
+                                                        <td><input type="checkbox" disabled></td>
+                                                        {% endif %}
                                                         <td>{{contract.COMENTARIO}}</td>
                                                         <td class="text-right">
+                                                            <button class="btn btn-light text-primary" type="button"
+                                                                id="copy_btn" name="copy_btn"
+                                                                onclick="copydata({{ contract.pk }})">
+                                                                <i class="fas fa-copy text"></i> Copy</a>
+                                                            </button>
                                                             <button class="btn btn-light text-success" type="button"
                                                                 id="edit_btn" name="edit_btn"
                                                                 onclick="showedit({{ contract.pk }})">
@@ -153,10 +162,11 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
-                            <label for="finalizado">FINALIZADO</label>
-                            <input type="text" class="form-control form-control-sm" id="new_finalizado"
-                                name="finalizado" placeholder="FINALIZADO" required>
+                        <div class="col-md-6 form-check">
+                            <label class="form-check-label" style="font-size: 1rem">
+                                FINALIZADO <input type="checkbox" style="margin-left: 20px" class="form-check-input"
+                                    id="new_filnalizado" value="1">
+                            </label>
                         </div>
                         <div class="col-md-6">
                             <label for="new_fecha_firma">FECHA FIRMA</label>
@@ -180,8 +190,8 @@
                     <div class="row">
                         <div class="col-md-12">
                             <label for="comentario">COMENTARIO</label>
-                            <input type="text" class="form-control form-control-sm" id="new_comentario"
-                                name="comentario" placeholder="COMENTARIO" required>
+                            <textarea type="text" class="form-control form-control-sm" id="new_comentario"
+                                name="comentario" placeholder="COMENTARIO" required rows="4"></textarea>
                         </div>
                     </div>
                     <div class="row" id="input_error">
@@ -190,7 +200,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" id="add_btn">Submit</button>
+                <button type="button" class="btn btn-success" id="add_btn">Guardar</button>
                 <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
             </div>
         </div>
@@ -252,10 +262,11 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
-                            <label for="finalizado">FINALIZADO</label>
-                            <input type="text" class="form-control form-control-sm" id="finalizado"
-                                name="finalizado" placeholder="FINALIZADO" required>
+                        <div class="col-md-6 form-check">
+                            <label class="form-check-label" style="font-size: 1rem">
+                                FINALIZADO <input type="checkbox" style="margin-left: 20px" class="form-check-input"
+                                    id="filnalizado">
+                            </label>
                         </div>
                         <div class="col-md-6">
                             <label for="fecha_firma">FECHA FIRMA</label>
@@ -279,8 +290,8 @@
                     <div class="row">
                         <div class="col-md-12">
                             <label for="comentario">COMENTARIO</label>
-                            <input type="text" class="form-control form-control-sm" id="comentario"
-                                name="comentario" placeholder="COMENTARIO" required>
+                            <textarea type="text" class="form-control form-control-sm" id="comentario" name="comentario"
+                                placeholder="COMENTARIO" required rows="4"></textarea>
                         </div>
                     </div>
                     <div class="row" id="input_error2">
@@ -289,7 +300,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" id="update_btn">Submit</button>
+                <button type="button" class="btn btn-success" id="update_btn">Guardar</button>
                 <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
             </div>
         </div>

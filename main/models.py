@@ -168,7 +168,7 @@ class ContratoCabecera(models.Model):
     FECHA_FIRMA = models.DateTimeField(blank=True, null=True)
     FECHA_INICIO = models.DateTimeField(blank=True, null=True)
     FECHA_FIN = models.DateTimeField(blank=True, null=True)
-    FINALIZADO = models.BinaryField(blank=True, null=True)
+    FINALIZADO = models.SmallIntegerField(max_length=1, blank=True, null=False)
     COMENTARIO = models.CharField(max_length=500, blank=True, null=True)
 
     class Meta:
@@ -184,7 +184,7 @@ class ApendiceCabecera(models.Model):
     ID_ESTADO = models.ForeignKey(Estado, db_column="ID_ESTADO", on_delete=models.CASCADE)
     FECHA_INICIO = models.DateTimeField(blank=True, null=True)
     FECHA_FIN = models.DateTimeField(blank=True, null=True)
-    FINALIZADO = models.BinaryField(blank=True, null=True)
+    FINALIZADO = models.SmallIntegerField(max_length=1, blank=True, null=False)
     FECHA_FIN_OC_CLIENTE = models.DateTimeField(blank=True, null=True)
     COMENTARIO = models.CharField(max_length=500, blank=True, null=True)
 

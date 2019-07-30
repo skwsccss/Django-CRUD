@@ -20,6 +20,7 @@ def Login_request(request):
             password = form.cleaned_data.get('password')
             user = authenticate(username=username, password=password)
             if user is not None:
+                request.session.set_expiry(1200)
                 login(request, user)
                 return redirect('/invoice')
             else:
