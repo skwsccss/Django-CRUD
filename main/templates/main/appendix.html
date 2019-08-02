@@ -21,8 +21,68 @@
                                     <div class="col-md-8">
                                         <h2 class="text-center">Apendice</h2>
                                     </div>
+                                    <div class="col-md-2"></div>
+                                </div>
+                                <form action="" class="pt-3">
+                                    {%csrf_token%}
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="row">
+                                                <label for="form_contrato" class="col-md-2">CONTRATO</label>
+                                                <select class="form-control form-control-sm col-md-10"
+                                                    id="form_contrato">
+                                                    {% for contrato in contratos%}
+                                                    <option value="{{ contrato.pk }}">{{ contrato.COMENTARIO }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <div class="row">
+                                                <label for="des_apendice" class="col-md-2">APENDICE</label>
+                                                <input class="form-control form-control-sm col-md-10"
+                                                    id="form_des_apendice">
+                                            </div>
+                                            <div class="row">
+                                                <label for="form_vendedor" class="col-md-2">VENDEDOR</label>
+                                                <select class="form-control form-control-sm col-md-10"
+                                                    id="form_vendedor">
+                                                    {% for vendedor in vendedors %}
+                                                    <option value="{{ vendedor.pk }}">{{ vendedor.NOMBRE_VENDEDOR }}
+                                                    </option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <div class="row">
+                                                <label for="form_fecha_inicio" class="col-md-2">FECHA INICIO</label>
+                                                <input class="form-control form-control-sm col-md-5"
+                                                    data-inputmask="'alias': 'datetime'" id="form_fecha_inicio" />
+                                            </div>
+                                            <div class="row">
+                                                <label for="form_fecha_fin" class="col-md-2">FECHA FIN</label>
+                                                <input class="form-control form-control-sm col-md-5"
+                                                    data-inputmask="'alias': 'datetime'" id="form_fecha_fin" />
+                                            </div>
+                                            <div class="row">
+                                                <label for="form_fecha_fin_oc_cliente" class="col-md-2">FECHA FIN OC
+                                                    CLIENTE</label>
+                                                <input class="form-control form-control-sm col-md-5"
+                                                    data-inputmask="'alias': 'datetime'"
+                                                    id="form_fecha_fin_oc_cliente" />
+                                            </div>
+                                            <div class="row">
+                                                <label for="form_estado" class="col-md-2">ESTADO</label>
+                                                <select class="form-control form-control-sm col-md-10" id="form_estado">
+                                                    {% for estado in estados %}
+                                                    <option value="{{ estado.pk }}">{{ estado.DES_ESTADO }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="row">
+                                    <div class="col-md-10"></div>
                                     <div class="col-md-2 text-right">
-                                        <button class="btn btn-outline-primary btn-sm" id="showmodal"><i
+                                        <button class="btn btn-outline-dark btn-sm" id="showmodal"><i
                                                 class="fa fa-plus-circle"></i>
                                             Añadir nuevo</button>
                                     </div>
@@ -68,7 +128,9 @@
                                                         <td><input type="checkbox" checked disabled></td>
                                                         {% endif %}
                                                         <td>{{apendice.FECHA_FIN_OC_CLIENTE}}</td>
-                                                        <td><textarea name="" id="" cols="20" rows="3" disabled style="background: white; border: none">{{apendice.COMENTARIO}}</textarea></td>
+                                                        <td><textarea name="" id="" cols="20" rows="3" disabled
+                                                                style="background: white; border: none">{{apendice.COMENTARIO}}</textarea>
+                                                        </td>
                                                         <td class="text-right">
                                                             <button class="btn btn-light text-primary" type="button"
                                                                 id="copy_btn" name="copy_btn"
@@ -90,7 +152,82 @@
                                                     {% endfor %}
                                                 </tbody>
                                             </table>
+
+
                                         </div>
+                                        <hr>
+                                        <form action="" class="pt-3">
+                                            {%csrf_token%}
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <h3 class="text-center">Contacto</h3>
+                                                        <div class="row">
+                                                        <div class="col-md-5">
+                                                            <div class="row">
+                                                                <label for="nombre1" class="col-md-4">NOMBRE1</label>
+                                                                <input class="form-control form-control-sm col-md-8"
+                                                                    id="nombre1">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2"></div>
+                                                        <div class="col-md-5">
+                                                            <div class="row">
+                                                                <label for="nombre2" class="col-md-4">NOMBRE2</label>
+                                                                <input class="form-control form-control-sm col-md-8"
+                                                                    id="nombre2">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-5">
+                                                            <div class="row">
+                                                                <label for="mail1" class="col-md-4">MAIL1</label>
+                                                                <input type="email"
+                                                                    class="form-control form-control-sm col-md-8"
+                                                                    id="mail1">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2"></div>
+                                                        <div class="col-md-5">
+                                                            <div class="row">
+                                                                <label for="mail2" class="col-md-4">MAIL2</label>
+                                                                <input type="email"
+                                                                    class="form-control form-control-sm col-md-8"
+                                                                    id="mail2">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-5">
+                                                            <div class="row">
+                                                                <label for="telefono1" class="col-md-4">Telefono</label>
+                                                                <input class="form-control form-control-sm col-md-8"
+                                                                    id="telefono1">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2"></div>
+                                                        <div class="col-md-5">
+                                                            <div class="row">
+                                                                <label for="telefono2" class="col-md-4">Telefono</label>
+                                                                <input class="form-control form-control-sm col-md-8"
+                                                                    id="telefono2">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12 form-group">
+                                                            <div class="row">
+                                                                <label for="form_comentario"
+                                                                    class="col-md-2">COMENTARIO</label>
+                                                                <textarea name="form_comentario" id="form_comentario"
+                                                                    class="form-control form-control-sm col-md-10"
+                                                                    rows="4" required></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -103,6 +240,8 @@
     </div>
     <!-- page-body-wrapper ends -->
 </div>
+
+
 
 <!-- Add New modal -->
 <div class="modal fade" id="Add_Modal" tabindex="1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">

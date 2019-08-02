@@ -90,7 +90,10 @@ def contracts(request):
 def Appendix(request):
     if request.user.is_authenticated:
         apendices = ApendiceCabecera.objects.all()
-        return render(request, 'main/appendix.html', {'apendices': apendices})
+        contratos = ContratoCabecera.objects.all()
+        vendedors = Vendedor.objects.all()
+        estados = Estado.objects.all()
+        return render(request, 'main/appendix.html', {'apendices': apendices, 'contratos': contratos, 'vendedors': vendedors, 'estados': estados})
     else:
         return redirect('/login')
 

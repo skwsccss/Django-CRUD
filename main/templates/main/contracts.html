@@ -73,17 +73,17 @@
                                                         {% endif %}
                                                         <td>{{contract.COMENTARIO}}</td>
                                                         <td class="text-right">
-                                                            <button class="btn btn-light text-primary" type="button"
+                                                            <button class="btn btn-light btn-sm text-primary" type="button"
                                                                 id="copy_btn" name="copy_btn"
                                                                 onclick="copydata({{ contract.pk }})">
                                                                 <i class="fas fa-copy text"></i> Copy</a>
                                                             </button>
-                                                            <button class="btn btn-light text-success" type="button"
+                                                            <button class="btn btn-light btn-sm text-success" type="button"
                                                                 id="edit_btn" name="edit_btn"
                                                                 onclick="showedit({{ contract.pk }})">
                                                                 <i class="fas fa-edit text"></i> Edit</a>
                                                             </button>
-                                                            <button class="btn btn-light text-danger" id="delete_btn"
+                                                            <button class="btn btn-light btn-sm text-danger" id="delete_btn"
                                                                 onclick="delete_item({{ contract.pk }})">
                                                                 <i class="fas fa-trash-alt"></i>
                                                                 Remove
