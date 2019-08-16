@@ -89,11 +89,20 @@ def contracts(request):
 
 def Appendix(request):
     if request.user.is_authenticated:
-        apendices = ApendiceCabecera.objects.all()
+        apendices = DetalleApendice.objects.all()
         contratos = ContratoCabecera.objects.all()
         vendedors = Vendedor.objects.all()
         estados = Estado.objects.all()
-        return render(request, 'main/appendix.html', {'apendices': apendices, 'contratos': contratos, 'vendedors': vendedors, 'estados': estados})
+        apendices_cab = ApendiceCabecera.objects.all()
+        arr = []
+        for apend in apendices:
+            try:
+                value = round(apend.MARGEN/apend.VALOR_VENTA * 100, 1)
+            except:
+                value = 0
+            arr.append({"apendice": apend, "amu": value})
+
+        return render(request, 'main/appendix.html', {'apendices_cab': apendices_cab, 'apendices': apendices, 'contratos': contratos, 'vendedors': vendedors, 'estados': estados, "arr": arr})
     else:
         return redirect('/login')
 
@@ -136,7 +145,7 @@ def create(request):
         if selection == "contrato":
             form = ContratoCabeceraForm(request.POST)
         if selection == "apendice":
-            form = ApendiceCabecearForm(request.POST)
+            form = ApendiceCabeceraForm(request.POST)
         if selection == "cliente":
             form = ClienteForm(request.POST)
         if selection == "contacto":
@@ -187,6 +196,7 @@ def readdata(request, id):
             contacto = serializer(Contacto.objects.all())
             vendedor = serializer(Vendedor.objects.all())
             estado = serializer(Estado.objects.all())
+            tipo_producto = serializer(TipoProducto.objects.all())
             if id != 1000000:
                 return JsonResponse(
                     {"status": 'ok', "message": "success", "apendice": apendice[0]['fields'], "contrato": contrato, "contacto": contacto,
@@ -264,7 +274,7 @@ def update(request, id):
             form = ClienteForm(request.POST, instance=cliente)
         if selection == "apendice":
             apendice = ApendiceCabecera.objects.get(ID_APENDICE=id)
-            form = ApendiceCabecearForm(request.POST, instance=apendice)
+            form = ApendiceCabeceraForm(request.POST, instance=apendice)
         if selection == "contacto":
             contacto = Contacto.objects.get(ID_CONTACTO=id)
             form = ContactoForm(request.POST, instance=contacto)

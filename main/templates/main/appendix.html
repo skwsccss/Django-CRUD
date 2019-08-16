@@ -2,7 +2,7 @@
 {%load static%}
 
 {%block title%}
-<title>Apendice</title>
+Apendice
 {%endblock title%}
 
 {%block content%}
@@ -23,7 +23,7 @@
                                     </div>
                                     <div class="col-md-2"></div>
                                 </div>
-                                <form action="" class="pt-3">
+                                <form action="" class="pt-3" style="display: none">
                                     {%csrf_token%}
                                     <div class="row">
                                         <div class="col-md-6">
@@ -94,43 +94,47 @@
                                                 <thead>
                                                     <tr class="">
                                                         <th>No.</th>
-                                                        <th>DES APENDICE</th>
-                                                        <th>CONTRATO</th>
-                                                        <th>CONTACTO</th>
-                                                        <th>VENDEDOR</th>
-                                                        <th>ESTADO</th>
-                                                        <th>FECHA INICIO</th>
-                                                        <th>FECHA FIN</th>
-                                                        <th>FINALIZADO</th>
-                                                        <th>FECHA FIN OC CLIENTE</th>
-                                                        <th>COMENTARIO</th>
+                                                        <th>Codigo Producto</th>
+                                                        <th>Descripcion</th>
+                                                        <th>Metrica</th>
+                                                        <th>Bloques</th>
+                                                        <th>Cantidad</th>
+                                                        <th>Valor Unitario</th>
+                                                        <th>Total </th>
+                                                        <th>Descuento Cliente</th>
+                                                        <th>Valor Venta</th>
+                                                        <th>Descuento Vendor</th>
+                                                        <th>Costo Vendor</th>
+                                                        <th>Comision Partner</th>
+                                                        <th>Costo Partner</th>
+                                                        <th>Costo Total</th>
+                                                        <th>Margen CS</th>
+                                                        <th>Margen CS</th>
                                                         <th>Funcion</th>
 
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {% for apendice in apendices %}
+                                                    {% for item in arr %}
 
                                                     <tr>
                                                         <td>{{forloop.counter}}</td>
-                                                        <td>{{apendice.DES_APENDICE}}</td>
-                                                        <td>{{apendice.ID_CONTRATO.ID_TIPO_CONTRATO.DES_TIPO_CONTRATO}}
-                                                        </td>
-                                                        <td>{{apendice.ID_CONTACTO.MAIL}}</td>
-                                                        <td>{{apendice.ID_VENDEDOR.NOMBRE_VENDEDOR}}</td>
-                                                        <td>{{apendice.ID_ESTADO.DES_ESTADO}}</td>
-                                                        <td>{{apendice.FECHA_INICIO}}</td>
-                                                        <td>{{apendice.FECHA_FIN}}</td>
-                                                        <!-- <td>{{apendice.FINALIZADO}}</td> -->
-                                                        {%if apendice.FINALIZADO is 0 %}
-                                                        <td><input type="checkbox" disabled></td>
-                                                        {% else %}
-                                                        <td><input type="checkbox" checked disabled></td>
-                                                        {% endif %}
-                                                        <td>{{apendice.FECHA_FIN_OC_CLIENTE}}</td>
-                                                        <td><textarea name="" id="" cols="20" rows="3" disabled
-                                                                style="background: white; border: none">{{apendice.COMENTARIO}}</textarea>
-                                                        </td>
+                                                        <td>{{item.apendice.ID_PRODUCTO.COD_PRODUCTO}}</td>
+                                                        <td>{{item.apendice.ID_PRODUCTO.DES_PRODUCTO}} </td>
+                                                        <td>{{item.apendice.ID_PRODUCTO.METRICA}}</td>
+                                                        <td>{{item.apendice.ID_PRODUCTO.BLOQUES}}</td>
+                                                        <td>{{item.apendice.CANTIDAD}}</td>
+                                                        <td>{{item.apendice.VALOR_UNITARIO}}</td>
+                                                        <td>{{item.apendice.TOTAL}}</td>
+                                                        <td>{{item.apendice.PORCENTAJE_DTO_CLIENTE}}%</td>
+                                                        <td>{{item.apendice.VALOR_VENTA}}</td>
+                                                        <td>{{item.apendice.PORCENTAJE_DTO_VENDOR}}%</td>
+                                                        <td>{{item.apendice.COSTO_VENDOR}}</td>
+                                                        <td>{{item.apendice.PORCENTAJE_COM_PARTNER}}%</td>
+                                                        <td>{{item.apendice.COSTO_PARTNER}}</td>
+                                                        <td>{{item.apendice.COSTO_TOTAL}}</td>
+                                                        <td>{{item.apendice.MARGEN}}</td>
+                                                        <td>{{ item.amu }}%</td>
                                                         <td class="text-right">
                                                             <button class="btn btn-light text-primary" type="button"
                                                                 id="copy_btn" name="copy_btn"
@@ -143,7 +147,7 @@
                                                                 <i class="fas fa-edit text"></i> Edit</a>
                                                             </button>
                                                             <button class="btn btn-light text-danger" id="delete_btn"
-                                                                onclick="delete_item({{ apendice.pk }})">
+                                                                onclick="delete_div({{ apendice.pk }})">
                                                                 <i class="fas fa-trash-alt"></i>
                                                                 Remove
                                                             </button>
@@ -156,12 +160,12 @@
 
                                         </div>
                                         <hr>
-                                        <form action="" class="pt-3">
+                                        <form action="" class="pt-3" style="display:none">
                                             {%csrf_token%}
                                             <div class="row">
                                                 <div class="col-md-8">
                                                     <h3 class="text-center">Contacto</h3>
-                                                        <div class="row">
+                                                    <div class="row">
                                                         <div class="col-md-5">
                                                             <div class="row">
                                                                 <label for="nombre1" class="col-md-4">NOMBRE1</label>
@@ -257,71 +261,175 @@
                 <form action="" class="pt-3">
                     {%csrf_token%}
                     <div class="row">
-                        <div class="col-md-12">
-                            <label for="des_apendice">DES APENDICE</label>
-                            <input class="form-control form-control-sm" id="new_des_apendice">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label for="new_contrato">CONTRATO</label>
-                            <select class="form-control form-control-sm" id="new_contrato"></select>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="new_contacto">CONTACTO</label>
-                            <select class="form-control form-control-sm" id="new_contacto"></select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label for="new_estado">ESTADO</label>
-                            <select class="form-control form-control-sm" id="new_estado"></select>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="new_vendedor">VENDEDOR</label>
-                            <select class="form-control form-control-sm" id="new_vendedor"></select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label for="new_fecha_inicio">FECHA INICIO</label>
-                            <input class="form-control form-control-sm" data-inputmask="'alias': 'datetime'"
-                                id="new_fecha_inicio" />
-                        </div>
-                        <div class="col-md-6">
-                            <label for="new_fecha_fin">FECHA FIN</label>
-                            <input class="form-control form-control-sm" data-inputmask="'alias': 'datetime'"
-                                id="new_fecha_fin" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 form-check">
-                            <label class="form-check-label" style="font-size: 1rem">
-                                FINALIZADO <input type="checkbox" style="margin-left: 20px" class="form-check-input"
-                                    id="new_filnalizado" value="1">
-                            </label>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="new_fecha_fin_oc_cliente">FECHA FIN OC CLIENTE</label>
-                            <input class="form-control form-control-sm" data-inputmask="'alias': 'datetime'"
-                                id="new_fecha_fin_oc_cliente" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 form-group">
-                            <label for="new_comentario">COMENTARIO</label>
-                            <textarea name="new_comentario" id="new_comentario" class="form-control form-control-sm"
-                                rows="4" required></textarea>
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label for="des_apendice">DESCRIPCION APENDICE</label>
+                                    <input class="form-control form-control-sm" id="new_des_apendice" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="new_contrato">CONTRATO</label>
+                                    <select class="form-control form-control-sm" id="new_contrato"></select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="new_contacto">CONTACTO</label>
+                                    <select class="form-control form-control-sm" id="new_contacto"></select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 form-check">
+                                    <label class="form-check-label" style="font-size: 1rem">
+                                        FINALIZADO <input type="checkbox" style="margin-left: 20px"
+                                            class="form-check-input" id="new_filnalizado" value="1">
+                                    </label>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="new_estado">ESTADO</label>
+                                    <select class="form-control form-control-sm" id="new_estado"></select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="new_vendedor">VENDEDOR</label>
+                                    <select class="form-control form-control-sm" id="new_vendedor"></select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label for="new_fecha_inicio">FECHA INICIO</label>
+                                    <input class="form-control form-control-sm" data-inputmask="'alias': 'datetime'"
+                                        id="new_fecha_inicio" required />
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="new_fecha_fin">FECHA FIN</label>
+                                    <input class="form-control form-control-sm" data-inputmask="'alias': 'datetime'"
+                                        id="new_fecha_fin" required />
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="new_fecha_fin_oc_cliente">FECHA FIN OC CLIENTE</label>
+                                    <input class="form-control form-control-sm" data-inputmask="'alias': 'datetime'"
+                                        id="new_fecha_fin_oc_cliente" required />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 form-group">
+                                    <label for="new_comentario">COMENTARIO</label>
+                                    <textarea name="new_comentario" id="new_comentario"
+                                        class="form-control form-control-sm" rows="2" required></textarea>
+                                </div>
+                            </div>
+                            <div class="row" style="text-align: right">
+                                <button type="button" class="btn btn-success" id="newproductbtn">Añadir
+                                    Producto</button>
+                            </div>
+                            <div class="row" id="productsapendice">
+                                <div class="row" id="new_products">
+                                    <div class="col-md-2">
+                                        <input type="text" id="new_cod_producto" placeholder="Codigo"
+                                            class="form-control form-control-sm" required>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="text" id="new_des_producto" placeholder="Descripcion"
+                                            class="form-control form-control-sm" required>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <select class="form-control form-control-sm" id="new_tipo_producto"
+                                            required></select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="text" id="new_metrica" placeholder="Metrica"
+                                            class="form-control form-control-sm" required>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="number" id="new_bloques" placeholder="Bloques"
+                                            class="form-control form-control-sm" required>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="number" id="new_minimo" placeholder="Minimo"
+                                            class="form-control form-control-sm" required>
+                                    </div>
+                                </div>
+                                <div class="row" id="apendices">
+                                    <div class="col-md-2">
+                                        <input type="text" id="new_posicion" placeholder="Posicion"
+                                            class="form-control form-control-sm" min="1" max="10" required disabled>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="text" placeholder="Apendice" id="new_apendice"
+                                            class="form-control form-control-sm" required disabled>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="text" placeholder="Producto" id="new_producto"
+                                            class="form-control form-control-sm" required disabled>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="number" id="new_cantidad" placeholder="Cantidad"
+                                            class="form-control form-control-sm" required>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="number" id="new_valor_unitario" placeholder="Valor Unitario"
+                                            class="form-control form-control-sm" required>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="text" id="new_total" placeholder="Total"
+                                            class="form-control form-control-sm" required disabled>
+                                    </div>
+                                </div>
+                                <div class="row" id="apendice">
+                                    <div class="col-md-2">
+                                        <select id="new_tipo_posicion" placeholder="Tipo Posicion"
+                                            class="form-control form-control-sm" required></select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="number" id="new_descuento_cliente" placeholder="% Des Cliente"
+                                            class="form-control form-control-sm" required>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="text" id="new_valor_venta" placeholder="Venta"
+                                            class="form-control form-control-sm" required disabled>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="number" id="new_descuento_vendor" placeholder="% Des Vendor"
+                                            class="form-control form-control-sm" required>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="text" id="new_costo_vendor" placeholder="Costo"
+                                            class="form-control form-control-sm" required disabled>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="number" id="new_comision_partner" placeholder="% Com Partner"
+                                            class="form-control form-control-sm" required>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <input type="text" id="new_costo_partner" placeholder="Partner"
+                                            class="form-control form-control-sm" required disabled>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input type="text" id="new_costo_total" placeholder="Tatal"
+                                            class="form-control form-control-sm" required disabled>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input type="text" id="new_margen" placeholder="Margen"
+                                            class="form-control form-control-sm" required disabled>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button type="button" class="btn btn-md btn-danger" name="deletebutton"
+                                            id="delete_div"><i class="fa fa-trash-alt"></i></button>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
                         </div>
                     </div>
                     <div class="row text-center" id="input_error">
-                        <p class="text-danger">Input is not valid</p>
+                        <p class="text-danger" style="text-align: center">Input is not valid</p>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" id="add_btn">Guardar</button>
-                <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-success" id="add_btn">Guardar</button>
+                <button type="submit" class="btn btn-light" data-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>
@@ -404,8 +512,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" id="update_btn">Guardar</button>
-                <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-success" id="update_btn">Guardar</button>
+                <button type="submit" class="btn btn-light" data-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>
@@ -414,5 +522,7 @@
 
 {%block javascript%}
 <script src="{%static '/js/custom/apendice.js'%}"></script>
+
+
 
 {%endblock javascript%}
